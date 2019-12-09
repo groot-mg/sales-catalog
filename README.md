@@ -23,7 +23,6 @@ http://localhost:8080/spring-crud-example/swagger-ui.html#/
 * <a href="https://spring-crud-app-example.herokuapp.com/spring-crud-example/swagger-ui.html#/">Versão online do Swagger</a>
 
 # `3. API`
----
   
   Destalhes sobre a utilização da API.
 
