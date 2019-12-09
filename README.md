@@ -1,4 +1,4 @@
-# Spring Crud app Example
+# Spring Crud APP Example
 ---
 
 API de exemplo utilizando Springboot com os cadastros de produto/serviço, pedido e item de pedido.
