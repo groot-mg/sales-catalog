@@ -13,7 +13,7 @@ import javax.validation.constraints.Min;
 @ApiModel(description = "Dto to receive a discount value and apply to an order")
 public class OrderDiscountV1Dto {
 
-    @Min(1)
+    @Min(0)
     @Max(100)
     private int discount;
 
