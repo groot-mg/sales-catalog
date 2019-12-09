@@ -2,7 +2,6 @@ package com.spring.crud.app.example.services.validators;
 
 import com.spring.crud.app.example.models.Order;
 import com.spring.crud.app.example.models.OrderItems;
-import com.spring.crud.app.example.repositories.OrderRepository;
 import com.spring.crud.app.example.services.exceptions.BusinessException;
 
 import java.util.List;
@@ -15,10 +14,9 @@ import java.util.stream.Collectors;
  *
  * @author Mauricio Generoso
  */
-public class CountOrderItemsValidator implements Validator<Order, OrderRepository> {
+public class CountOrderItemsValidator {
 
-    @Override
-    public void validate(OrderRepository repository, Order entity) {
+    public void validate(Order entity) {
         if (entity.isNew() && (entity.getOrderItems() == null || entity.getOrderItems().isEmpty())) {
             throw new BusinessException("It's necessary has one or more order item");
         }

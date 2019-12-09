@@ -27,10 +27,14 @@ public class ItemService {
     private ItemRepository repository;
     private OrderItemsRepository orderItemsRepository;
 
+    private DuplicatedItemValidator validator;
+
     @Autowired
     public ItemService(ItemRepository repository, OrderItemsRepository orderItemsRepository) {
         this.repository = repository;
         this.orderItemsRepository = orderItemsRepository;
+
+        this.validator = new DuplicatedItemValidator();
     }
 
     public Page<Item> findAll(Pageable pageable) {
@@ -79,6 +83,6 @@ public class ItemService {
     }
 
     private void validate(Item item) {
-        new DuplicatedItemValidator().validate(repository, item);
+        validator.validate(repository, item);
     }
 }

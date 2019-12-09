@@ -95,7 +95,7 @@ public class OrderService {
         repository.delete(order);
     }
 
-    private void updateTotalPreview(Order order) {
+    void updateTotalPreview(Order order) {
         double totalServices = getTotalProducts(order);
         double totalProducts = getTotalServices(order);
         double totalOrder = totalServices + totalProducts;
@@ -124,7 +124,7 @@ public class OrderService {
     }
 
     private void validate(Order order) {
-        countOrderItemsValidator.validate(repository, order);
+        countOrderItemsValidator.validate(order);
     }
 
     private void saveOrderItems(Order order) {
