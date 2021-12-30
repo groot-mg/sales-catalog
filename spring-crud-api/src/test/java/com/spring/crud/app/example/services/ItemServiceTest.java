@@ -5,16 +5,16 @@ import com.spring.crud.app.example.repositories.ItemRepository;
 import com.spring.crud.app.example.repositories.OrderItemsRepository;
 import com.spring.crud.app.example.services.exceptions.BusinessException;
 import com.spring.crud.app.example.services.exceptions.ResourceNotFoundException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
@@ -22,8 +22,8 @@ import static org.mockito.Mockito.*;
  *
  * @author Mauricio Generoso
  */
-@RunWith(SpringRunner.class)
-public class ItemServiceTest {
+@SpringBootTest
+class ItemServiceTest {
 
     @Mock
     private ItemRepository repository;
@@ -35,7 +35,7 @@ public class ItemServiceTest {
     private ItemService service;
 
     @Test
-    public void findById_shouldReturnWhenExists() {
+    void findById_shouldReturnWhenExists() {
         // Arrange
         UUID id = UUID.randomUUID();
         Item item = new Item();
@@ -50,19 +50,19 @@ public class ItemServiceTest {
         doReturn(Optional.of(item)).when(repository).findById(id);
     }
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void findById_shouldThrowsExceptionWhenNotFound() {
+    @Test
+    void findById_shouldThrowsExceptionWhenNotFound() {
         // Arrange
         UUID id = UUID.randomUUID();
 
         doReturn(Optional.empty()).when(repository).findById(id);
 
         // Act
-        service.findById(id);
+        assertThrows(ResourceNotFoundException.class, () -> service.findById(id));
     }
 
     @Test
-    public void save_shouldCallMethodToSave(){
+    void save_shouldCallMethodToSave() {
         // Arrange
         Item item = new Item();
 
@@ -76,7 +76,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void deleteById_shouldDeleteWhenNotExistsOnAnyOrderItem() {
+    void deleteById_shouldDeleteWhenNotExistsOnAnyOrderItem() {
         // Arrange
         ItemService spyService = spy(service);
 
@@ -96,8 +96,8 @@ public class ItemServiceTest {
         verify(spyService, times(1)).delete(item);
     }
 
-    @Test(expected = BusinessException.class)
-    public void deleteById_shouldThrowsExceptionWhenExistsOnAnyOrderItem() {
+    @Test
+    void deleteById_shouldThrowsExceptionWhenExistsOnAnyOrderItem() {
         // Arrange
         ItemService spyService = spy(service);
 
@@ -106,7 +106,7 @@ public class ItemServiceTest {
         doReturn(new Item()).when(spyService).findById(id);
         doReturn(true).when(orderItemsRepository).existsByItemId(id);
 
-        // Act
-        spyService.deleteById(id);
+        // Act & Assert
+        assertThrows(BusinessException.class, () -> spyService.deleteById(id));
     }
 }

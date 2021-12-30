@@ -3,28 +3,30 @@ package com.spring.crud.app.example.services.validators;
 import com.spring.crud.app.example.models.Order;
 import com.spring.crud.app.example.models.OrderItems;
 import com.spring.crud.app.example.services.exceptions.BusinessException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test the {@link CountOrderItemsValidator}
  *
  * @author Mauricio Generoso
  */
-public class CountOrderItemsValidatorTest {
+class CountOrderItemsValidatorTest {
 
     private CountOrderItemsValidator validator;
 
-    @Before
-    public void setup(){
+    @BeforeEach
+    void setup() {
         this.validator = new CountOrderItemsValidator();
     }
 
     @Test
-    public void validate_shouldPass() {
+    void validate_shouldPass() {
         // Arrange
         OrderItems orderItem1 = new OrderItems();
         orderItem1.setItemId(UUID.randomUUID());
@@ -39,18 +41,18 @@ public class CountOrderItemsValidatorTest {
         validator.validate(order);
     }
 
-    @Test(expected = BusinessException.class)
-    public void validate_shouldThrowsWhenOrderItemsIsNull() {
+    @Test
+    void validate_shouldThrowsWhenOrderItemsIsNull() {
         // Arrange
         Order order = new Order();
         order.setOrderItems(null);
 
-        // Act
-        validator.validate(order);
+        // Act & Assert
+        assertThrows(BusinessException.class, () -> validator.validate(order));
     }
 
-    @Test(expected = BusinessException.class)
-    public void validate_shouldThrowsWhenHasDuplicateOrderItem() {
+    @Test
+    void validate_shouldThrowsWhenHasDuplicateOrderItem() {
         // Arrange
         UUID itemId = UUID.randomUUID();
         OrderItems orderItem1 = new OrderItems();
@@ -62,7 +64,7 @@ public class CountOrderItemsValidatorTest {
         Order order = new Order();
         order.setOrderItems(Arrays.asList(orderItem1, orderItem2));
 
-        // Act
-        validator.validate(order);
+        // Act & Assert
+        assertThrows(BusinessException.class, () -> validator.validate(order));
     }
 }

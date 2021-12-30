@@ -8,19 +8,18 @@ import com.spring.crud.app.example.repositories.OrderItemsRepository;
 import com.spring.crud.app.example.repositories.OrderRepository;
 import com.spring.crud.app.example.services.exceptions.BusinessException;
 import com.spring.crud.app.example.services.exceptions.ResourceNotFoundException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -28,8 +27,8 @@ import static org.mockito.Mockito.*;
  *
  * @author Mauricio Generoso
  */
-@RunWith(SpringRunner.class)
-public class OrderServiceTest {
+@SpringBootTest
+class OrderServiceTest {
 
     @Mock
     private OrderRepository repository;
@@ -44,7 +43,7 @@ public class OrderServiceTest {
     private OrderService service;
 
     @Test
-    public void findAll_shouldCallMethodToUpdateTotalPreview() {
+    void findAll_shouldCallMethodToUpdateTotalPreview() {
         // Arrange
         OrderService spyService = spy(service);
         Order order = new Order();
@@ -65,7 +64,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void findById_shouldReturnWhenExists() {
+    void findById_shouldReturnWhenExists() {
         // Arrange
         UUID id = UUID.randomUUID();
         Order order = new Order();
@@ -80,19 +79,19 @@ public class OrderServiceTest {
         doReturn(Optional.of(order)).when(repository).findById(id);
     }
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void findById_shouldThrowsExceptionWhenNotFound() {
+    @Test
+    void findById_shouldThrowsExceptionWhenNotFound() {
         // Arrange
         UUID id = UUID.randomUUID();
 
         doReturn(Optional.empty()).when(repository).findById(id);
 
         // Act
-        service.findById(id);
+        assertThrows(ResourceNotFoundException.class, () -> service.findById(id));
     }
 
     @Test
-    public void customFindById_shouldCallMethodToUpdateTotalPreview() {
+    void customFindById_shouldCallMethodToUpdateTotalPreview() {
         // Arrange
         OrderService spyService = spy(service);
         UUID id = UUID.randomUUID();
@@ -109,7 +108,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void applyDiscount_shouldPassWhenOrderIsOpen() {
+    void applyDiscount_shouldPassWhenOrderIsOpen() {
         // Arrange
         OrderService spyService = spy(service);
 
@@ -125,19 +124,19 @@ public class OrderServiceTest {
         verify(spyService, times(1)).save(order);
     }
 
-    @Test(expected = BusinessException.class)
-    public void applyDiscount_shouldThrowExceptionWhenOrderIsNotOpen() {
+    @Test
+    void applyDiscount_shouldThrowExceptionWhenOrderIsNotOpen() {
         // Arrange
         Order order = new Order();
         order.setOpen(false);
         int discount = 10;
 
         // Act
-        service.applyDiscount(order, discount);
+        assertThrows(BusinessException.class, () -> service.applyDiscount(order, discount));
     }
 
     @Test
-    public void updateTotalPreview_shouldNotApplyDiscountWhenThereIsNot() {
+    void updateTotalPreview_shouldNotApplyDiscountWhenThereIsNot() {
         // Arrange
         Order order = new Order();
         order.setDiscount(0);
@@ -165,11 +164,11 @@ public class OrderServiceTest {
         service.updateTotalPreview(order);
 
         // Assert
-        assertEquals("Unexpected result",400, order.getTotalPreview(), 0);
+        assertEquals(400, order.getTotalPreview());
     }
 
     @Test
-    public void updateTotalPreview_shouldApplyDiscountOnProducts() {
+    void updateTotalPreview_shouldApplyDiscountOnProducts() {
         // Arrange
         Order order = new Order();
         order.setDiscount(10);
@@ -197,6 +196,6 @@ public class OrderServiceTest {
         service.updateTotalPreview(order);
 
         // Assert
-        assertEquals("Unexpected result",380, order.getTotalPreview(), 0);
+        assertEquals(380, order.getTotalPreview());
     }
 }

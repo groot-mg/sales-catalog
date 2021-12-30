@@ -4,15 +4,15 @@ package com.spring.crud.app.example.services.validators;
 import com.spring.crud.app.example.models.Item;
 import com.spring.crud.app.example.repositories.ItemRepository;
 import com.spring.crud.app.example.services.exceptions.DuplicateException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
@@ -20,21 +20,21 @@ import static org.mockito.Mockito.*;
  *
  * @author Mauricio Generoso
  */
-@RunWith(SpringRunner.class)
-public class DuplicatedItemValidatorTest {
+@SpringBootTest
+class DuplicatedItemValidatorTest {
 
     @Mock
     private ItemRepository repository;
 
     private DuplicatedItemValidator validator;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         this.validator = new DuplicatedItemValidator();
     }
 
     @Test
-    public void validate_shouldPassWhenIsNewAndThereIsNotOtherWithTheSameName() {
+    void validate_shouldPassWhenIsNewAndThereIsNotOtherWithTheSameName() {
         // Arrange
         String name = "testName";
 
@@ -50,8 +50,8 @@ public class DuplicatedItemValidatorTest {
         verify(repository, times(1)).findByName(name);
     }
 
-    @Test(expected = DuplicateException.class)
-    public void validate_shouldThrowsExceptionWhenIsNewAndThereIsOtherWithTheSameName() {
+    @Test
+    void validate_shouldThrowsExceptionWhenIsNewAndThereIsOtherWithTheSameName() {
         // Arrange
         String name = "testName";
 
@@ -60,12 +60,12 @@ public class DuplicatedItemValidatorTest {
 
         doReturn(Optional.of(new Item())).when(repository).findByName(name);
 
-        // Act
-        validator.validate(repository, item);
+        // Act & Assert
+        assertThrows(DuplicateException.class, () -> validator.validate(repository, item));
     }
 
     @Test
-    public void validate_shouldPassWhenIsNotNewAndThereIsNotWithTheSameName(){
+    void validate_shouldPassWhenIsNotNewAndThereIsNotWithTheSameName() {
         // Arrange
         String name = "testName";
 
@@ -82,8 +82,8 @@ public class DuplicatedItemValidatorTest {
         verify(repository, times(1)).findByName(name);
     }
 
-    @Test(expected = DuplicateException.class)
-    public void validate_shouldPassWhenIsNotNewAndThereIsOtherItemWithTheSameName(){
+    @Test
+    void validate_shouldPassWhenIsNotNewAndThereIsOtherItemWithTheSameName() {
         // Arrange
         String name = "testName";
 
@@ -97,7 +97,7 @@ public class DuplicatedItemValidatorTest {
 
         doReturn(Optional.of(existingItem)).when(repository).findByName(name);
 
-        // Act
-        validator.validate(repository, item);
+        // Act & Assert
+        assertThrows(DuplicateException.class, () -> validator.validate(repository, item));
     }
 }

@@ -6,16 +6,16 @@ import com.spring.crud.app.example.models.OrderItems;
 import com.spring.crud.app.example.repositories.OrderItemsRepository;
 import com.spring.crud.app.example.services.exceptions.BusinessException;
 import com.spring.crud.app.example.services.exceptions.ResourceNotFoundException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
@@ -23,8 +23,8 @@ import static org.mockito.Mockito.*;
  *
  * @author Mauricio Generoso
  */
-@RunWith(SpringRunner.class)
-public class OrderItemsServiceTest {
+@SpringBootTest
+class OrderItemsServiceTest {
 
     @Mock
     private OrderItemsRepository repository;
@@ -36,7 +36,7 @@ public class OrderItemsServiceTest {
     private OrderItemsService service;
 
     @Test
-    public void findById_shouldReturnWhenExists() {
+    void findById_shouldReturnWhenExists() {
         // Arrange
         UUID orderId = UUID.randomUUID();
         UUID id = UUID.randomUUID();
@@ -52,20 +52,20 @@ public class OrderItemsServiceTest {
         doReturn(Optional.of(orderItem)).when(repository).findByOrderIdAndId(orderId, id);
     }
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void findById_shouldThrowsExceptionWhenNotFound() {
+    @Test
+    void findById_shouldThrowsExceptionWhenNotFound() {
         // Arrange
         UUID orderId = UUID.randomUUID();
         UUID id = UUID.randomUUID();
 
         doReturn(Optional.empty()).when(repository).findById(id);
 
-        // Act
-        service.findById(orderId, id);
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () -> service.findById(orderId, id));
     }
 
     @Test
-    public void save_shouldCallMethodToSave(){
+    void save_shouldCallMethodToSave() {
         // Arrange
         Order order = new Order();
 
@@ -84,7 +84,7 @@ public class OrderItemsServiceTest {
     }
 
     @Test
-    public void delete_shouldAllowToDeleteWhenHasMoreThanOneOnOrderAndOrderIsOpen(){
+    void delete_shouldAllowToDeleteWhenHasMoreThanOneOnOrderAndOrderIsOpen() {
         // Arrange
         UUID orderId = UUID.randomUUID();
         Order order = new Order();
@@ -105,8 +105,8 @@ public class OrderItemsServiceTest {
         verify(repository, times(1)).delete(orderItem);
     }
 
-    @Test(expected = BusinessException.class)
-    public void delete_shouldThrowsExceptionWhenThereIsOnlyOneOrderItemOnOrder(){
+    @Test
+    void delete_shouldThrowsExceptionWhenThereIsOnlyOneOrderItemOnOrder() {
         // Arrange
         UUID orderId = UUID.randomUUID();
 
@@ -115,12 +115,12 @@ public class OrderItemsServiceTest {
 
         doReturn(1L).when(repository).countByOrderId(orderId);
 
-        // Act
-        service.delete(orderItem);
+        // Act & Assert
+        assertThrows(BusinessException.class, () -> service.delete(orderItem));
     }
 
-    @Test(expected = BusinessException.class)
-    public void delete_shouldThrowsExceptionWhenOrderIsNotOpen(){
+    @Test
+    void delete_shouldThrowsExceptionWhenOrderIsNotOpen() {
         // Arrange
         UUID orderId = UUID.randomUUID();
         Order order = new Order();
@@ -133,7 +133,7 @@ public class OrderItemsServiceTest {
         doReturn(2L).when(repository).countByOrderId(orderId);
         doNothing().when(repository).delete(orderItem);
 
-        // Act
-        service.delete(orderItem);
+        // Act & Assert
+        assertThrows(BusinessException.class, () -> service.delete(orderItem));
     }
 }
