@@ -13,8 +13,10 @@ repositories {
 }
 
 dependencies {
+    implementation project(":spring-crud-lib")
+
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    implementation "org.springframework.data:spring-data-commons:${springDataCommonsVersion}"
     implementation "javax.validation:validation-api:${javaxValidationVersion}"
     implementation "org.postgresql:postgresql:${postgresVersion}"
 
@@ -22,7 +24,6 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
-    testImplementation "com.h2database:h2:${h2databaseVersion}"
 
     compileOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
 }

@@ -1,5 +1,4 @@
 rootProject.name = 'spring-crud-app'
 include 'spring-crud-api'
-include 'spring-crud-service'
-include 'spring-crud-api'
+include 'spring-crud-lib'
 
