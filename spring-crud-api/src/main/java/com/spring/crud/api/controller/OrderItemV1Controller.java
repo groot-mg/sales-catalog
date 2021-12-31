@@ -43,7 +43,8 @@ public class OrderItemV1Controller {
     private OrderItemsV1DataConverter converter;
 
     @Autowired
-    public OrderItemV1Controller(OrderService orderService, OrderItemsService service, OrderItemsV1DataConverter converter) {
+    public OrderItemV1Controller(OrderService orderService, OrderItemsService service,
+                                 OrderItemsV1DataConverter converter) {
         this.orderService = orderService;
         this.service = service;
         this.converter = converter;

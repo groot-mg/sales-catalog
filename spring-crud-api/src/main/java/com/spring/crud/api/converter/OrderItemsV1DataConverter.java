@@ -37,6 +37,7 @@ public class OrderItemsV1DataConverter implements V1DataConverter<OrderItems, Or
         if (expand != null && expand.contains("itemExpanded")) {
             dto.setItem(itemConverter.convertToDto(entity.getItem()));
         }
+
         return dto;
     }
 }

@@ -28,15 +28,17 @@ public class OrderV1DataConverter implements V1DataConverter<Order, OrderV1Dto> 
 
     @Override
     public void convertToEntity(Order entity, OrderV1Dto dto) {
-        if (Objects.nonNull(dto.getOrderItems())) {
-            List<OrderItems> orderItemsList = new ArrayList<>();
-            dto.getOrderItems().forEach(orderItemsV1Dto -> {
-                OrderItems orderItems = new OrderItems();
-                orderItemsConverter.convertToEntity(orderItems, orderItemsV1Dto);
-                orderItemsList.add(orderItems);
-            });
-            entity.setOrderItems(orderItemsList);
+        if (Objects.isNull(dto.getOrderItems())) {
+            return;
         }
+
+        List<OrderItems> orderItemsList = new ArrayList<>();
+        dto.getOrderItems().forEach(orderItemsV1Dto -> {
+            OrderItems orderItems = new OrderItems();
+            orderItemsConverter.convertToEntity(orderItems, orderItemsV1Dto);
+            orderItemsList.add(orderItems);
+        });
+        entity.setOrderItems(orderItemsList);
     }
 
     @Override
