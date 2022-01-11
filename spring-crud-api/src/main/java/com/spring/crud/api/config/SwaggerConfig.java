@@ -1,4 +1,4 @@
-package com.spring.crud.api.swagger;
+package com.spring.crud.api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

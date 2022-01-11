@@ -17,8 +17,8 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "org.springframework.data:spring-data-commons:${springDataCommonsVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
     implementation "javax.validation:validation-api:${javaxValidationVersion}"
-    implementation "org.postgresql:postgresql:${postgresVersion}"
 
     implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
