@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  db:
-    container_name: sapp_postgress
+  database:
+    container_name: spring-app-database
     image: postgres
     restart: always
     environment:
@@ -10,12 +10,26 @@ services:
       POSTGRES_DB: spring_crud
     ports:
       - "5432:5432"
-  pgadmin:
-    container_name: sapp_pgadmin4
-    image: dpage/pgadmin4
+
+#  pgadmin:
+#    container_name: spring-app-pgadmin4
+#    image: dpage/pgadmin4
+#    restart: always
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#      PGADMIN_DEFAULT_PASSWORD: root
+#    ports:
+#      - "5050:80"
+
+  app:
+    container_name: spring-app
+    build: spring-crud-api
     restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - "5050:80"
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      - DATASOURCE_URL=jdbc:postgresql://database:5432/spring_crud
+      - DATASOURCE_USERNAME=root
+      - DATASOURCE_PASSWORD=root
