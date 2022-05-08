@@ -1,7 +1,5 @@
 package com.spring.crud.api.dto;
 
-import io.swagger.annotations.ApiModel;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -11,7 +9,6 @@ import java.util.UUID;
  *
  * @author Mauricio Generoso
  */
-@ApiModel(description = "Details about the order item")
 public class OrderItemsV1Dto extends BasicV1Dto {
 
     @Min(1)

@@ -1,7 +1,5 @@
 package com.spring.crud.api.dto;
 
-import io.swagger.annotations.ApiModel;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,7 +8,6 @@ import java.util.List;
  *
  * @author Mauricio Generoso
  */
-@ApiModel(description = "Details about the order")
 public class OrderV1Dto extends BasicV1Dto {
 
     private boolean open = true;

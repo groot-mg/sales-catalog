@@ -1,7 +1,6 @@
 package com.spring.crud.api.dto;
 
 import com.spring.crud.lib.model.TypeItem;
-import io.swagger.annotations.ApiModel;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,7 +12,6 @@ import javax.validation.constraints.Size;
  *
  * @author Mauricio Generoso
  */
-@ApiModel(description = "Details about the item")
 public class ItemV1Dto extends BasicV1Dto {
 
     @NotBlank

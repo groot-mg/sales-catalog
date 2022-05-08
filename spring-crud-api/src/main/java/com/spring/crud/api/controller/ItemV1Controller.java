@@ -1,11 +1,17 @@
 package com.spring.crud.api.controller;
 
-import com.spring.crud.api.utilities.PageOptions;
 import com.spring.crud.api.converter.ItemV1DataConverter;
 import com.spring.crud.api.dto.ItemV1Dto;
+import com.spring.crud.api.utilities.PageOptions;
 import com.spring.crud.lib.model.Item;
 import com.spring.crud.lib.service.ItemService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,7 +35,7 @@ import static org.springframework.http.ResponseEntity.status;
  *
  * @author Mauricio Generoso
  */
-@Api(value = "Controller to manage Items")
+@Tag(name = "ItemV1Controller",  description = "Controller to manage Items")
 @RestController
 @RequestMapping(path = "/api/v1/items", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ItemV1Controller {
@@ -44,9 +50,8 @@ public class ItemV1Controller {
     }
 
     @GetMapping
-    @ApiOperation(value = "Find all items (products and services, active and inactive)",
-            response = Page.class)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved list")})
+    @Operation(description = "Find all items (products and services, active and inactive)")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Successfully retrieved list")})
     public ResponseEntity<Page<ItemV1Dto>> findAll(@Valid PageOptions pageOptions) {
         Pageable pageable = PageRequest.of(pageOptions.getPageNumber(), pageOptions.getPageSize());
         Page<Item> items = service.findAll(pageable);
@@ -60,24 +65,26 @@ public class ItemV1Controller {
     }
 
     @GetMapping(path = "/{id}")
-    @ApiOperation(value = "Find a specific item by id (products and services, active and inactive)",
-            response = ItemV1Dto.class)
+    @Operation(description = "Find a specific item by id (products and services, active and inactive)")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved item"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved item", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ItemV1Dto.class)) }),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     })
     public ResponseEntity<ItemV1Dto> findById(
-            @ApiParam(value = "Item id", required = true) @PathVariable(name = "id") UUID id) {
+            @Parameter(description = "Item id", required = true) @PathVariable(name = "id") UUID id) {
         Item item = service.findById(id);
         ItemV1Dto dto = converter.convertToDto(item);
         return ok(dto);
     }
 
     @PostMapping
-    @ApiOperation(value = "Save a new Item (product or service)", response = ItemV1Dto.class)
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "Successfully saved new item")})
+    @Operation(description = "Save a new Item (product or service)")
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Successfully saved new item", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ItemV1Dto.class))
+    })})
     public ResponseEntity<ItemV1Dto> save(
-            @ApiParam(value = "Item dto to save", required = true) @RequestBody @Valid ItemV1Dto dto) {
+            @Parameter(description = "Item dto to save", required = true) @RequestBody @Valid ItemV1Dto dto) {
         Item entity = new Item();
         converter.convertToEntity(entity, dto);
         service.save(entity);
@@ -85,14 +92,16 @@ public class ItemV1Controller {
     }
 
     @PutMapping(path = "/{id}")
-    @ApiOperation(value = "Update an existing Item by id (product or service)", response = ItemV1Dto.class)
+    @Operation(description = "Update an existing Item by id (product or service)")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully updated item"),
-            @ApiResponse(code = 404, message = "The resource you were trying to update is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully updated item", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ItemV1Dto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to update is not found")
     })
     public ResponseEntity<ItemV1Dto> update(
-            @ApiParam(value = "Item id", required = true) @PathVariable(name = "id") UUID id,
-            @ApiParam(value = "Item dto to update", required = true) @RequestBody @Valid ItemV1Dto dto) {
+            @Parameter(description = "Item id", required = true) @PathVariable(name = "id") UUID id,
+            @Parameter(description = "Item dto to update", required = true) @RequestBody @Valid ItemV1Dto dto) {
         Item item = service.findById(id);
         converter.convertToEntity(item, dto);
         service.save(item);
@@ -100,39 +109,39 @@ public class ItemV1Controller {
     }
 
     @PutMapping(path = "/{id}/activate")
-    @ApiOperation(value = "Activate an item")
+    @Operation(description = "Activate an item")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully activate item"),
-            @ApiResponse(code = 404, message = "The resource you were trying activate is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully activate item"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying activate is not found")
     })
     public ResponseEntity<Void> activate(
-            @ApiParam(value = "Item id to active", required = true) @PathVariable(name = "id") UUID id) {
+            @Parameter(description = "Item id to active", required = true) @PathVariable(name = "id") UUID id) {
         Item item = service.findById(id);
         service.activate(item);
         return ok().build();
     }
 
     @PutMapping(path = "/{id}/deactivate")
-    @ApiOperation(value = "Deactivate an item")
+    @Operation(description = "Deactivate an item")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully deactivate item"),
-            @ApiResponse(code = 404, message = "The resource you were trying deactivate is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully deactivate item"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying deactivate is not found")
     })
     public ResponseEntity<Void> deactivate(
-            @ApiParam(value = "Item id to inactive", required = true) @PathVariable(name = "id") UUID id) {
+            @Parameter(description = "Item id to inactive", required = true) @PathVariable(name = "id") UUID id) {
         Item item = service.findById(id);
         service.deactivate(item);
         return ok().build();
     }
 
     @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "Delete an item by id")
+    @Operation(description = "Delete an item by id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully deleted item"),
-            @ApiResponse(code = 404, message = "The resource you were trying deleted is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully deleted item"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying deleted is not found")
     })
     public ResponseEntity<Void> delete(
-            @ApiParam(value = "Item Id to delete", required = true) @PathVariable(name = "id") UUID id) {
+            @Parameter(description = "Item Id to delete", required = true) @PathVariable(name = "id") UUID id) {
         service.deleteById(id);
         return status(HttpStatus.NO_CONTENT).build();
     }

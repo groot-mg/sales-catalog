@@ -1,13 +1,19 @@
 package com.spring.crud.api.controller;
 
 import com.spring.crud.api.converter.Expand;
-import com.spring.crud.api.utilities.PageOptions;
 import com.spring.crud.api.converter.OrderV1DataConverter;
 import com.spring.crud.api.dto.OrderDiscountV1Dto;
 import com.spring.crud.api.dto.OrderV1Dto;
+import com.spring.crud.api.utilities.PageOptions;
 import com.spring.crud.lib.model.Order;
 import com.spring.crud.lib.service.OrderService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,7 +37,7 @@ import static org.springframework.http.ResponseEntity.status;
  *
  * @author Mauricio Generoso
  */
-@Api(value = "Controller to manage Orders")
+@Tag(name = "OrderV1Controller", description = "Controller to manage Orders")
 @RestController
 @RequestMapping(path = "/api/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderV1Controller {
@@ -46,10 +52,12 @@ public class OrderV1Controller {
     }
 
     @GetMapping
-    @ApiOperation(value = "Find all orders", response = Page.class)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved list")})
+    @Operation(description = "Find all orders")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Successfully retrieved list", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))
+    })})
     public ResponseEntity<Page<OrderV1Dto>> findAll(@Valid PageOptions pageOptions,
-                                                    @ApiParam(value = "The expand option") Expand expand) {
+                                                    @Parameter(description = "The expand option") Expand expand) {
         Pageable pageable = PageRequest.of(pageOptions.getPageNumber(), pageOptions.getPageSize());
         Page<Order> orders = service.findAll(pageable);
 
@@ -62,24 +70,28 @@ public class OrderV1Controller {
     }
 
     @GetMapping(path = "/{id}")
-    @ApiOperation(value = "Find a specific order by id", response = OrderV1Dto.class)
+    @Operation(description = "Find a specific order by id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved order"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved order", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = OrderV1Dto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     })
     public ResponseEntity<OrderV1Dto> findById(
-            @ApiParam(value = "Order id", required = true) @PathVariable(name = "id") UUID id,
-            @ApiParam(value = "The expand option") Expand expand) {
+            @Parameter(description = "Order id", required = true) @PathVariable(name = "id") UUID id,
+            @Parameter(description = "The expand option") Expand expand) {
         Order order = service.customFindById(id);
         OrderV1Dto dto = converter.convertToDto(order, expand);
         return ok(dto);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Save a new Order", response = OrderV1Dto.class)
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "Successfully saved new order")})
+    @Operation(description = "Save a new Order")
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Successfully saved new order", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = OrderV1Dto.class))
+    })})
     public ResponseEntity<OrderV1Dto> save(
-            @ApiParam(value = "Order dto to save", required = true) @RequestBody @Valid OrderV1Dto dto) {
+            @Parameter(description = "Order dto to save", required = true) @RequestBody @Valid OrderV1Dto dto) {
         Order order = new Order();
         converter.convertToEntity(order, dto);
         service.save(order);
@@ -88,40 +100,40 @@ public class OrderV1Controller {
     }
 
     @PutMapping(path = "/{id}/discount")
-    @ApiOperation(value = "Apply a discount to an order")
+    @Operation(description = "Apply a discount to an order")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully applied discount"),
-            @ApiResponse(code = 404, message = "The resource you were trying to update is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully applied discount"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to update is not found")
     })
     public ResponseEntity<Void> applyDiscount(
-            @ApiParam(value = "Order id", required = true) @PathVariable(name = "id") UUID id,
-            @ApiParam(value = "Order dto to update", required = true) @RequestBody @Valid OrderDiscountV1Dto dto) {
+            @Parameter(description = "Order id", required = true) @PathVariable(name = "id") UUID id,
+            @Parameter(description = "Order dto to update", required = true) @RequestBody @Valid OrderDiscountV1Dto dto) {
         Order order = service.findById(id);
         service.applyDiscount(order, dto.getDiscount());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}/close")
-    @ApiOperation(value = "Close an order")
+    @Operation(description = "Close an order")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully close order"),
-            @ApiResponse(code = 404, message = "The resource you were trying to close is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully close order"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to close is not found")
     })
     public ResponseEntity<Void> close(
-            @ApiParam(value = "Order id", required = true) @PathVariable(name = "id") UUID id) {
+            @Parameter(description = "Order id", required = true) @PathVariable(name = "id") UUID id) {
         Order order = service.findById(id);
         service.close(order);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
-    @ApiOperation(value = "Delete an order by id")
+    @Operation(description = "Delete an order by id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully deleted order"),
-            @ApiResponse(code = 404, message = "The resource you were trying deleted is not found")
+            @ApiResponse(responseCode = "200", description = "Successfully deleted order"),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying deleted is not found")
     })
     public ResponseEntity<Void> delete(
-            @ApiParam(value = "Order Id to delete", required = true) @PathVariable(name = "id") UUID id) {
+            @Parameter(description = "Order Id to delete", required = true) @PathVariable(name = "id") UUID id) {
         Order order = service.findById(id);
         service.delete(order);
         return status(HttpStatus.NO_CONTENT).build();
