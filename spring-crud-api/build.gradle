@@ -9,13 +9,9 @@ sourceCompatibility = JavaVersion.VERSION_11
 
 def commonJarConfigClosure = {
     archiveName = "${project.name}.jar"
-    manifest {
-        attributes('Implementation-Version': project.version)
-    }
 }
 
 bootJar commonJarConfigClosure
-jar commonJarConfigClosure
 
 springBoot {
     buildInfo {
