@@ -1,0 +1,35 @@
+plugins {
+    id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
+}
+
+scmVersion {
+    tag {
+        prefix = project.name + '-'
+    }
+
+    versionIncrementer 'incrementMinor'
+    versionCreator { context, position -> getCurrentVersion(context, position.revision) }
+
+    hooks {
+        post { context ->
+            project.version = context.currentVersion
+        }
+    }
+}
+
+static def getCurrentVersion(version, revision) {
+    return currentlyOnMainBranch() ? version : revision
+}
+
+static def currentlyOnMainBranch() {
+    def commit = "git rev-parse HEAD".execute().text
+    return "git branch -r --contains $commit".execute().text.contains("origin/main")
+}
+
+subprojects {
+    group = 'com.example'
+}
+
+allprojects {
+    project.version = scmVersion.version
+}
