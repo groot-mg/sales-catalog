@@ -36,3 +36,13 @@ services:
       - DATASOURCE_URL=jdbc:postgresql://database:5432/spring_crud
       - DATASOURCE_USERNAME=root
       - DATASOURCE_PASSWORD=root
+
+  prometheus:
+    container_name: spring-app-prometheus
+    image: prom/prometheus:latest
+    ports:
+      - 9191:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
