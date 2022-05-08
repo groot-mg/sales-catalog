@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.6'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'java'
 }
 
@@ -15,17 +15,16 @@ repositories {
 dependencies {
     implementation project(":spring-crud-lib")
 
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    implementation "org.springframework.data:spring-data-commons:${springDataCommonsVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
-    implementation "javax.validation:validation-api:${javaxValidationVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'javax.validation:validation-api'
 
     implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
-    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    compileOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+    compileOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 test {

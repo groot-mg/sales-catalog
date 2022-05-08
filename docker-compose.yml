@@ -27,9 +27,12 @@ services:
     restart: always
     ports:
       - "8080:8080"
+      - "5005:5005"
     depends_on:
       - database
     environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - DATASOURCE_URL=jdbc:postgresql://database:5432/spring_crud
       - DATASOURCE_USERNAME=root
       - DATASOURCE_PASSWORD=root
