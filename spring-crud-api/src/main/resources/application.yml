@@ -26,6 +26,9 @@ spring:
             non_contextual_creation: true
 
 management:
+  endpoint:
+    health:
+      show-details: always
   endpoints:
     web:
       base-path: /private
@@ -33,4 +36,9 @@ management:
       path-mapping.prometheus: /metrics
   info:
     java:
+      enabled: true
+  health:
+    diskspace:
+      enabled: true
+    db:
       enabled: true

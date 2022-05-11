@@ -1,8 +1,9 @@
 version: '3.8'
+
 services:
   database:
     container_name: spring-app-database
-    image: postgres
+    image: postgres:14.2
     restart: always
     environment:
       POSTGRES_USER: root
@@ -10,16 +11,40 @@ services:
       POSTGRES_DB: spring_crud
     ports:
       - "5432:5432"
+    volumes:
+      - ./postgres/backup:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d spring_crud -U root" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 #  pgadmin:
 #    container_name: spring-app-pgadmin4
-#    image: dpage/pgadmin4
+#    image: dpage/pgadmin4:6.8
 #    restart: always
 #    environment:
 #      PGADMIN_DEFAULT_EMAIL: admin@admin.com
 #      PGADMIN_DEFAULT_PASSWORD: root
 #    ports:
 #      - "5050:80"
+#    depends_on:
+#      database:
+#        condition: service_healthy
+
+  postgres-exporter:
+    container_name: postgres-exporter
+    image: prometheuscommunity/postgres-exporter:v0.10.1
+    ports:
+      - "9187:9187"
+    environment:
+      DATA_SOURCE_NAME: "postgresql://root:root@database:5432/spring_crud?sslmode=disable"
+    links:
+      - database
+      - prometheus
+    depends_on:
+      database:
+        condition: service_healthy
 
   app:
     container_name: spring-app
@@ -29,7 +54,8 @@ services:
       - "8080:8080"
       - "5005:5005"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=local
       - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
@@ -39,10 +65,23 @@ services:
 
   prometheus:
     container_name: spring-app-prometheus
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.35.0
+    restart: unless-stopped
     ports:
-      - 9191:9090
+      - "9090:9090"
     command:
       - --config.file=/etc/prometheus/prometheus.yml
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  # default user and password: admin
+  grafana:
+    container_name: spring-app-grafana
+    image: grafana/grafana:8.5.2
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
