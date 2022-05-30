@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,20 +41,13 @@ import static org.springframework.http.ResponseEntity.status;
  */
 @Tag(name = "OrderItemV1Controller", description = "Controller to manage Orders items")
 @RestController
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping(path = "/api/v1/orders/{orderId}/order-items", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderItemV1Controller {
 
-    private OrderService orderService;
-    private OrderItemsService service;
-    private OrderItemsV1DataConverter converter;
-
-    @Autowired
-    public OrderItemV1Controller(OrderService orderService, OrderItemsService service,
-                                 OrderItemsV1DataConverter converter) {
-        this.orderService = orderService;
-        this.service = service;
-        this.converter = converter;
-    }
+    private final OrderService orderService;
+    private final OrderItemsService service;
+    private final OrderItemsV1DataConverter converter;
 
     @GetMapping
     @Operation(description = "Find all orders items to a specific order")

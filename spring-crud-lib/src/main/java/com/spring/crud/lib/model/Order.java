@@ -1,5 +1,8 @@
 package com.spring.crud.lib.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,6 +12,8 @@ import java.util.List;
  *
  * @author Mauricio Generoso
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "client_order")
 public class Order extends BasicEntity {
@@ -27,44 +32,4 @@ public class Order extends BasicEntity {
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
     private List<OrderItems> orderItems;
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
-    public LocalDateTime getClosedAtDateTime() {
-        return closedAtDateTime;
-    }
-
-    public void setClosedAtDateTime(LocalDateTime closedAtDateTime) {
-        this.closedAtDateTime = closedAtDateTime;
-    }
-
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
-    public double getTotalPreview() {
-        return totalPreview;
-    }
-
-    public void setTotalPreview(double totalPreview) {
-        this.totalPreview = totalPreview;
-    }
-
-    public List<OrderItems> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItems> orderItems) {
-        this.orderItems = orderItems;
-    }
 }

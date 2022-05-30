@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Mauricio Generoso
  */
+@FunctionalInterface
 public interface Validator<E extends BasicEntity, R extends CrudRepository> {
 
     void validate(R repository, E entity);

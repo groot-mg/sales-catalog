@@ -2,6 +2,8 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'io.franzbecker.gradle-lombok'
+
 repositories {
     mavenCentral()
 }

@@ -1,10 +1,11 @@
 package com.spring.crud.api.error;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public class CustomErrorType {
 
-    private String errorMessage;
-
-    public CustomErrorType(String errorMessage) {  this.errorMessage = errorMessage; }
-
-    public String getErrorMessage() {  return errorMessage; }
+    private final String errorMessage;
 }

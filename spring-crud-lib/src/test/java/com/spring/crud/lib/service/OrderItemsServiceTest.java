@@ -6,10 +6,13 @@ import com.spring.crud.lib.model.Item;
 import com.spring.crud.lib.model.Order;
 import com.spring.crud.lib.model.OrderItems;
 import com.spring.crud.lib.repository.OrderItemsRepository;
+import com.spring.crud.lib.service.validators.DuplicatedOrderItemValidator;
+import com.spring.crud.lib.service.validators.OrderItemIsOpenValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -32,6 +35,12 @@ class OrderItemsServiceTest {
 
     @Mock
     private ItemService itemService;
+
+    @Spy
+    private OrderItemIsOpenValidator orderItemIsOpenValidator;
+
+    @Spy
+    private DuplicatedOrderItemValidator duplicatedOrderItemValidator;
 
     @InjectMocks
     private OrderItemsService service;

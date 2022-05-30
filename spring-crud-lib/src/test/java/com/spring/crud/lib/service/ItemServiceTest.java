@@ -5,11 +5,13 @@ import com.spring.crud.lib.exception.ResourceNotFoundException;
 import com.spring.crud.lib.model.Item;
 import com.spring.crud.lib.repository.ItemRepository;
 import com.spring.crud.lib.repository.OrderItemsRepository;
+import com.spring.crud.lib.service.validators.DuplicatedItemValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -32,6 +34,9 @@ class ItemServiceTest {
 
     @Mock
     private OrderItemsRepository orderItemsRepository;
+
+    @Spy
+    private DuplicatedItemValidator duplicatedItemValidator;
 
     @InjectMocks
     private ItemService service;

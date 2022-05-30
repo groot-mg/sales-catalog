@@ -1,5 +1,8 @@
 package com.spring.crud.api.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -9,6 +12,8 @@ import java.util.UUID;
  *
  * @author Mauricio Generoso
  */
+@Getter
+@Setter
 public class OrderItemsV1Dto extends BasicV1Dto {
 
     @Min(1)
@@ -18,28 +23,4 @@ public class OrderItemsV1Dto extends BasicV1Dto {
     private UUID itemId;
 
     private ItemV1Dto item;
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public UUID getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(UUID itemId) {
-        this.itemId = itemId;
-    }
-
-    public ItemV1Dto getItem() {
-        return item;
-    }
-
-    public void setItem(ItemV1Dto item) {
-        this.item = item;
-    }
 }

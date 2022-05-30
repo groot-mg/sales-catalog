@@ -1,10 +1,15 @@
 package com.spring.crud.api.converter;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Expanded class.
  *
  * @author Maurício Generoso.
  */
+@Getter
+@Setter
 public class Expand {
 
     private String names = "";
@@ -23,14 +28,6 @@ public class Expand {
      */
     boolean contains(String columnName) {
         return names.contains("all") || names.contains(columnName);
-    }
-
-    public String getNames() {
-        return names;
-    }
-
-    public void setNames(String names) {
-        this.names = names;
     }
 
 }

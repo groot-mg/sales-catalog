@@ -8,6 +8,7 @@ import com.spring.crud.lib.model.TypeItem;
 import com.spring.crud.lib.repository.OrderItemsRepository;
 import com.spring.crud.lib.repository.OrderRepository;
 import com.spring.crud.lib.service.validators.CountOrderItemsValidator;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,23 +24,15 @@ import java.util.UUID;
  * @author Mauricio Generoso
  */
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Transactional(readOnly = true)
 public class OrderService {
 
-    private OrderRepository repository;
-    private OrderItemsRepository orderItemsRepository;
-    private ItemService itemService;
+    private final OrderRepository repository;
+    private final OrderItemsRepository orderItemsRepository;
+    private final ItemService itemService;
 
-    private CountOrderItemsValidator countOrderItemsValidator;
-
-    @Autowired
-    public OrderService(OrderRepository repository, OrderItemsRepository orderItemsRepository, ItemService itemService) {
-        this.repository = repository;
-        this.orderItemsRepository = orderItemsRepository;
-        this.itemService = itemService;
-
-        this.countOrderItemsValidator = new CountOrderItemsValidator();
-    }
+    private final CountOrderItemsValidator countOrderItemsValidator;
 
     public Page<Order> findAll(Pageable pageable) {
         Page<Order> orderPage = repository.findAll(pageable);

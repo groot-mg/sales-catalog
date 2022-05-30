@@ -1,6 +1,8 @@
 package com.spring.crud.api.dto;
 
 import com.spring.crud.lib.model.TypeItem;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,6 +14,8 @@ import javax.validation.constraints.Size;
  *
  * @author Mauricio Generoso
  */
+@Getter
+@Setter
 public class ItemV1Dto extends BasicV1Dto {
 
     @NotBlank
@@ -26,36 +30,4 @@ public class ItemV1Dto extends BasicV1Dto {
     private Double price;
 
     private boolean active;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public TypeItem getType() {
-        return type;
-    }
-
-    public void setType(TypeItem type) {
-        this.type = type;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }

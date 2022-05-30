@@ -1,5 +1,8 @@
 package com.spring.crud.lib.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -8,6 +11,8 @@ import java.util.UUID;
  *
  * @author Mauricio Generoso
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "order_items")
 public class OrderItems extends BasicEntity {
@@ -30,44 +35,4 @@ public class OrderItems extends BasicEntity {
     @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_order_items_order"),
             insertable = false, updatable = false)
     private Order order;
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public UUID getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(UUID itemId) {
-        this.itemId = itemId;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public UUID getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(UUID orderId) {
-        this.orderId = orderId;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }

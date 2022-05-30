@@ -3,6 +3,7 @@ package com.spring.crud.lib.service.validators;
 import com.spring.crud.lib.exception.DuplicateException;
 import com.spring.crud.lib.model.OrderItems;
 import com.spring.crud.lib.repository.OrderItemsRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
  *
  * @author Mauricio Generoso
  */
+@Component
 public class DuplicatedOrderItemValidator implements Validator<OrderItems, OrderItemsRepository> {
 
     @Override

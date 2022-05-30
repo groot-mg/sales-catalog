@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -37,17 +38,12 @@ import static org.springframework.http.ResponseEntity.status;
  */
 @Tag(name = "ItemV1Controller",  description = "Controller to manage Items")
 @RestController
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping(path = "/api/v1/items", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ItemV1Controller {
 
-    private ItemService service;
-    private ItemV1DataConverter converter;
-
-    @Autowired
-    public ItemV1Controller(ItemService service, ItemV1DataConverter converter) {
-        this.service = service;
-        this.converter = converter;
-    }
+    private final ItemService service;
+    private final ItemV1DataConverter converter;
 
     @GetMapping
     @Operation(description = "Find all items (products and services, active and inactive)")

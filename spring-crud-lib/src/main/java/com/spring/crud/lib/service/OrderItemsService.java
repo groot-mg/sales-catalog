@@ -8,6 +8,7 @@ import com.spring.crud.lib.model.OrderItems;
 import com.spring.crud.lib.repository.OrderItemsRepository;
 import com.spring.crud.lib.service.validators.DuplicatedOrderItemValidator;
 import com.spring.crud.lib.service.validators.OrderItemIsOpenValidator;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,23 +24,15 @@ import java.util.UUID;
  * @author Mauricio Generoso
  */
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Transactional(readOnly = true)
 public class OrderItemsService {
 
-    private OrderItemsRepository repository;
-    private ItemService itemService;
+    private final OrderItemsRepository repository;
+    private final ItemService itemService;
 
-    private OrderItemIsOpenValidator orderItemIsOpenValidator;
-    private DuplicatedOrderItemValidator duplicatedOrderItemValidator;
-
-    @Autowired
-    public OrderItemsService(OrderItemsRepository repository, ItemService itemService) {
-        this.repository = repository;
-        this.itemService = itemService;
-
-        this.orderItemIsOpenValidator = new OrderItemIsOpenValidator();
-        this.duplicatedOrderItemValidator = new DuplicatedOrderItemValidator();
-    }
+    private final OrderItemIsOpenValidator orderItemIsOpenValidator;
+    private final DuplicatedOrderItemValidator duplicatedOrderItemValidator;
 
     public Page<OrderItems> findAll(UUID orderId, Pageable pageable) {
         return repository.findAllByOrderId(orderId, pageable);

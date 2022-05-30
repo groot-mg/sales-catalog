@@ -31,8 +31,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception rfnException, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         //@formatter:off
-        ErrorDetail errorDetail = ErrorDetail.Builder
-                .newBuilder()
+        ErrorDetail errorDetail = ErrorDetail.builder()
                 .timestamp(new Date().getTime())
                 .status(status.value())
                 .title("Internal Exception")
@@ -54,8 +53,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .collect(Collectors.joining(","));
 
         //@formatter:off
-        ValidationErrorDetails rnfDetails = ValidationErrorDetails.Builder
-                .newBuilder()
+        ValidationErrorDetails rnfDetails = ValidationErrorDetails.builder()
                 .timestamp(new Date().getTime())
                 .status(statusBadRequest.value())
                 .title("Field validation error")
@@ -72,8 +70,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity handleResourceNotFoundException(ResourceNotFoundException rfnException) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         //@formatter:off
-        ResourceNotFoundDetails rnfDetails = ResourceNotFoundDetails.Builder
-                .newBuilder()
+        ResourceNotFoundDetails rnfDetails = ResourceNotFoundDetails.builder()
                 .timestamp(new Date().getTime())
                 .status(status.value())
                 .title("Resource Not Found")
@@ -88,8 +85,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity handleDuplicateException(DuplicateException dException) {
         HttpStatus status = HttpStatus.CONFLICT;
         //@formatter:off
-        ErrorDetail errorDetail = ErrorDetail.Builder
-                .newBuilder()
+        ErrorDetail errorDetail = ErrorDetail.builder()
                 .timestamp(new Date().getTime())
                 .status(status.value())
                 .title("Conflict")
@@ -104,8 +100,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity handleBusinessException(BusinessException bException) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         //@formatter:off
-        ErrorDetail errorDetail = ErrorDetail.Builder
-                .newBuilder()
+        ErrorDetail errorDetail = ErrorDetail.builder()
                 .timestamp(new Date().getTime())
                 .status(status.value())
                 .title("Business exception")

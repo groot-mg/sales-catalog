@@ -4,6 +4,7 @@ import com.spring.crud.api.dto.OrderItemsV1Dto;
 import com.spring.crud.api.dto.OrderV1Dto;
 import com.spring.crud.lib.model.Order;
 import com.spring.crud.lib.model.OrderItems;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,10 @@ import java.util.Objects;
  * @author Mauricio Generoso
  */
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class OrderV1DataConverter implements V1DataConverter<Order, OrderV1Dto> {
 
-    private OrderItemsV1DataConverter orderItemsConverter;
-
-    @Autowired
-    public OrderV1DataConverter(OrderItemsV1DataConverter orderItemsConverter) {
-        this.orderItemsConverter = orderItemsConverter;
-    }
+    private final OrderItemsV1DataConverter orderItemsConverter;
 
     @Override
     public void convertToEntity(Order entity, OrderV1Dto dto) {

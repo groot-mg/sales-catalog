@@ -3,6 +3,7 @@ package com.spring.crud.lib.service.validators;
 import com.spring.crud.lib.exception.BusinessException;
 import com.spring.crud.lib.model.Order;
 import com.spring.crud.lib.model.OrderItems;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
  *
  * @author Mauricio Generoso
  */
+@Component
 public class CountOrderItemsValidator {
 
     public void validate(Order entity) {

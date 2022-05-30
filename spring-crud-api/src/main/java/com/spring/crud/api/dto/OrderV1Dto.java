@@ -1,5 +1,8 @@
 package com.spring.crud.api.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,6 +11,8 @@ import java.util.List;
  *
  * @author Mauricio Generoso
  */
+@Getter
+@Setter
 public class OrderV1Dto extends BasicV1Dto {
 
     private boolean open = true;
@@ -16,44 +21,4 @@ public class OrderV1Dto extends BasicV1Dto {
     private double totalPreview;
 
     private List<OrderItemsV1Dto> orderItems;
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
-    public LocalDateTime getClosedAtDateTime() {
-        return closedAtDateTime;
-    }
-
-    public void setClosedAtDateTime(LocalDateTime closedAtDateTime) {
-        this.closedAtDateTime = closedAtDateTime;
-    }
-
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
-    public double getTotalPreview() {
-        return totalPreview;
-    }
-
-    public void setTotalPreview(double totalPreview) {
-        this.totalPreview = totalPreview;
-    }
-
-    public List<OrderItemsV1Dto> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItemsV1Dto> orderItems) {
-        this.orderItems = orderItems;
-    }
 }

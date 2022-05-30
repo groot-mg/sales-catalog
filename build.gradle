@@ -29,6 +29,12 @@ scmVersion {
 
 subprojects {
     group = 'com.example'
+
+    buildscript {
+        dependencies {
+            classpath "io.franzbecker:gradle-lombok:${gradleLombokVersion}"
+        }
+    }
 }
 
 allprojects {

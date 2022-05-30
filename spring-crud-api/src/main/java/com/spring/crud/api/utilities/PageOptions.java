@@ -1,7 +1,12 @@
 package com.spring.crud.api.utilities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Min;
 
+@Getter
+@Setter
 public final class PageOptions {
 
     @Min(0)
@@ -9,20 +14,4 @@ public final class PageOptions {
 
     @Min(0)
     private int pageSize = 15;
-
-    public int getPageNumber() {
-        return pageNumber;
-    }
-
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 }
