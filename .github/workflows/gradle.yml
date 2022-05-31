@@ -20,10 +20,6 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Testing Shoppping APP
-      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-      with:
-        arguments: test
+      run: ./gradlew test
     - name: Building Shopping APP
-      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-      with:
-        arguments: build
+      run: ./gradlew build
