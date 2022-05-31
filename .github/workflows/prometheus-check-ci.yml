@@ -11,6 +11,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: ./prometheus
+    - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build --no-cache -f tests/Dockerfile -t prometheus-test .
+      run: docker build --no-cache -f prometheus/tests/Dockerfile -t prometheus-test prometheus
