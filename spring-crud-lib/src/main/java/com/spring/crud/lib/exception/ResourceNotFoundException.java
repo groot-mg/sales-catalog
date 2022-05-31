@@ -3,7 +3,7 @@ package com.spring.crud.lib.exception;
 import lombok.NoArgsConstructor;
 
 /**
- * Exception to throws when a resource is not found
+ * Exception thrown when a resource is not found
  *
  * @author Mauricio Generoso
  */
