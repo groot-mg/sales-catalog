@@ -1,0 +1,31 @@
+_id: req_270a761deb4740b0b64e2f859dbef04e
+type: Request
+parentId: fld_3a4749cf85d445e4afafd67e2a456e1f
+modified: 1653992380398
+created: 1653992375992
+url: http://localhost:8080/spring-crud/api/v1/items/47ea46f1-e9fa-4f4b-8718-cfb3b8eaf23d
+name: Update
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Service name2",
+    	"type": "SERVICE",
+    	"price": 100
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_bc26ba22499946f5a632296beda38db1
+authentication: {}
+metaSortKey: -1653992289234
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

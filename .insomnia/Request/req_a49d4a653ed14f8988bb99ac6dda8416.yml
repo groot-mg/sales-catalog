@@ -1,0 +1,31 @@
+_id: req_a49d4a653ed14f8988bb99ac6dda8416
+type: Request
+parentId: fld_3a4749cf85d445e4afafd67e2a456e1f
+modified: 1653992558530
+created: 1653992436586
+url: http://localhost:8080/spring-crud/api/v1/items/c93f1f73-1115-4eca-bbdf-7cb2194bf27e
+name: Get by Id
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Service name2",
+    	"type": "SERVICE",
+    	"price": 100
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_bc26ba22499946f5a632296beda38db1
+authentication: {}
+metaSortKey: -1653992346874
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,31 @@
+_id: req_3351cbc71fee422fb0bc41ad6e9da5f8
+type: Request
+parentId: fld_3a4749cf85d445e4afafd67e2a456e1f
+modified: 1653992560882
+created: 1653992472942
+url: http://localhost:8080/spring-crud/api/v1/items/c93f1f73-1115-4eca-bbdf-7cb2194bf27e/deactivate
+name: Activate
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Service name2",
+    	"type": "SERVICE",
+    	"price": 100
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_bc26ba22499946f5a632296beda38db1
+authentication: {}
+metaSortKey: -1653992282032.125
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

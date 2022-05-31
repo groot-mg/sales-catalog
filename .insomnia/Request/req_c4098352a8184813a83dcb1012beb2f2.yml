@@ -1,0 +1,29 @@
+_id: req_c4098352a8184813a83dcb1012beb2f2
+type: Request
+parentId: fld_f1a10db74c8242afb93a06cd1a5e8d75
+modified: 1653994874478
+created: 1653993757388
+url: http://localhost:8080/spring-crud/api/v1/orders/8d34ee01-1b1b-42c6-9702-704f213602e9/discount
+name: Discount
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+        "discount": 10
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_46456014bf4e4d9094cb0c4015b3dd2d
+authentication: {}
+metaSortKey: -1653992403526.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

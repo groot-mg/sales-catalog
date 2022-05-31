@@ -1,0 +1,30 @@
+_id: req_44b3f52dc166437daaa197ea95391f77
+type: Request
+parentId: fld_a8a641a38d6144aabb24007caeebac76
+modified: 1653995160998
+created: 1653995123580
+url: http://localhost:8080/spring-crud/api/v1/orders/3780491d-7fab-4bfb-9ac1-023ffb010ce1/order-items/d752af86-498d-44a2-8614-f7f262042ce2
+name: Update
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+        "amount": 49,
+        "itemId": "4d2ba166-3eb4-4ecf-adb2-f38b595fc8e6"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_a77d601d4f094c1d9bdf3c61fc344bc4
+authentication: {}
+metaSortKey: -1653992978980.25
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
