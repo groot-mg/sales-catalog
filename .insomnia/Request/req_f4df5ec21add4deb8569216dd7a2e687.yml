@@ -1,9 +1,9 @@
 _id: req_f4df5ec21add4deb8569216dd7a2e687
 type: Request
 parentId: fld_a8a641a38d6144aabb24007caeebac76
-modified: 1653995124684
+modified: 1653996952388
 created: 1653994994137
-url: http://localhost:8080/spring-crud/api/v1/orders/3780491d-7fab-4bfb-9ac1-023ffb010ce1/order-items
+url: http://localhost:8080/shopping/api/v1/orders/3780491d-7fab-4bfb-9ac1-023ffb010ce1/order-items
 name: Add Item
 description: ""
 method: POST

@@ -1,9 +1,9 @@
 _id: req_270a761deb4740b0b64e2f859dbef04e
 type: Request
 parentId: fld_3a4749cf85d445e4afafd67e2a456e1f
-modified: 1653992380398
+modified: 1653996876309
 created: 1653992375992
-url: http://localhost:8080/spring-crud/api/v1/items/47ea46f1-e9fa-4f4b-8718-cfb3b8eaf23d
+url: http://localhost:8080/shopping/api/v1/items/47ea46f1-e9fa-4f4b-8718-cfb3b8eaf23d
 name: Update
 description: ""
 method: PUT

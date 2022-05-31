@@ -1,9 +1,9 @@
 _id: req_6504863e04fa4160875762ad0f9dc1f5
 type: Request
 parentId: fld_b1724b019fa14a64aa255c4f2661acd7
-modified: 1653992314107
+modified: 1653996824297
 created: 1653992279319
-url: http://localhost:8080/spring-crud/private/health
+url: http://localhost:8080/shopping/private/health
 name: Health
 description: ""
 method: GET
