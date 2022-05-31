@@ -1,5 +1,22 @@
 plugins {
+    id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
     id 'java'
+}
+
+apply plugin: 'pl.allegro.tech.build.axion-release'
+scmVersion {
+    tag { prefix = project.name + '-' }
+    versionIncrementer 'incrementMinor'
+}
+project.version = scmVersion.version
+
+
+scmVersion {
+    checks {
+        uncommittedChanges = false
+        aheadOfRemote = false
+        snapshotDependencies = false
+    }
 }
 
 test.dependsOn('testUsingDockerImage')
