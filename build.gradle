@@ -28,7 +28,7 @@ scmVersion {
 //}
 
 subprojects {
-    group = 'com.example'
+    group = 'com.generoso'
 
     buildscript {
         dependencies {

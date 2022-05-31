@@ -2,25 +2,25 @@ version: '3.8'
 
 services:
   database:
-    container_name: spring-app-database
+    container_name: shopping-app-database
     image: postgres:14.2
     restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: spring_crud
+      POSTGRES_DB: shopping
     ports:
       - "5432:5432"
     volumes:
       - ./postgres/backup:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d spring_crud -U root" ]
+      test: [ "CMD-SHELL", "pg_isready -d shopping -U root" ]
       interval: 5s
       timeout: 5s
       retries: 5
 
 #  pgadmin:
-#    container_name: spring-app-pgadmin4
+#    container_name: shopping-app-pgadmin4
 #    image: dpage/pgadmin4:6.8
 #    restart: always
 #    environment:
@@ -47,8 +47,8 @@ services:
         condition: service_healthy
 
   app:
-    container_name: spring-app
-    build: spring-crud-api
+    container_name: shopping-api
+    build: shopping-api
     restart: always
     ports:
       - "8080:8080"
@@ -64,7 +64,7 @@ services:
       - DATASOURCE_PASSWORD=root
 
   prometheus:
-    container_name: spring-app-prometheus
+    container_name: shopping-app-prometheus
     image: prom/prometheus:v2.35.0
     restart: unless-stopped
     ports:
@@ -76,7 +76,7 @@ services:
 
   # default user and password: admin
   grafana:
-    container_name: spring-app-grafana
+    container_name: shopping-app-grafana
     image: grafana/grafana:8.5.2
     restart: unless-stopped
     depends_on:
