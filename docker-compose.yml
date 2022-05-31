@@ -38,7 +38,7 @@ services:
     ports:
       - "9187:9187"
     environment:
-      DATA_SOURCE_NAME: "postgresql://root:root@database:5432/spring_crud?sslmode=disable"
+      DATA_SOURCE_NAME: "postgresql://root:root@database:5432/shopping?sslmode=disable"
     links:
       - database
       - prometheus
@@ -65,14 +65,15 @@ services:
 
   prometheus:
     container_name: shopping-app-prometheus
-    image: prom/prometheus:v2.35.0
+    build:
+      context: prometheus
+      args:
+        ENVIRONMENT: local
     restart: unless-stopped
     ports:
       - "9090:9090"
     command:
       - --config.file=/etc/prometheus/prometheus.yml
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
   # default user and password: admin
   grafana:

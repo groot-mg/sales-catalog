@@ -1,4 +1,7 @@
-# Spring Crud APP Example
+[![Prometheus CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/prometheus-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/prometheus-ci-check.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/algarves/loteria-crawlers/blob/master/LICENSE)
+
+# Spring Shopping API
 ---
 
 This API is an example using Spring boot to storage products, services and orders.

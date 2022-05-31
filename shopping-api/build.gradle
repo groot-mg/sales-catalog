@@ -2,12 +2,20 @@ plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id "com.gorylenko.gradle-git-properties" version "${gitPropertiesVersion}"
+    id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
     id 'java'
 }
 
+apply plugin: 'pl.allegro.tech.build.axion-release'
 apply plugin: 'io.franzbecker.gradle-lombok'
 
 sourceCompatibility = JavaVersion.VERSION_11
+
+scmVersion {
+    tag { prefix = project.name + '-' }
+    versionIncrementer 'incrementMinor'
+}
+project.version = scmVersion.version
 
 def commonJarConfigClosure = {
     archiveName = "${project.name}.jar"

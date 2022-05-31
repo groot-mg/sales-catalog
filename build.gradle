@@ -1,14 +1,20 @@
-plugins {
-    id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
-}
+//plugins {
+//    id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
+//}
 
 // Create a better strategy later: https://axion-release-plugin.readthedocs.io/en/latest/configuration/version/
-scmVersion {
-    tag {
-        prefix = project.name + '-'
-    }
-
-    versionIncrementer 'incrementMinor'
+//scmVersion {
+//    tag {
+//        prefix = project.name + '-'
+//    }
+//
+//    checks {
+//        uncommittedChanges = false
+//        aheadOfRemote = false
+//        snapshotDependencies = false
+//    }
+//
+//    versionIncrementer 'incrementMinor'
 //    versionCreator { context, position -> getCurrentVersion(context, position.revision) }
 
 //    hooks {
@@ -16,7 +22,7 @@ scmVersion {
 //            project.version = context.currentVersion
 //        }
 //    }
-}
+//}
 
 //static def getCurrentVersion(version, revision) {
 //    return currentlyOnMainBranch() ? version : revision
@@ -37,6 +43,6 @@ subprojects {
     }
 }
 
-allprojects {
-    project.version = scmVersion.version
-}
+//allprojects {
+//    project.version = scmVersion.version
+//}
