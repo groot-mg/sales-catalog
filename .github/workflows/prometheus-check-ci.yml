@@ -1,0 +1,16 @@
+name: Prometheus CI check
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: ./prometheus
+    - name: Build the Docker image
+      run: docker build --no-cache -f tests/Dockerfile -t prometheus-test .
