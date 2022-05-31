@@ -41,13 +41,13 @@ With all the containers up, there are the available URL locally:
   
   Details about how to use the API and business rules. 
 
-## 2.1 Items e serviços
+## 2.1 Items and services
 
-Neste tópico está descrito as informações sobre os itens e serviços.
+This topic describes the endpoints to manage items and services.
 
-### 2.1.1 Cadastro de um produto ou serviço
+### 2.1.1 Register a new product/service
 
-O cadastro de um produto ou de um serviço é feito por meio do endpoint `POST /api/v1/items`:
+To register a new service, should be used `POST /api/v1/items`:
 
 ```javascript
 {
@@ -57,13 +57,13 @@ O cadastro de um produto ou de um serviço é feito por meio do endpoint `POST /
 }
 ```
 
-#### Restrições:
-* Não é possível registrar mais de um produto/serviço com mesmo nome
-* O preço deve ser um valor positivo.
+#### Restrictions:
+* It is not possible to register a service with the same name
+* The price should be a positive value
 
-### 2.1.2 Atualização de um produto ou seviço
+### 2.1.2 Update a product or service
 
-A atualização de um produto ou de um serviço é feita por meio do endpoint `PUT /api/v1/items/{id}` utilizando o id:
+The update endpoint for a product/service is `PUT /api/v1/items/{id}` using the id:
 
 ```javascript
 {
@@ -73,26 +73,26 @@ A atualização de um produto ou de um serviço é feita por meio do endpoint `P
 }
 ```
 
-Por padrão um produto/serviço é cadastrado com o status ativo.
+By default, a new product/service has the status active.
 
-#### Restrições:
-* Não é possível registrar mais de um produto/serviço com mesmo nome
-* O preço deve ser um valor positivo.
+#### Restrictions:
+* It is not possible to update to an existing product/service name 
+* The price should be a positive value.
 
-### 2.1.3 Remover um produto ou serviço
+### 2.1.3 Delete a product or service
 
-A exclusão de um produto/serviço é feita por meio do endpoint `DELETE /api/v1/items/{id}` utilizando o id.
+The endpoint to delete a product/service is `DELETE /api/v1/items/{id}` using the id.
 
-#### Restrições:
-* Não é possível remover um produto/serviço que está em uso vinculado a um pedido
+#### Restriction:
+* It is not possible to delete a product/service linked to an order.
 
-### 2.1.4 Listagem de um produto ou serviço
+### 2.1.4 Getting products/services
 
-A busca/listagem dos produtos/serviços é feita por meio do endpoint `GET /api/v1/items/` (listage) ou `GET /api/v1/items/{id}` (busca específica por um item).
+To get all or a specific product/service is used `GET /api/v1/items/` (get all) or `GET /api/v1/items/{id}` (get a single one).
 
-A quantidade de itens por página pode ser alterado por meio do parâmetro `pageSize`, e a página atual por meio do parâmetro `pageNumber`. Exemplo: `/api/v1/items?pageNumber=1&pageSize=1`.
+The amount per page can be changed using the parameter `pageSize`, and the current page using `pageNumber`.
 
-O retorno dos dados é feito de forma paginada:
+E.g: `/api/v1/items?pageNumber=1&pageSize=1`.
 
 ```javascript
 {
@@ -132,17 +132,17 @@ O retorno dos dados é feito de forma paginada:
 }
 ```
 
-### 2.1.5 Ativar e desativar um produto/serviço
+### 2.1.5 Activate or deactivate a product/service
 
-Para ativar ou desativar um produto/serviço deve ser utilizado os respectivos endpoints: `/PUT api/v1/items/{id}/activate` e `PUT /api/v1/items/{id}/deactivate`.
+To activate or deactivate a product/service, should be used the following endpoints: `/PUT api/v1/items/{id}/activate` and `PUT /api/v1/items/{id}/deactivate`.
 
-## 2.2 Pedido
+## 2.2 Order
 
-Um pedido possui diversos produtos/serviços com suas respectivas quantidade, e é possível aplicar desconto sobre os produtos (serviço não).
+An order has many products/services, and it is possible to apply discounts.
 
-### 2.2.1 Cadastro de um pedido
+### 2.2.1 Register a new order
 
-O pedido é cadastrado informando uma lista com todos os itens de pedido, contendo a quantidade e o id do produto/serviço. É utilizado o endpoint `POST /api/v1/orders`:
+To register a new order is necessary specify the list of products/services at least with amount and id. The endpoint is `POST /api/v1/orders`:
 
 ```javascript
 {
@@ -159,13 +159,15 @@ O pedido é cadastrado informando uma lista com todos os itens de pedido, conten
 }
 ```
 
-#### Restrições
-* Não é possível registrar quantidades diferentes para um mesmo produto/serviço. Um produto/serviço dentro de um pedido deve ser único.
-* Deve-se ter pelo menos a quantidade de 1 produto/serviço no pedido.
+#### Restrictions
+* It is not possible to register the same product/service with different quantities. A product/service should be added once.
+* It is required at least 1 for each product/service in the order.
 
-### 2.2.2 Aplicando desconto
+### 2.2.2 Applying discounts
 
-Para aplicar desconto sobre um pedido, deve-se utilizar o endpoint `PUT /api/v1/orders/{id}/discount`:
+To apply discount in an order, should be used the endpoint `PUT /api/v1/orders/{id}/discount`:
+
+The value received on the server is the percentage.
 
 ```javascript
 {
@@ -173,29 +175,29 @@ Para aplicar desconto sobre um pedido, deve-se utilizar o endpoint `PUT /api/v1/
 }
 ```
 
-Obs: O desconto pode ser visualizado ao buscar os dados do pedido (conforme 3.2.5) e pode ser visualizado no campo `totalPreview`.
+P.s: The discount preview is available when querying the order details (according 3.2.5) on `totalPreview` field.
 
-#### Restrições
-* O desconto deve ser informado entre 0 a 100.
-* Não é possível aplicar desconto para um pedido fechado.
-* O desconto só é aplicado sobre o valor total dos produtos (Para serviços não há descontos).
+#### Restrictions
+* The discount should be between 0 and 100.
+* It is not possible to apply discount in a closed order.
+* The discounts are applied only on products, services don't receive discounts.
 
-### 2.2.3 Fechar um pedido
+### 2.2.3 Close an order
 
-Um pedido é fechado por meio do endpoint `PUT /api/v1/orders/{id}/close`.
+To close an order should be used the endpoint `PUT /api/v1/orders/{id}/close`.
 
-#### Restrições
-* Um pedido fechado não poderá ser aberto.
+#### Restrictions
+* A closed order cannot be re-opened.
 
-### 2.2.4 Remover um pedido
+### 2.2.4 Delete an order
 
-A remoção de um pedido é feita por meio do enpoint `DELETE /api/v1/orders`.
+To delete an order should be used `DELETE /api/v1/orders`.
 
-### 2.2.5 Listar pedidos e um pedido específico
+### 2.2.5 Get orders
 
-A listagem é feita com paginação também assim como no item 3.1.4 para listar produtos/serviços. Deve ser utilizado o endpoint `GET /api/v1/orders` para uma listagem geral e `PUT /api/v1/orders/{id}` para buscar um pedido específico.
+It uses pagination as it is on 3.1.4 to get products/services. It should be used the endpoint `GET /api/v1/orders` to get all and `PUT /api/v1/orders/{id}` to get an specific order.
 
-Ao buscar um pedido específico, somente os dados básicos serão retornados:
+To get a specific order, only the simple info will be returned:
 
 ```javascript
 {
@@ -207,9 +209,9 @@ Ao buscar um pedido específico, somente os dados básicos serão retornados:
     "totalPreview": 100.0
 }
 ```
-Para expandir os dados dos itens do pedido, deve-se passar o parâmetro `orderItemsExpanded`.
+To expand details on the order, should be used the parameters `orderItemsExpanded`.
 
-Exemplo utilizando o endpoint `/api/v1/orders/{id}?expand=orderItemsExpanded` com o retorno:
+E.g: `/api/v1/orders/{id}?expand=orderItemsExpanded` returns:
 
 ```javascript
 {
@@ -240,17 +242,17 @@ Exemplo utilizando o endpoint `/api/v1/orders/{id}?expand=orderItemsExpanded` co
 }
 ```
 
-## 2.3 Itens de um pedido
+## 2.3 Order items
 
-Um item de um pedido é cadastrado junto a um pedido. Após ter um pedido cadastrado é possível realizar algumas operações com os itens do pedido.
+An order item is created together with an order. After register an order, we can do some operations with the order items.
 
-### 2.3.1 Listar os itens de um pedido ou um item específico
+### 2.3.1 Get order items
 
-A listagem dos itens de um pedido utiliza listagem assim como na listagem dos produtos/serviços e dos pedidos. É feita por meio do endpoint `GET api/v1/orders/{orderId}/order-items` para uma listagem geral e `GET api/v1/orders/{orderId}/order-items/{id}` para uma listagem de um item específico.
+It uses pagination as usual. The endpoint to make the request is `GET api/v1/orders/{orderId}/order-items` to get all and `GET api/v1/orders/{orderId}/order-items/{id}` to get an specific item.
 
-### 2.3.2 Adicionar um novo item ao pedido:
+### 2.3.2 Add a new item in the order
 
-Para adicionar um novo item deve-se utilizar `POST api/v1/orders/{orderId}/order-items` informando a quantidade e o produto/serviço:
+To add a new product/service in the order should be used the endpoint `POST api/v1/orders/{orderId}/order-items` with body as bellow:
 
 ```javascript
 {
@@ -259,12 +261,12 @@ Para adicionar um novo item deve-se utilizar `POST api/v1/orders/{orderId}/order
 }
 ```
 
-#### Restrições
-* Não é possível adicionar um pedido/produto que já esteja adicionado ao pedido
+#### Restriction
+* It is not possible to add an item already existing in the order item
 
-### 2.3.3 Atualizar a quantidade de items
+### 2.3.3 Update existing product/service
 
-A atualização da quantidade de um item do pedido é feita por meio do endpoint `PUT /api/v1/orders/{orderId}/order-items/{id}` em que o id é o id do vínculo entre o pedido e o item (e não o id do produto/serviço).
+To update the amount, should be used `PUT /api/v1/orders/{orderId}/order-items/{id}` (the id in the url is the order item id, and not the product/service id).
 
 ```javascript
 {
@@ -273,9 +275,9 @@ A atualização da quantidade de um item do pedido é feita por meio do endpoint
 }
 ```
 
-### 2.3.4 Remover um item do pedido
+### 2.3.4 Delete a product/service
 
-A remoção de um item do pedido é feita por meio do endpoint `/api/v1/orders/{orderId}/order-items/{id}` em que o id é o id do vínculo entre o pedido e o item (e não o id do produto/serviço).
+To delete a product/service from the order, should be used the endpoint `/api/v1/orders/{orderId}/order-items/{id}`.
 
-#### Restrições
-* Não é possível remover todos os itens de um pedido, é necessário que o pedido tenha pelo menos um item.
+#### Restriction
+* It is not possible to remove all items from the order, it is required at least one product/service. 
