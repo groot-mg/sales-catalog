@@ -1,0 +1,21 @@
+rule_files:
+  - ../rules/common/general_alerts.yml
+
+evaluation_interval: 1m
+tests:
+  - interval: 1m
+    input_series:
+      - series: up{job="shopping-api"}
+        values: 0
+    alert_rule_test:
+      - alertname: Prometheus_Target_Scrape_Error
+        eval_time: 2m
+        exp_alerts:
+          - exp_labels:
+              alertname: Prometheus_Target_Scrape_Error
+              severity: minor
+              job: shopping-api
+            exp_annotations:
+              summary: Prometheus targets that cannot be scraped
+              description: |-
+                Job: `shopping-api`
