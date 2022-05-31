@@ -1,0 +1,12 @@
+groups:
+  - name: generic_application_alerts
+    rules:
+      - alert: Prometheus_Target_Scrape_Error
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: minor
+        annotations:
+          summary: 'Prometheus targets that cannot be scraped'
+          description: |-
+            Job: `{{ $labels.job }}`
