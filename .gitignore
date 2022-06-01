@@ -59,4 +59,4 @@ build/
 
 
 ### Custom
-postgres/backup
+postgresql/backup

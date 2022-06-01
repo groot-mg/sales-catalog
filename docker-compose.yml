@@ -3,7 +3,7 @@ version: '3.8'
 services:
   database:
     container_name: shopping-app-database
-    image: postgres:14.2
+    build: postgresql
     restart: always
     environment:
       POSTGRES_USER: root
@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres/backup:/var/lib/postgresql/data
+      - ./postgresql/backup:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -d shopping -U root" ]
       interval: 5s
@@ -59,7 +59,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=local
       - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
-      - DATASOURCE_URL=jdbc:postgresql://database:5432/spring_crud
+      - DATASOURCE_URL=jdbc:postgresql://database:5432/shopping
       - DATASOURCE_USERNAME=root
       - DATASOURCE_PASSWORD=root
 
