@@ -2,7 +2,6 @@ package com.generoso.shopping.api.controller;
 
 import com.generoso.shopping.api.converter.Expand;
 import com.generoso.shopping.api.converter.OrderV1DataConverter;
-import com.generoso.shopping.api.utilities.PageOptions;
 import com.generoso.shopping.api.dto.OrderDiscountV1Dto;
 import com.generoso.shopping.api.dto.OrderV1Dto;
 import com.generoso.shopping.lib.model.Order;
@@ -18,7 +17,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,7 +39,7 @@ import static org.springframework.http.ResponseEntity.status;
 @Tag(name = "OrderV1Controller", description = "Controller to manage Orders")
 @RestController
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping(path = "/api/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderV1Controller {
 
     private final OrderService service;
@@ -52,11 +50,9 @@ public class OrderV1Controller {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Successfully retrieved list", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))
     })})
-    public ResponseEntity<Page<OrderV1Dto>> findAll(@Valid PageOptions pageOptions,
+    public ResponseEntity<Page<OrderV1Dto>> findAll(Pageable pageable,
                                                     @Parameter(description = "The expand option") Expand expand) {
-        Pageable pageable = PageRequest.of(pageOptions.getPageNumber(), pageOptions.getPageSize());
         Page<Order> orders = service.findAll(pageable);
-
         List<OrderV1Dto> orderV1Dtos = orders.getContent()
                 .stream()
                 .map(order -> converter.convertToDto(order, expand))

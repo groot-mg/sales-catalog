@@ -2,7 +2,6 @@ package com.generoso.shopping.api.controller;
 
 import com.generoso.shopping.api.converter.Expand;
 import com.generoso.shopping.api.converter.OrderItemsV1DataConverter;
-import com.generoso.shopping.api.utilities.PageOptions;
 import com.generoso.shopping.api.dto.OrderItemsV1Dto;
 import com.generoso.shopping.lib.model.Order;
 import com.generoso.shopping.lib.model.OrderItems;
@@ -19,7 +18,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,7 +40,7 @@ import static org.springframework.http.ResponseEntity.status;
 @Tag(name = "OrderItemV1Controller", description = "Controller to manage Orders items")
 @RestController
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping(path = "/api/v1/orders/{orderId}/order-items", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/orders/{orderId}/order-items", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderItemV1Controller {
 
     private final OrderService orderService;
@@ -54,11 +52,10 @@ public class OrderItemV1Controller {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Successfully retrieved list", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))
     })})
-    public ResponseEntity<Page<OrderItemsV1Dto>> findAll(@Valid PageOptions pageOptions,
+    public ResponseEntity<Page<OrderItemsV1Dto>> findAll(Pageable pageable,
                                                          @Parameter(description = "Order id", required = true)
                                                          @PathVariable(name = "orderId") UUID orderId,
                                                          @Parameter(description = "The expand option") Expand expand) {
-        Pageable pageable = PageRequest.of(pageOptions.getPageNumber(), pageOptions.getPageSize());
         Page<OrderItems> orders = service.findAll(orderId, pageable);
 
         List<OrderItemsV1Dto> orderV1Dtos = orders.getContent()

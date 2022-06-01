@@ -1,7 +1,6 @@
 package com.generoso.shopping.api.controller;
 
 import com.generoso.shopping.api.converter.ItemV1DataConverter;
-import com.generoso.shopping.api.utilities.PageOptions;
 import com.generoso.shopping.api.dto.ItemV1Dto;
 import com.generoso.shopping.lib.model.Item;
 import com.generoso.shopping.lib.service.ItemService;
@@ -16,7 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,7 +37,7 @@ import static org.springframework.http.ResponseEntity.status;
 @Tag(name = "ItemV1Controller",  description = "Controller to manage Items")
 @RestController
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping(path = "/api/v1/items", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/items", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ItemV1Controller {
 
     private final ItemService service;
@@ -48,13 +46,12 @@ public class ItemV1Controller {
     @GetMapping
     @Operation(description = "Find all items (products and services, active and inactive)")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Successfully retrieved list")})
-    public ResponseEntity<Page<ItemV1Dto>> findAll(@Valid PageOptions pageOptions) {
-        Pageable pageable = PageRequest.of(pageOptions.getPageNumber(), pageOptions.getPageSize());
+    public ResponseEntity<Page<ItemV1Dto>> findAll(Pageable pageable) {
         Page<Item> items = service.findAll(pageable);
 
         List<ItemV1Dto> itemV1Dtos = items.getContent()
                 .stream()
-                .map(order -> converter.convertToDto(order))
+                .map(converter::convertToDto)
                 .collect(Collectors.toList());
 
         return ok(new PageImpl<>(itemV1Dtos, pageable, itemV1Dtos.size()));
