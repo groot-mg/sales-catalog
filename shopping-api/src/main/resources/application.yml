@@ -1,8 +1,11 @@
 server:
+  port: 8082
   servlet:
     contextPath: /shopping-api
 
 spring:
+  application:
+    name: shopping-api
   profiles:
     active: local
   datasource:
@@ -42,3 +45,11 @@ management:
       enabled: true
     db:
       enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_HOST:http://localhost:8081/eureka}
+    register-with-eureka: true

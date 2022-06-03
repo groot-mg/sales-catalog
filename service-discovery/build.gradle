@@ -1,0 +1,36 @@
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+    id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
+    id 'java'
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+
+scmVersion {
+    tag { prefix = project.name + '-' }
+    versionIncrementer 'incrementMinor'
+}
+project.version = scmVersion.version
+
+def commonJarConfigClosure = {
+    archiveName = "${project.name}.jar"
+}
+
+bootJar commonJarConfigClosure
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:${eurekaServerVersion}" // not resolved by dependency-management plugin
+    implementation 'javax.servlet:javax.servlet-api'
+
+    implementation "io.micrometer:micrometer-registry-prometheus"
+}
+
+test {
+    useJUnitPlatform()
+}

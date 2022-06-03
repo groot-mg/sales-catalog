@@ -3,7 +3,6 @@ plugins {
     id 'java'
 }
 
-apply plugin: 'pl.allegro.tech.build.axion-release'
 scmVersion {
     tag { prefix = project.name + '-' }
     versionIncrementer 'incrementMinor'

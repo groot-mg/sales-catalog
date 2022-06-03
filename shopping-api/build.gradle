@@ -6,7 +6,6 @@ plugins {
     id 'java'
 }
 
-apply plugin: 'pl.allegro.tech.build.axion-release'
 apply plugin: 'io.franzbecker.gradle-lombok'
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -41,6 +40,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaServerVersion}" // not resolved by dependency-management plugin
     implementation 'javax.validation:validation-api'
     implementation "org.springdoc:springdoc-openapi-ui:${springDocOpenApiVersion}"
 
