@@ -3,8 +3,12 @@ name: Prometheus CI check
 on:
   push:
     branches: [ master ]
+    paths:
+      - prometheus/**
   pull_request:
     branches: [ master ]
+    paths:
+      - prometheus/**
 
 jobs:
 
