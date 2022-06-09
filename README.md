@@ -1,5 +1,6 @@
-[![Build and Test App](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/gradle.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/gradle.yml)
+[![Build and Test All Modules](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/general-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/general-ci-check.yml)
 [![Prometheus CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/prometheus-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/prometheus-ci-check.yml)
+[![AlertManager CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/alertmanager-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/alertmanager-ci-check.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/algarves/loteria-crawlers/blob/master/LICENSE)
 
 # Spring Shopping API
