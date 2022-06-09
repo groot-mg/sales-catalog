@@ -2,6 +2,12 @@ global:
   scrape_interval: 5s
   evaluation_interval: 5s
 
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        - alertmanager:9093
+
 rule_files:
   - /etc/prometheus/rules/common/*.yml
 
@@ -12,7 +18,7 @@ scrape_configs:
         - localhost:9090
   - job_name: shopping-api
     scrape_interval: 5s
-    metrics_path: /shopping/private/metrics
+    metrics_path: /shopping-api/private/metrics
     static_configs:
       - targets:
           - app:8080
