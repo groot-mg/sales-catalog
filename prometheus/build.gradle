@@ -1,6 +1,5 @@
 plugins {
     id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
-    id 'java'
 }
 
 apply plugin: 'pl.allegro.tech.build.axion-release'
@@ -16,8 +15,6 @@ scmVersion {
 }
 
 project.version = scmVersion.version
-
-test.dependsOn('testUsingDockerImage')
 
 task testUsingDockerImage(type: Exec) {
     commandLine "docker", "build", "--no-cache", "-f", "tests/Dockerfile", "-t", "prometheus-test", "."

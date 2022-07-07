@@ -32,7 +32,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Testing Prometheus module
-      run: ./gradlew --no-daemon :prometheus:test
+      run: ./gradlew --no-daemon :prometheus:testUsingDockerImage
     - name: Testing AlertManager module
       run: ./gradlew --no-daemon :alertmanager:test
     - name: Testing Shopping API module
