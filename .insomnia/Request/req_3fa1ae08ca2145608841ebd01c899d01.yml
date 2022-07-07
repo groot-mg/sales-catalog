@@ -1,17 +1,17 @@
-_id: req_6504863e04fa4160875762ad0f9dc1f5
+_id: req_3fa1ae08ca2145608841ebd01c899d01
 type: Request
-parentId: fld_b1724b019fa14a64aa255c4f2661acd7
-modified: 1657230655781
-created: 1653992279319
-url: "{{ _['spring-api'] }}/shopping-api/private/health"
-name: Health
+parentId: fld_3400c5c9c02f43728e18bb735f6fac5b
+modified: 1657230901502
+created: 1657230808754
+url: "{{ _.prometheus }}"
+name: Initial page
 description: ""
 method: GET
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1653992019342.75
+metaSortKey: -1657230808754
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

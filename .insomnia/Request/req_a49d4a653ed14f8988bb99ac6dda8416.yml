@@ -1,7 +1,7 @@
 _id: req_a49d4a653ed14f8988bb99ac6dda8416
 type: Request
 parentId: fld_3a4749cf85d445e4afafd67e2a456e1f
-modified: 1653996866915
+modified: 1654216381806
 created: 1653992436586
 url: http://localhost:8080/shopping/api/v1/items/c93f1f73-1115-4eca-bbdf-7cb2194bf27e
 name: Get by Id

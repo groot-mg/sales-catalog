@@ -1,9 +1,9 @@
 _id: req_cc38d0bc51a94c1eadac468e94ab10ce
 type: Request
 parentId: fld_b1724b019fa14a64aa255c4f2661acd7
-modified: 1653996829576
+modified: 1657230661665
 created: 1653992251883
-url: http://localhost:8080/shopping/private/metrics
+url: "{{ _['spring-api'] }}/shopping-api/private/metrics"
 name: Metrics
 description: ""
 method: GET

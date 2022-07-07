@@ -1,17 +1,17 @@
-_id: req_6504863e04fa4160875762ad0f9dc1f5
+_id: req_b765810688824d86833d05496c66657c
 type: Request
-parentId: fld_b1724b019fa14a64aa255c4f2661acd7
-modified: 1657230655781
-created: 1653992279319
-url: "{{ _['spring-api'] }}/shopping-api/private/health"
-name: Health
+parentId: fld_94d955dd8df947e89a821b1a0d177aec
+modified: 1657230786578
+created: 1657230670732
+url: "{{ _.grafana }}/login"
+name: Login page
 description: ""
 method: GET
 body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1653992019342.75
+metaSortKey: -1657230670732
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

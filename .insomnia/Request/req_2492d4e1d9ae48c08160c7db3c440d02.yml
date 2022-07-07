@@ -1,9 +1,9 @@
 _id: req_2492d4e1d9ae48c08160c7db3c440d02
 type: Request
 parentId: fld_b1724b019fa14a64aa255c4f2661acd7
-modified: 1653996984083
+modified: 1657230638309
 created: 1653992231619
-url: http://localhost:8080/shopping/private/info
+url: "{{ _['spring-api'] }}/shopping-api/private/info"
 name: Info
 description: ""
 method: GET
