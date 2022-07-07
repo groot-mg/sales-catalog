@@ -1,20 +1,20 @@
-name: Prometheus CI check
+name: AlertManager CI check
 
 on:
   push:
     branches: [ master ]
     paths:
-      - prometheus/**
+      - alertmanager/**
   pull_request:
     branches: [ master ]
     paths:
-      - prometheus/**
+      - alertmanager/**
 
 jobs:
 
-  test-prometheus:
+  test-alertmanager:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build --no-cache -f prometheus/tests/Dockerfile -t prometheus-test prometheus
+      run: docker build --no-cache -f alertmanager/tests/Dockerfile -t alertmanager-test alertmanager

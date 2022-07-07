@@ -5,4 +5,5 @@ include 'shopping-lib'
 
 // tools
 include 'prometheus'
+include 'alertmanager'
 

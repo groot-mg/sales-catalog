@@ -91,6 +91,18 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
 
+  alertmanager:
+    container_name: shopping-app-alertmanager
+    build:
+      context: alertmanager
+      args:
+        ENVIRONMENT: local
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+
   # default user and password: admin
   grafana:
     container_name: grafana
