@@ -34,6 +34,6 @@ jobs:
     - name: Testing Prometheus module
       run: ./gradlew --no-daemon :prometheus:testUsingDockerImage
     - name: Testing AlertManager module
-      run: ./gradlew --no-daemon :alertmanager:test
+      run: ./gradlew --no-daemon :alertmanager:testUsingDockerImage
     - name: Testing Shopping API module
       run: ./gradlew --no-daemon :shopping-api:test
