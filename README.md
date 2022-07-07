@@ -14,8 +14,12 @@ It is using the following tools:
 * Gradle
 * Docker
 * Postgresql
-* Prometheus
+* Prometheus / Alert Manager
 * Grafana
+
+| WARNING: this project is being updated and new features are being implemented. The README file needs to be updated from here. |
+|-------------------------------------------------------------------------------------------------------------------------------| 
+
 
 # `1. How to start up it locally`
 
