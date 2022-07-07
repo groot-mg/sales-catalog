@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+    id "com.gorylenko.gradle-git-properties" version "${gitPropertiesVersion}"
     id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
     id 'java'
 }
@@ -18,6 +19,14 @@ def commonJarConfigClosure = {
 }
 
 bootJar commonJarConfigClosure
+
+springBoot {
+    buildInfo {
+        properties {
+            version = project.version
+        }
+    }
+}
 
 repositories {
     mavenCentral()
