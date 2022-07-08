@@ -1,18 +1,20 @@
 _id: env_b5e1fc97d17640bbbb90ba94001e3fab
 type: Environment
 parentId: env_edb09e6185707ca8647ce983741f5957d03734bf
-modified: 1657231019996
+modified: 1657234448124
 created: 1653992191238
 name: Local
 data:
   spring-api: http://localhost:8082
   service-discovery: http://localhost:8081
+  gateway: http://localhost:8080
   grafana: http://localhost:3000
   prometheus: http://localhost:9090
 dataPropertyOrder:
   "&":
     - spring-api
     - service-discovery
+    - gateway
     - grafana
     - prometheus
 color: null

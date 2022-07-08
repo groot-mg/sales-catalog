@@ -1,0 +1,21 @@
+_id: req_03d9abed6ed14629a3f6ca4758d8e4fc
+type: Request
+parentId: fld_b36d8b6f2d184b459dfa3d171c31a2d2
+modified: 1657235984061
+created: 1657234426699
+url: "{{ _.gateway }}/private/health"
+name: Health
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1653992125430.875
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
