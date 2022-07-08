@@ -4,6 +4,8 @@ server:
     contextPath: /shopping-api
 
 spring:
+  jmx:
+    enable: false
   application:
     name: shopping-api
   profiles:
@@ -51,5 +53,5 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: ${EUREKA_SERVER_HOST:http://localhost:8081/eureka}
+      defaultZone: http://localhost:8081/eureka
     register-with-eureka: true

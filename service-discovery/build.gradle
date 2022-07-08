@@ -34,7 +34,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:${eurekaServerVersion}" // not resolved by dependency-management plugin
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:${eurekaClientVersion}" // not resolved by dependency-management plugin
     implementation 'javax.servlet:javax.servlet-api'
 
     implementation "io.micrometer:micrometer-registry-prometheus"

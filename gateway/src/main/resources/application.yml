@@ -2,25 +2,32 @@ spring:
   jmx:
     enable: false
   application:
-    name: service-discovery
-  profiles:
-    active: local
+    name: gateway
 server:
-  port: 8081
+  port: 8080
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
-    register-with-eureka: false # disable self-registry
-    fetch-registry: false
     service-url:
-      defaultZone: http://localhost:${server.port}/eureka/
+      defaultZone: http://localhost:8081/eureka
+    fetch-registry: true
+    register-with-eureka: false
+
+zuul:
+  sensitive-headers: Cookie
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
 
 logging:
   level:
-    com:
-      netflix:
-        discovery: OFF
-        eureka: OFF
+    org:
+      springframework:
+        cloud:
+          netflix: trace
 
 management:
   endpoint:

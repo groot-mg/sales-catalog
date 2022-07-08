@@ -32,3 +32,9 @@ scrape_configs:
     static_configs:
       - targets:
           - service-discovery:8081
+  - job_name: gateway
+    scrape_interval: 5s
+    metrics_path: /private/metrics
+    static_configs:
+      - targets:
+          - gateway:8080
