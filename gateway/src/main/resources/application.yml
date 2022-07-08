@@ -3,6 +3,14 @@ spring:
     enable: false
   application:
     name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: shopping-api
+          uri: lb://shopping-api
+          predicates:
+            - Path=/shopping-api/**
+
 server:
   port: 8080
 
@@ -13,21 +21,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8081/eureka
     fetch-registry: true
-    register-with-eureka: false
-
-zuul:
-  sensitive-headers: Cookie
-
-ribbon:
-  ReadTimeout: 10000
-  ConnectTimeout: 10000
-
-logging:
-  level:
-    org:
-      springframework:
-        cloud:
-          netflix: trace
+    register-with-eureka: true
 
 management:
   endpoint:

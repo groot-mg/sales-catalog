@@ -34,7 +34,8 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-zuul:${zuulGatewayServerVersion}" // not resolved by dependency-management plugin
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation "org.springframework.cloud:spring-cloud-starter-gateway:${gatewayVersion}" // not resolved by dependency-management plugin
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}" // not resolved by dependency-management plugin
 
     implementation "io.micrometer:micrometer-registry-prometheus"
