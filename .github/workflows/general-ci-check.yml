@@ -22,7 +22,7 @@ jobs:
     - name: Building Service Discovery module
       run: ./gradlew --no-daemon :service-discovery:build
     - name: Building Gateway module
-        run: ./gradlew --no-daemon :gateway:build
+      run: ./gradlew --no-daemon :gateway:build
     - name: Building Shopping lib module
       run: ./gradlew --no-daemon :shopping-lib:build
     - name: Building Shopping API module

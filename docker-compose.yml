@@ -110,17 +110,19 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
 
-  alertmanager:
-    container_name: shopping-app-alertmanager
-    build:
-      context: alertmanager
-      args:
-        ENVIRONMENT: local
-    restart: unless-stopped
-    ports:
-      - "9093:9093"
-    command:
-      - --config.file=/etc/alertmanager/alertmanager.yml
+## Alert manager is set up to send alert to slack, change the slack channel on alertmanager/config/alertmanager-local.yml and change 'api_url' to enable this
+## This container is commented out because the
+#  alertmanager:
+#    container_name: shopping-app-alertmanager
+#    build:
+#      context: alertmanager
+#      args:
+#        ENVIRONMENT: local
+#    restart: unless-stopped
+#    ports:
+#      - "9093:9093"
+#    command:
+#      - --config.file=/etc/alertmanager/alertmanager.yml
 
   # default user and password: admin
   grafana:
