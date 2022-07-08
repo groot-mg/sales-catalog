@@ -1,3 +1,7 @@
+plugins {
+    id "io.freefair.lombok" version "6.5.0.2" apply false
+}
+
 //plugins {
 //    id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
 //}
@@ -35,12 +39,6 @@
 
 subprojects {
     group = 'com.generoso'
-
-    buildscript {
-        dependencies {
-            classpath "io.franzbecker:gradle-lombok:${gradleLombokVersion}"
-        }
-    }
 }
 
 //allprojects {

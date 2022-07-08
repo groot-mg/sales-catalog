@@ -3,12 +3,11 @@ plugins {
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id "com.gorylenko.gradle-git-properties" version "${gitPropertiesVersion}"
     id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
+    id "io.freefair.lombok"
     id 'java'
 }
 
-apply plugin: 'io.franzbecker.gradle-lombok'
-
-sourceCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
 
 scmVersion {
     tag { prefix = project.name + '-' }

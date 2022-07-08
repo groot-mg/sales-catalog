@@ -1,8 +1,9 @@
 plugins {
+    id "io.freefair.lombok"
     id 'java'
 }
 
-apply plugin: 'io.franzbecker.gradle-lombok'
+sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
