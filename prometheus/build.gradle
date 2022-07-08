@@ -2,7 +2,6 @@ plugins {
     id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
 }
 
-apply plugin: 'pl.allegro.tech.build.axion-release'
 scmVersion {
     tag { prefix = project.name + '-' }
     versionIncrementer 'incrementMinor'

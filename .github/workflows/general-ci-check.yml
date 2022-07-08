@@ -19,6 +19,12 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    - name: Building Service Discovery module
+      run: ./gradlew --no-daemon :service-discovery:build
+    - name: Building Gateway module
+        run: ./gradlew --no-daemon :gateway:build
+    - name: Building Shopping lib module
+      run: ./gradlew --no-daemon :shopping-lib:build
     - name: Building Shopping API module
       run: ./gradlew --no-daemon :shopping-api:build
   
@@ -35,5 +41,7 @@ jobs:
       run: ./gradlew --no-daemon :prometheus:testUsingDockerImage
     - name: Testing AlertManager module
       run: ./gradlew --no-daemon :alertmanager:testUsingDockerImage
+    - name: Testing Shopping lib module
+      run: ./gradlew --no-daemon :shopping-lib:test
     - name: Testing Shopping API module
       run: ./gradlew --no-daemon :shopping-api:test

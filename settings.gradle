@@ -1,8 +1,10 @@
 rootProject.name = 'spring-shopping-api'
+include 'service-discovery'
 include 'shopping-api'
 include 'shopping-lib'
 
 // tools
 include 'prometheus'
 include 'alertmanager'
+include 'gateway'
 

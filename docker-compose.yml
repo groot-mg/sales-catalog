@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   database:
-    container_name: shopping-app-database
+    container_name: shopping-api-database
     build: postgresql
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
@@ -22,7 +22,7 @@ services:
 #  pgadmin:
 #    container_name: shopping-app-pgadmin4
 #    image: dpage/pgadmin4:6.8
-#    restart: always
+#    restart: unless-stopped
 #    environment:
 #      PGADMIN_DEFAULT_EMAIL: admin@admin.com
 #      PGADMIN_DEFAULT_PASSWORD: root
@@ -46,15 +46,49 @@ services:
       database:
         condition: service_healthy
 
-  app:
+  service-discovery:
+    container_name: service-discovery
+    build: service-discovery
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8081/private/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  gateway:
+    container_name: gateway
+    build: gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      service-discovery:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-discovery:8081/eureka/
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8080/private/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  shopping-api:
     container_name: shopping-api
     build: shopping-api
     restart: always
     ports:
-      - "8080:8080"
+      - "8082:8082"
       - "5005:5005"
     depends_on:
       database:
+        condition: service_healthy
+      service-discovery:
         condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=local
@@ -62,9 +96,10 @@ services:
       - DATASOURCE_URL=jdbc:postgresql://database:5432/shopping
       - DATASOURCE_USERNAME=root
       - DATASOURCE_PASSWORD=root
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-discovery:8081/eureka/
 
   prometheus:
-    container_name: shopping-app-prometheus
+    container_name: prometheus
     build:
       context: prometheus
       args:
@@ -89,7 +124,7 @@ services:
 
   # default user and password: admin
   grafana:
-    container_name: shopping-app-grafana
+    container_name: grafana
     image: grafana/grafana:8.5.2
     restart: unless-stopped
     depends_on:

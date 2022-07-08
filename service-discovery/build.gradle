@@ -6,8 +6,6 @@ plugins {
     id 'java'
 }
 
-apply plugin: 'io.franzbecker.gradle-lombok'
-
 sourceCompatibility = JavaVersion.VERSION_11
 
 scmVersion {
@@ -35,20 +33,11 @@ repositories {
 }
 
 dependencies {
-    implementation project(":shopping-lib")
-
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}" // not resolved by dependency-management plugin
-    implementation 'javax.validation:validation-api'
-    implementation "org.springdoc:springdoc-openapi-ui:${springDocOpenApiVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:${eurekaClientVersion}" // not resolved by dependency-management plugin
+    implementation 'javax.servlet:javax.servlet-api'
 
     implementation "io.micrometer:micrometer-registry-prometheus"
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    compileOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 test {

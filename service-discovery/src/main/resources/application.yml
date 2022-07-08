@@ -1,0 +1,41 @@
+spring:
+  jmx:
+    enable: false
+  application:
+    name: service-discovery
+  profiles:
+    active: local
+server:
+  port: 8081
+
+eureka:
+  client:
+    register-with-eureka: false # disable self-registry
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/
+
+logging:
+  level:
+    com:
+      netflix:
+        discovery: OFF
+        eureka: OFF
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /private
+      exposure.include: info,health,prometheus
+      path-mapping.prometheus: /metrics
+  info:
+    java:
+      enabled: true
+  health:
+    diskspace:
+      enabled: true
+    db:
+      enabled: true

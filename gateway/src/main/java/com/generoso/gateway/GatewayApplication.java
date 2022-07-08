@@ -1,4 +1,4 @@
-package com.generoso.shopping;
+package com.generoso.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @EnableEurekaClient
 @SpringBootApplication
-public class ExampleApplication {
+public class GatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ExampleApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 }
