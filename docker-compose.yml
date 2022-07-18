@@ -48,7 +48,7 @@ services:
 
   service-discovery:
     container_name: service-discovery
-    build: service-discovery
+    build: apps/service-discovery
     restart: always
     ports:
       - "8081:8081"
@@ -62,7 +62,7 @@ services:
 
   gateway:
     container_name: gateway
-    build: gateway
+    build: apps/gateway
     restart: always
     ports:
       - "8080:8080"
@@ -80,7 +80,7 @@ services:
 
   shopping-api:
     container_name: shopping-api
-    build: shopping-api
+    build: apps/shopping-api
     restart: always
     ports:
       - "8082:8082"
@@ -101,7 +101,7 @@ services:
   prometheus:
     container_name: prometheus
     build:
-      context: prometheus
+      context: monitoring/prometheus
       args:
         ENVIRONMENT: local
     restart: unless-stopped

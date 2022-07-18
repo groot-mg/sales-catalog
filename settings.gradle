@@ -1,10 +1,12 @@
 rootProject.name = 'spring-shopping-api'
-include 'service-discovery'
-include 'shopping-api'
-include 'shopping-lib'
 
-// tools
-include 'prometheus'
-include 'alertmanager'
-include 'gateway'
+def appModules = ['gateway', 'service-discovery', 'shopping-api', 'shopping-lib']
+appModules.forEach(module -> addModule(module, "${appModulesSourcesDir}/${module}"))
 
+def monitoringModules = ['prometheus', 'alertmanager']
+monitoringModules.forEach(module -> addModule(module, "${monitoringModulesSourcesDir}/${module}"))
+
+def addModule(module, moduleDir) {
+    include ":${module}"
+    project(":${module}").projectDir = new File(rootProject.projectDir, moduleDir)
+}
