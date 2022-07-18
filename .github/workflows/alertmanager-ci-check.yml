@@ -4,11 +4,11 @@ on:
   push:
     branches: [ master ]
     paths:
-      - alertmanager/**
+      - monitoring/alertmanager/**
   pull_request:
     branches: [ master ]
     paths:
-      - alertmanager/**
+      - monitoring/alertmanager/**
 
 jobs:
 

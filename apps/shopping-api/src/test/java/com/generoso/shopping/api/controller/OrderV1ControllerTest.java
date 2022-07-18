@@ -1,9 +1,7 @@
 package com.generoso.shopping.api.controller;
 
-import com.generoso.shopping.api.converter.ItemV1DataConverter;
 import com.generoso.shopping.api.converter.OrderItemsV1DataConverter;
 import com.generoso.shopping.api.converter.OrderV1DataConverter;
-import com.generoso.shopping.lib.service.ItemService;
 import com.generoso.shopping.lib.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
