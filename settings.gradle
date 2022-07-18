@@ -1,19 +1,10 @@
 rootProject.name = 'spring-shopping-api'
 
 def appModules = ['gateway', 'service-discovery', 'shopping-api', 'shopping-lib']
-appModules.forEach(module -> addAppModule(module))
+appModules.forEach(module -> addModule(module, "${appModulesSourcesDir}/${module}"))
 
 def monitoringModules = ['prometheus', 'alertmanager']
-monitoringModules.forEach(module -> addMonitoringModule(module))
-
-// Functions
-def addAppModule(module) {
-    addModule(module, "${appModulesSourcesDir}/${module}")
-}
-
-def addMonitoringModule(module) {
-    addModule(module, "${monitoringModulesSourcesDir}/${module}")
-}
+monitoringModules.forEach(module -> addModule(module, "${monitoringModulesSourcesDir}/${module}"))
 
 def addModule(module, moduleDir) {
     include ":${module}"
