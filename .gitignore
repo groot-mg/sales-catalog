@@ -57,6 +57,6 @@ build/
 ### Gradle ###
 .gradle/
 
-
 ### Custom
 postgresql/backup
+functional-tests/**/reports/**

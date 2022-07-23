@@ -29,4 +29,4 @@ echo "Building project"
 
 echo "Starting Docker Compose"
 #docker-compose up --build --force-recreate shopping-api service-discovery database gateway
-docker-compose up --build --force-recreate
+docker-compose up --build --force-recreate service-discovery gateway

@@ -1,0 +1,10 @@
+spring:
+  jmx:
+    enable: false
+  application:
+    name: sd-functional-tests
+  profiles:
+    active: local
+
+service:
+  host: http://localhost:8081
