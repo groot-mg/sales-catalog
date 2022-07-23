@@ -28,4 +28,8 @@ public class ScenarioState {
 
         return actualResponse;
     }
+
+    public String getActualResponseBody() {
+        return getActualResponse().body();
+    }
 }

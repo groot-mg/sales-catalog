@@ -21,6 +21,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PrivateStepDefinitions {
@@ -49,7 +50,7 @@ public class PrivateStepDefinitions {
     }
 
     @Then("the health response body of the message should have the status {string}")
-    public void theBodyOfTheMessageContains(String expectedResponseBody) {
+    public void theHealthResponseBodyOfTheMessageShouldHaveTheStatus(String expectedResponseBody) {
         var response = scenarioState.getActualResponse();
         var responseObj = jsonMapper.fromJson(response.body(), PrivateHealthResponse.class);
         assertThat(responseObj.status()).isEqualTo(expectedResponseBody);
@@ -57,11 +58,32 @@ public class PrivateStepDefinitions {
 
     @Then("health components should contain the status {word}:")
     public void healthComponentsShouldContainTheStatus(String status, List<String> componentNames) throws JsonProcessingException {
-        JsonNode jsonResponse = objectMapper.readTree(scenarioState.getActualResponse().body());
+        JsonNode jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
         JsonNode components = jsonResponse.get("components");
 
-        componentNames.forEach(componentName ->
-                assertThat(components.get(componentName).get("status").asText()).isEqualTo(status));
+        componentNames.forEach(componentName -> assertThat(components.get(componentName).get("status").asText()).isEqualTo(status));
+    }
+
+    @Then("the body of the message contains {string}")
+    public void theBodyOfTheMessageContains(String expectedResponseBodyContent) {
+        assertTrue(scenarioState.getActualResponse().body().contains(expectedResponseBodyContent));
+    }
+
+    @Then("it should return (.*) information containing the following keys and values:$")
+    public void theInfoContains(String key, Map<String, String> expectedInfo) throws JsonProcessingException {
+        JsonNode jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
+        JsonNode node = key.equals("java") ? jsonResponse.get("app") : jsonResponse;
+
+        for (Map.Entry<String, String> entry : expectedInfo.entrySet()) {
+            String actualInfo = node.get(key).get(entry.getKey()).asText();
+            assertThat(actualInfo).matches(entry.getValue());
+        }
+    }
+
+    @Then("the response body contains:")
+    public void theResponseBodyContains(List<String> keys) throws JsonProcessingException {
+        JsonNode jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
+        keys.forEach(keyName -> assertTrue(jsonResponse.has(keyName)));
     }
 
     private RequestTemplate getRequestTemplate(Endpoint endpoint) {
