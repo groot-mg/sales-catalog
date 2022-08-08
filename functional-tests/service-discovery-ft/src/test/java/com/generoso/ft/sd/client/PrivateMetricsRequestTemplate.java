@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 @Qualifier("private")
 public class PrivateMetricsRequestTemplate extends RequestTemplate {
@@ -17,5 +20,10 @@ public class PrivateMetricsRequestTemplate extends RequestTemplate {
     @Override
     public Endpoint getEndpoint() {
         return Endpoint.PRIVATE_METRICS;
+    }
+
+    @Override
+    public Map<String, String> defaultHeaders() {
+        return new HashMap<>();
     }
 }

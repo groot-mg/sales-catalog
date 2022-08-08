@@ -34,4 +34,12 @@ public class TestConfiguration {
         templates.forEach(t -> map.put(t.getEndpoint(), t));
         return map;
     }
+
+    @Bean
+    public Map<Endpoint, RequestTemplate> requestTemplates(
+            @Qualifier("service-request") List<RequestTemplate> templates) {
+        var map = new HashMap<Endpoint, RequestTemplate>(templates.size());
+        templates.forEach(t -> map.put(t.getEndpoint(), t));
+        return map;
+    }
 }

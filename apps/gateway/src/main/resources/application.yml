@@ -18,6 +18,8 @@ eureka:
   instance:
     prefer-ip-address: true
   client:
+    healthcheck:
+      enabled: true
     service-url:
       defaultZone: http://localhost:8081/eureka
     fetch-registry: true

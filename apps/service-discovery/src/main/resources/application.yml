@@ -9,6 +9,9 @@ server:
   port: 8081
 
 eureka:
+  dashboard:
+    enabled: false
+    path: /dashboard
   client:
     register-with-eureka: false # disable self-registry
     fetch-registry: false
