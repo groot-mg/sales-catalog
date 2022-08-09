@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation project(":service-discovery")
+    testImplementation project(":gateway")
 
     testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
@@ -20,6 +20,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation("com.google.guava:guava:31.1-jre")
+    testImplementation "com.github.tomakehurst:wiremock-jre8-standalone:${wiremockStandalone}"
 }
 
 configurations {
@@ -40,7 +41,7 @@ task cucumber {
             args = ['--tags', 'not @ignore',
                     '--plugin', 'pretty',
                     '--plugin', 'html:reports/report.html',
-                    '--glue', 'com.generoso.ft.sd',
+                    '--glue', 'com.generoso.ft.gateway',
                     'classpath:features']
         }
     }

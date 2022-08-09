@@ -1,0 +1,14 @@
+spring:
+  jmx:
+    enable: false
+  application:
+    name: gateway-functional-tests
+  profiles:
+    active: local
+
+service:
+  host: http://localhost:8080
+
+wiremock:
+  host: localhost
+  port: 8081

@@ -1,0 +1,40 @@
+name: Service Discovery CI check
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - apps/gateway/**
+      - functional-tests/gateway-ft/**
+  pull_request:
+    branches: [ master ]
+    paths:
+      - apps/gateway/**
+      - functional-tests/gateway-ft/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Building module
+        run: ./gradlew --no-daemon :gateway:build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Running unit tests
+        run: ./gradlew --no-daemon :gateway:test
+      - name: Running functional tests
+        run: ./gradlew --no-daemon :gateway-ft:cucumber
