@@ -1,4 +1,4 @@
-name: Service Discovery CI check
+name: Gateway CI check
 
 on:
   push:
