@@ -16,7 +16,7 @@ public class Client {
     private final HttpClient httpClient;
 
     public HttpResponse<String> execute(RequestTemplate requestTemplate) {
-        HttpRequest httpRequest = requestTemplate.newHttpRequest();
+        var httpRequest = requestTemplate.newHttpRequest();
         try {
             return httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {

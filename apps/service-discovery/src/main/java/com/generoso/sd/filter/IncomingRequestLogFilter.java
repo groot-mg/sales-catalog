@@ -1,0 +1,30 @@
+package com.generoso.sd.filter;
+
+import lombok.extern.slf4j.Slf4j;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
+@Slf4j
+public class IncomingRequestLogFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        var httpServletRequest = (HttpServletRequest) request;
+        var path = httpServletRequest.getRequestURI();
+        var method = httpServletRequest.getMethod();
+
+        log.info("Incoming Request; Path: [{}]; Method [{}];", path, method);
+
+        chain.doFilter(request, response);
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+    }
+
+    @Override
+    public void destroy() {
+    }
+}

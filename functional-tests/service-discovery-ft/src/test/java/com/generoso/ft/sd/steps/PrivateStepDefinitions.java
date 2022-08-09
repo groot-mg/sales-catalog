@@ -29,7 +29,7 @@ public class PrivateStepDefinitions {
 
     @Given("a private endpoint {} is prepared")
     public void thePrivateEndpointIsPrepared(Endpoint endpoint) {
-        RequestTemplate requestTemplate = getRequestTemplate(endpoint);
+        var requestTemplate = getRequestTemplate(endpoint);
         scenarioState.setRequestTemplate(requestTemplate);
     }
 
@@ -42,8 +42,8 @@ public class PrivateStepDefinitions {
 
     @Then("health components should contain the status {word}:")
     public void healthComponentsShouldContainTheStatus(String status, List<String> componentNames) throws JsonProcessingException {
-        JsonNode jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
-        JsonNode components = jsonResponse.get("components");
+        var jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
+        var components = jsonResponse.get("components");
 
         componentNames.forEach(componentName -> assertThat(components.get(componentName).get("status").asText()).isEqualTo(status));
     }
@@ -55,8 +55,8 @@ public class PrivateStepDefinitions {
 
     @Then("it should return (.*) information containing the following keys and values:$")
     public void theInfoContains(String key, Map<String, String> expectedInfo) throws JsonProcessingException {
-        JsonNode jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
-        JsonNode node = key.equals("java") ? jsonResponse.get("app") : jsonResponse;
+        var jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
+        var node = key.equals("java") ? jsonResponse.get("app") : jsonResponse;
 
         for (Map.Entry<String, String> entry : expectedInfo.entrySet()) {
             String actualInfo = node.get(key).get(entry.getKey()).asText();
@@ -66,7 +66,7 @@ public class PrivateStepDefinitions {
 
     @Then("the response body contains:")
     public void theResponseBodyContains(List<String> keys) throws JsonProcessingException {
-        JsonNode jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
+        var jsonResponse = objectMapper.readTree(scenarioState.getActualResponseBody());
         keys.forEach(keyName -> assertTrue(jsonResponse.has(keyName)));
     }
 

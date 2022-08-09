@@ -29,7 +29,7 @@ public class ResponseStepDefinitions {
         assertTrue(responseObj.applications().application().isEmpty());
     }
 
-    @And("the app list contains an app called {}")
+    @And("the app list contains an app called {word}")
     public void appListContainsTheApp(String appName) {
         var response = scenarioState.getActualResponse();
         var responseObj = jsonMapper.fromJson(response.body(), Apps.class);

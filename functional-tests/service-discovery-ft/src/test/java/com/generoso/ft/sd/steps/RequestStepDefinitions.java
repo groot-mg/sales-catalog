@@ -25,13 +25,13 @@ public class RequestStepDefinitions {
 
     @Given("an endpoint {} is prepared")
     public void thePrivateEndpointIsPrepared(Endpoint endpoint) {
-        RequestTemplate requestTemplate = getRequestTemplate(endpoint);
+        var requestTemplate = getRequestTemplate(endpoint);
         scenarioState.setRequestTemplate(requestTemplate);
     }
 
     @Given("an endpoint {} is prepared with path parameter {word}")
     public void anEndpointIsPreparedWithPathParameter(Endpoint endpoint, String pathParameter) {
-        RequestTemplate requestTemplate = getRequestTemplate(endpoint);
+        var requestTemplate = getRequestTemplate(endpoint);
         requestTemplate.pathParameter(pathParameter);
         scenarioState.setRequestTemplate(requestTemplate);
     }
@@ -43,7 +43,7 @@ public class RequestStepDefinitions {
 
     @When("the request is sent")
     public void theEndpointReceivesARequest() {
-        HttpResponse<String> response = client.execute(scenarioState.getRequestTemplate());
+        var response = client.execute(scenarioState.getRequestTemplate());
         scenarioState.setActualResponse(response);
     }
 

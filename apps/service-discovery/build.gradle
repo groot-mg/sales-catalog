@@ -5,6 +5,7 @@ plugins {
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id "com.gorylenko.gradle-git-properties" version "${gitPropertiesVersion}"
     id 'pl.allegro.tech.build.axion-release' version "${axionPluginVersion}"
+    id "io.freefair.lombok"
     id 'java'
 }
 
@@ -45,6 +46,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:${eurekaClientVersion}" // not resolved by dependency-management plugin
     implementation 'javax.servlet:javax.servlet-api'
+    implementation "org.owasp.encoder:encoder:${owaspEncoderVersion}"
 
     implementation "io.micrometer:micrometer-registry-prometheus"
 }
