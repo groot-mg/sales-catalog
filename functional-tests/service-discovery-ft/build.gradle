@@ -29,7 +29,7 @@ configurations {
     }
 }
 
-task serviceDiscoveryFt {
+task cucumber {
     def profile = findProperty("spring.profiles.active") ?: "local"
     dependsOn processTestResources, compileTestJava
 
@@ -37,7 +37,7 @@ task serviceDiscoveryFt {
         javaexec {
             systemProperties = ['spring.profiles.active': profile]
             main = "io.cucumber.core.cli.Main"
-            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            classpath = project.sourceSets.test.runtimeClasspath
             args = ['--tags', 'not @ignore',
                     '--plugin', 'pretty',
                     '--plugin', 'html:reports/report.html',

@@ -6,6 +6,7 @@ Feature: Checking Service Discovery registration works as expected
     Then the response status code should be 200
     And the app list should be empty
 
+  @ignore
   Scenario: a new app is registered successfully
     Given an endpoint ADD_APP is prepared with path parameter APP_NAME
     And a request body is prepared for APP_NAME

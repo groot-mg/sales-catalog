@@ -69,9 +69,9 @@ public abstract class RequestTemplate {
 
     private URI buildUri() {
         try {
-            String finalUrl = host + contextPath + getEndpoint().getPath() + pathParameter;
-            log.info("{}", finalUrl);
-            return new URI(finalUrl);
+            String finalUri = host + contextPath + getEndpoint().getPath() + pathParameter;
+            log.info("Building Uri: {}", finalUri);
+            return new URI(finalUri);
         } catch (URISyntaxException e) {
             throw new RuntimeException(format("Error creating uri: %s%s%s. Error message: %s", host, contextPath,
                     getEndpoint().getPath(), e.getMessage()));
