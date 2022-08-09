@@ -17,7 +17,7 @@ It is using the following tools:
 | ------------- | ------------- |
 | All           | [![Build and Test All Modules](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/general-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/general-ci-check.yml)  | 
 | Service Discovery  | [![Service Discovery CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/service-discovery-ci.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/service-discovery-ci.yml) |
-| Gateway       | soon... |
+| Gateway       | [![Gateway CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/gateway-ci.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/gateway-ci.yml) |
 | App           | soon... |
 
 | Tool          | Status        |
