@@ -22,9 +22,11 @@ public class IncomingRequestLogFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
+        // nothing to do
     }
 
     @Override
     public void destroy() {
+        // nothing to do
     }
 }
