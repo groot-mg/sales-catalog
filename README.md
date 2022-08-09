@@ -1,11 +1,4 @@
-[![Build and Test All Modules](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/general-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/general-ci-check.yml)
-[![Prometheus CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/prometheus-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/prometheus-ci-check.yml)
-[![AlertManager CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/alertmanager-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/alertmanager-ci-check.yml)
-[![Sonarcloud analyses](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/sonarcloud-analyses.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/sonarcloud-analyses.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/algarves/loteria-crawlers/blob/master/LICENSE)
-
 # Spring Shopping API
----
 
 This API is an example using Spring boot to storage products, services and orders.
 
@@ -17,6 +10,23 @@ It is using the following tools:
 * Postgresql
 * Prometheus / Alert Manager
 * Grafana
+
+### Build/Tests Status
+
+| App          | Status        |
+| ------------- | ------------- |
+| All           | [![Build and Test All Modules](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/general-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/general-ci-check.yml)  | 
+| Service Discovery  | [![Service Discovery CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/service-discovery-ci.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/service-discovery-ci.yml) |
+| Gateway       | soon... |
+| App           | soon... |
+
+| Tool          | Status        |
+| ------------- | ------------- | 
+| Prometheus    | [![Prometheus CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/prometheus-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/prometheus-ci-check.yml) | 
+| Alert Manager | [![AlertManager CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/alertmanager-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/alertmanager-ci-check.yml) |
+| Sonarcloud    | [![Sonarcloud analyses](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/sonarcloud-analyses.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/sonarcloud-analyses.yml) |
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/algarves/loteria-crawlers/blob/master/LICENSE)
 
 | WARNING: this project is being updated and new features are being implemented. The README file needs to be updated from here. |
 |-------------------------------------------------------------------------------------------------------------------------------| 
