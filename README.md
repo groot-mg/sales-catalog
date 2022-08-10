@@ -26,7 +26,7 @@ It is using the following tools:
 | Alert Manager | [![AlertManager CI check](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/alertmanager-ci-check.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/alertmanager-ci-check.yml) |
 | Sonarcloud    | [![Sonarcloud analyses](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/sonarcloud-analyses.yml/badge.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/actions/workflows/sonarcloud-analyses.yml) |
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/algarves/loteria-crawlers/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/mauriciogeneroso/spring-shopping-api/blob/master/LICENSE)
 
 | WARNING: this project is being updated and new features are being implemented. The README file needs to be updated from here. |
 |-------------------------------------------------------------------------------------------------------------------------------| 
