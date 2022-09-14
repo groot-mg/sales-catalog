@@ -6,9 +6,6 @@ appModules.forEach(module -> addModule(module, "${appModulesSourcesDir}/${module
 def ftModules = ['service-discovery-ft', 'gateway-ft']
 ftModules.forEach(module -> addModule(module, "${ftModulesSourcesDir}/${module}"))
 
-def monitoringModules = ['prometheus', 'alertmanager']
-monitoringModules.forEach(module -> addModule(module, "${monitoringModulesSourcesDir}/${module}"))
-
 def addModule(module, moduleDir) {
     include ":${module}"
     project(":${module}").projectDir = new File(rootProject.projectDir, moduleDir)
