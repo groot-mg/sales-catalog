@@ -2,13 +2,13 @@ version: '3.8'
 
 services:
   database:
-    container_name: shopping-api-database
+    container_name: sales-catalog-database
     build: postgresql
     restart: unless-stopped
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: shopping
+      POSTGRES_DB: sales-catalog
     ports:
       - "5432:5432"
     volumes:
@@ -20,7 +20,7 @@ services:
       retries: 5
 
 #  pgadmin:
-#    container_name: shopping-app-pgadmin4
+#    container_name: sales-catalog-pgadmin4
 #    image: dpage/pgadmin4:6.8
 #    restart: unless-stopped
 #    environment:
@@ -38,7 +38,7 @@ services:
     ports:
       - "9187:9187"
     environment:
-      DATA_SOURCE_NAME: "postgresql://root:root@database:5432/shopping?sslmode=disable"
+      DATA_SOURCE_NAME: "postgresql://root:root@database:5432/sales-catalog?sslmode=disable"
     links:
       - database
       - prometheus
@@ -46,9 +46,9 @@ services:
       database:
         condition: service_healthy
 
-  shopping-api:
-    container_name: shopping-api
-    build: apps/shopping-api
+  sales-catalog:
+    container_name: sales-catalog
+    build: sales-catalog-app
     restart: always
     ports:
       - "8082:8082"
@@ -61,7 +61,9 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=local
       - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
-      - DATASOURCE_URL=jdbc:postgresql://database:5432/shopping
+      - DATASOURCE_URL=jdbc:postgresql://database:5432/sales-catalog
       - DATASOURCE_USERNAME=root
       - DATASOURCE_PASSWORD=root
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-discovery:8081/eureka/
+
+      # Include wiremock to mock eureka server for local
+      #- EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-discovery:8081/eureka/
