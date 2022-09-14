@@ -1,10 +1,7 @@
 rootProject.name = 'spring-shopping-api'
 
-def appModules = ['gateway', 'service-discovery', 'shopping-api', 'shopping-lib']
+def appModules = ['shopping-api', 'shopping-lib']
 appModules.forEach(module -> addModule(module, "${appModulesSourcesDir}/${module}"))
-
-def ftModules = ['service-discovery-ft', 'gateway-ft']
-ftModules.forEach(module -> addModule(module, "${ftModulesSourcesDir}/${module}"))
 
 def addModule(module, moduleDir) {
     include ":${module}"

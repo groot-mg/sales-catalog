@@ -46,38 +46,6 @@ services:
       database:
         condition: service_healthy
 
-  service-discovery:
-    container_name: service-discovery
-    build: apps/service-discovery
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      - SPRING_PROFILES_ACTIVE=local
-    healthcheck:
-      test: "curl --fail --silent http://localhost:8081/private/health | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 5
-
-  gateway:
-    container_name: gateway
-    build: apps/gateway
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      service-discovery:
-        condition: service_healthy
-    environment:
-      - SPRING_PROFILES_ACTIVE=local
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-discovery:8081/eureka/
-    healthcheck:
-      test: "curl --fail --silent http://localhost:8080/private/health | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 5
-
   shopping-api:
     container_name: shopping-api
     build: apps/shopping-api
