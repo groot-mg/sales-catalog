@@ -1,0 +1,26 @@
+spring:
+  jmx:
+    enable: false
+  application:
+    name: sales-catalog
+
+server:
+  port: 8082
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /private
+      exposure.include: info,health,prometheus
+      path-mapping.prometheus: /metrics
+  info:
+    java:
+      enabled: true
+  health:
+    diskspace:
+      enabled: true
+    db:
+      enabled: true
