@@ -6,6 +6,8 @@ spring:
 
 server:
   port: 8082
+  servlet:
+    contextPath: /sales-catalog
 
 management:
   endpoint:
@@ -24,3 +26,11 @@ management:
       enabled: true
     db:
       enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+    register-with-eureka: true
