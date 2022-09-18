@@ -59,4 +59,4 @@ build/
 
 ### Custom
 postgresql/backup
-functional-tests/**/reports/**
+**/reports/**
