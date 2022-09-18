@@ -1,2 +1,3 @@
 # sales-catalog
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/groot-mg/sales-catalog/blob/main/LICENSE)
+
+[![Build and test](https://github.com/groot-mg/identity-service/actions/workflows/identity-ci.yml/badge.svg)](https://github.com/groot-mg/identity-service/actions/workflows/identity-ci.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=groot-mg_sales-catalog&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=groot-mg_sales-catalog) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/groot-mg/sales-catalog/blob/main/LICENSE)
