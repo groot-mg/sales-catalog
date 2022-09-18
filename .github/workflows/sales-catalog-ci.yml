@@ -47,5 +47,5 @@ jobs:
           distribution: 'zulu'
       - name: Run unit tests
         run: ./gradlew --no-daemon :sales-catalog-app:test
-      #- name: Run functional tests
-      #  run: ./gradlew --no-daemon :sales-catalog-ft:cucumber
+      - name: Run functional tests
+        run: ./gradlew --no-daemon :sales-catalog-ft:cucumber

@@ -1,0 +1,14 @@
+spring:
+  jmx:
+    enable: false
+  application:
+    name: sales-catalog-ft
+  profiles:
+    active: local
+
+service:
+  host: http://localhost:8082
+
+wiremock:
+  host: localhost
+  port: 8081

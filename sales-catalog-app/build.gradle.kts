@@ -13,6 +13,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
+    buildInfo()
+}
+
 repositories {
     mavenCentral()
 }

@@ -1,0 +1,25 @@
+{
+  "mappings": [
+    {
+      "scenarioName": "ADD-APP",
+      "requiredScenarioState": "Started",
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/eureka/apps/.*"
+      },
+      "response": {
+        "status": 204,
+        "jsonBody": {
+          "applications": {
+            "versions__delta": "1",
+            "apps__hashcode": "",
+            "application": []
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}
