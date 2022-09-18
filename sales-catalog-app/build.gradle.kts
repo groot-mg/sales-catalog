@@ -6,7 +6,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.13.RELEASE"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21"
+    kotlin("plugin.spring") version "1.7.10"
 }
 
 java {
