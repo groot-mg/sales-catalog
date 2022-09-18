@@ -12,6 +12,8 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+tasks.bootJar { enabled = false }
+
 repositories {
     mavenCentral()
 }
@@ -48,11 +50,13 @@ task("cucumber") {
             systemProperties = mapOf("spring.profiles.active" to profile)
             main = "io.cucumber.core.cli.Main"
             classpath = cucumberRuntime + sourceSets.main.get().output + sourceSets.test.get().output
-            args = listOf("--tags", "not @ignore",
+            args = listOf(
+                "--tags", "not @ignore",
                 "--plugin", "pretty",
                 "--plugin", "html:reports/report.html",
                 "--glue", "com.generoso.ft.salescatalog",
-                "classpath:features")
+                "classpath:features"
+            )
         }
     }
 }
