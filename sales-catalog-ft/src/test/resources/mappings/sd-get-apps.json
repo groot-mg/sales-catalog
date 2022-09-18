@@ -1,0 +1,25 @@
+{
+  "mappings": [
+    {
+      "scenarioName": "GET-APPS",
+      "requiredScenarioState": "Started",
+      "request": {
+        "method": "GET",
+        "url": "/eureka/apps/"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "applications": {
+            "versions__delta": "1",
+            "apps__hashcode": "",
+            "application": []
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}

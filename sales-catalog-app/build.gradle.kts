@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
     id("org.springframework.boot") version "2.7.3"
@@ -13,8 +14,13 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
-    buildInfo()
+springBoot {
+    buildInfo {
+        properties {
+            name = rootProject.name
+            version = project.version as String?
+        }
+    }
 }
 
 repositories {
