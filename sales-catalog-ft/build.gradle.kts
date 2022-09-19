@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    val wiremockStandalone = "2.33.2"
+    val wiremockStandalone = "2.34.0"
     val cucumberVersion = "7.7.0"
     val googleGuavaVersion = "31.1-jre"
 
