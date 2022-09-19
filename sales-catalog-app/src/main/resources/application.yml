@@ -3,6 +3,11 @@ spring:
     enable: false
   application:
     name: sales-catalog
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/${KEYCLOAK_REALM:shopping-api}
 
 server:
   port: 8082
@@ -34,3 +39,11 @@ eureka:
     service-url:
       defaultZone: http://localhost:8081/eureka
     register-with-eureka: true
+
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        security: TRACE
