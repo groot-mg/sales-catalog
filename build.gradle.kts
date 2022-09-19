@@ -13,6 +13,6 @@ sonarqube {
         property("sonar.organization", "groot-mg")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.java.coveragePlugin", "jacoco")
-        property("sonar.exclusions", "**/*SalesCatalogApplication.kt")
+        property("sonar.exclusions", "**/*SalesCatalogApplication.kt, **/*Config.kt")
     }
 }
