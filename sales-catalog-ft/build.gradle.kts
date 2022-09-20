@@ -37,6 +37,12 @@ dependencies {
     testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:${wiremockStandalone}")
 }
 
+configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
+    imports(delegateClosureOf<io.spring.gradle.dependencymanagement.dsl.ImportsHandler> {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.4")
+    })
+}
+
 val cucumberRuntime: Configuration by configurations.creating {
     extendsFrom(configurations["testImplementation"])
 }

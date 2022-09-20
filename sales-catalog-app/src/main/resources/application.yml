@@ -1,18 +1,31 @@
+server:
+  port: 8082
+  servlet:
+    contextPath: /sales-catalog
+
 spring:
   jmx:
     enable: false
   application:
     name: sales-catalog
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: ${ZIPKIN_URL:http://localhost:9411}
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/${KEYCLOAK_REALM:shopping-api}
 
-server:
-  port: 8082
-  servlet:
-    contextPath: /sales-catalog
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+    register-with-eureka: true
 
 management:
   endpoint:
@@ -32,18 +45,7 @@ management:
     db:
       enabled: true
 
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: http://localhost:8081/eureka
-    register-with-eureka: true
-
 logging:
   level:
-    reactor:
-      netty: INFO
-    org:
-      springframework:
-        security: TRACE
+    reactor.netty: INFO
+    org.springframework.security: TRACE
