@@ -45,7 +45,8 @@ management:
     db:
       enabled: true
 
-logging:
-  level:
-    reactor.netty: INFO
-    org.springframework.security: TRACE
+#logging:
+#  level:
+#    reactor.netty: INFO
+#    org.springframework.security: TRACE
+#    org.springframework.web: DEBUG
