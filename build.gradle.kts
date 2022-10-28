@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "1.7.20" apply false
     kotlin("plugin.spring") version "1.7.20" apply false
     id("io.freefair.lombok") version "6.5.1" apply false
-    id("org.sonarqube") version "3.4.0.2513"
+    id("org.sonarqube") version "3.5.0.2730"
 }
 
 subprojects {
