@@ -4,7 +4,7 @@ import io.spring.gradle.dependencymanagement.dsl.ImportsHandler
 
 plugins {
     id("org.springframework.boot") version "2.7.5"
-    id("io.spring.dependency-management") version "1.0.14.RELEASE"
+    id("io.spring.dependency-management") version "1.1.0"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     kotlin("jvm")
     kotlin("plugin.spring")
