@@ -45,7 +45,7 @@ dependencies {
 
 configure<DependencyManagementExtension> {
     imports(delegateClosureOf<ImportsHandler> {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.4")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
     })
 }
 

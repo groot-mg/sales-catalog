@@ -39,7 +39,7 @@ dependencies {
 
 configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
     imports(delegateClosureOf<io.spring.gradle.dependencymanagement.dsl.ImportsHandler> {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.4")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
     })
 }
 
