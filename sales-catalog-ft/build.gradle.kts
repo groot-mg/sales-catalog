@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.7.5"
+    id("org.springframework.boot") version "3.0.4"
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm")
     kotlin("plugin.spring")
@@ -39,7 +39,7 @@ dependencies {
 
 configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
     imports(delegateClosureOf<io.spring.gradle.dependencymanagement.dsl.ImportsHandler> {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.1")
     })
 }
 

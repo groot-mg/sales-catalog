@@ -14,10 +14,10 @@ class SecurityConfig {
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain? {
         http.csrf().disable()
-        http.authorizeRequests()
-            .antMatchers("/private/**").permitAll()
+        http.authorizeHttpRequests()
+            .requestMatchers("/private/**").permitAll()
             .and()
-            .authorizeRequests()
+            .authorizeHttpRequests()
             .anyRequest()
             .authenticated()
         http.sessionManagement { session ->
