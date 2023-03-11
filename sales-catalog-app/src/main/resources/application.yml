@@ -8,11 +8,11 @@ spring:
     enable: false
   application:
     name: sales-catalog
-  sleuth:
-    sampler:
-      probability: 1.0
-  zipkin:
-    base-url: ${ZIPKIN_URL:http://localhost:9411}
+#  sleuth:
+#    sampler:
+#      probability: 1.0
+#  zipkin:
+#    base-url: ${ZIPKIN_URL:http://localhost:9411}
   security:
     oauth2:
       resourceserver:

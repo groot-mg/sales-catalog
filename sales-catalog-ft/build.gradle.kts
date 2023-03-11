@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     val wiremockStandalone = "2.35.0"
-    val cucumberVersion = "7.10.0"
+    val cucumberVersion = "7.11.1"
     val googleGuavaVersion = "31.1-jre"
 
     testImplementation(project(":sales-catalog-app"))
@@ -39,7 +39,7 @@ dependencies {
 
 configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
     imports(delegateClosureOf<io.spring.gradle.dependencymanagement.dsl.ImportsHandler> {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.1")
     })
 }
 
