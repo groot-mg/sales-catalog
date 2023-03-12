@@ -23,7 +23,7 @@ Feature: Checking Service Discovery actuator endpoints return expected outputs
     Then the response status code should be 200
     And it should return build information containing the following keys and values:
       | artifact | sales-catalog-app  |
-      | name     | sales-catalog  |
+      | name     | sales-catalog-app  |
       | group    | com.generoso |
     And the response body contains:
       | git   |

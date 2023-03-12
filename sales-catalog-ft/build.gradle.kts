@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.7.4"
+    id("org.springframework.boot") version "3.0.4"
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm")
     kotlin("plugin.spring")
@@ -19,8 +19,8 @@ repositories {
 }
 
 dependencies {
-    val wiremockStandalone = "2.34.0"
-    val cucumberVersion = "7.8.1"
+    val wiremockStandalone = "2.35.0"
+    val cucumberVersion = "7.11.1"
     val googleGuavaVersion = "31.1-jre"
 
     testImplementation(project(":sales-catalog-app"))
@@ -39,7 +39,7 @@ dependencies {
 
 configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
     imports(delegateClosureOf<io.spring.gradle.dependencymanagement.dsl.ImportsHandler> {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.4")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.1")
     })
 }
 

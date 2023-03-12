@@ -15,14 +15,13 @@ class SecurityConfig {
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain? {
         http.csrf().disable()
-
-        http.authorizeRequests()
-            .antMatchers("/hello-world2").hasAnyRole("api-client", "api-sales")
-            .antMatchers("/hello-world3").hasRole("api-client")
-            .antMatchers("/hello-world4").hasRole("api-sales")
-            .antMatchers("/private/**").permitAll()
+        http.authorizeHttpRequests()
+            .requestMatchers("/hello-world2").hasAnyRole("api-client", "api-sales")
+            .requestMatchers("/hello-world3").hasRole("api-client")
+            .requestMatchers("/hello-world4").hasRole("api-sales")
+            .requestMatchers("/private/**").permitAll()
             .and()
-            .authorizeRequests()
+            .authorizeHttpRequests()
             .anyRequest()
             .authenticated()
 

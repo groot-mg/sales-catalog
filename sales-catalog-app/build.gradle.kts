@@ -1,9 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
-import io.spring.gradle.dependencymanagement.dsl.ImportsHandler
 
 plugins {
-    id("org.springframework.boot") version "2.7.4"
+    id("org.springframework.boot") version "3.0.4"
     id("io.spring.dependency-management") version "1.1.0"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     kotlin("jvm")
@@ -15,17 +13,15 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-springBoot {
-    buildInfo {
-        properties {
-            name = rootProject.name
-            version = project.version as String?
-        }
-    }
+extra["springCloudVersion"] = "2022.0.1"
+
+configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
+    buildInfo()
 }
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates") }
 }
 
 dependencies {
@@ -33,8 +29,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin")
-    implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
+//    implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin")
+//    implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -43,10 +39,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-configure<DependencyManagementExtension> {
-    imports(delegateClosureOf<ImportsHandler> {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.4")
-    })
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 tasks.withType<KotlinCompile> {
