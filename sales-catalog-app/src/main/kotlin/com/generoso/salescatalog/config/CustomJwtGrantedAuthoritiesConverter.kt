@@ -1,7 +1,6 @@
 package com.generoso.salescatalog.config
 
-import com.nimbusds.jose.shaded.json.JSONArray
-import com.nimbusds.jose.shaded.json.JSONObject
+import com.nimbusds.jose.shaded.gson.internal.LinkedTreeMap
 import org.springframework.core.convert.converter.Converter
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -27,15 +26,15 @@ class CustomJwtGrantedAuthoritiesConverter : Converter<Jwt?, Collection<GrantedA
     }
 
     private fun getAuthorities(jwt: Jwt): Collection<String> {
-        val realmAccess = jwt.getClaim<JSONObject>("realm_access")
+        val realmAccess = jwt.getClaim<LinkedTreeMap<String, Object>>("realm_access")
         if (realmAccess?.get("roles") == null) {
             return Collections.emptyList()
         }
 
-        val roles = realmAccess["roles"] as JSONArray
+        val roles = realmAccess["roles"] as ArrayList<String>
         val grantedRoles = ArrayList<String>()
         for (role in roles) {
-            grantedRoles.add(role as String)
+            grantedRoles.add(role)
         }
 
         return grantedRoles
