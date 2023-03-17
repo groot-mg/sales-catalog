@@ -1,7 +1,7 @@
 package com.generoso.salescatalog.controller.security
 
-import com.generoso.salescatalog.config.ROLE_CLIENT
-import com.generoso.salescatalog.config.ROLE_SALES
+import com.generoso.salescatalog.config.SecurityConfig.Companion.ROLE_CLIENT
+import com.generoso.salescatalog.config.SecurityConfig.Companion.ROLE_SALES
 import com.generoso.salescatalog.controller.HelloWorldController
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest

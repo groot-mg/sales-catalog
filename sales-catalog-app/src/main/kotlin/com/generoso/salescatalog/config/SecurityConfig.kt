@@ -8,11 +8,13 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.web.SecurityFilterChain
 
-const val ROLE_CLIENT = "api-client"
-const val ROLE_SALES = "api-sales"
-
 @Configuration
 class SecurityConfig {
+
+    companion object {
+        const val ROLE_CLIENT = "api-client"
+        const val ROLE_SALES = "api-sales"
+    }
 
     @Bean
     @Throws(Exception::class)
