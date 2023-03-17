@@ -26,7 +26,7 @@ class CustomJwtGrantedAuthoritiesConverter : Converter<Jwt?, Collection<GrantedA
     }
 
     private fun getAuthorities(jwt: Jwt): Collection<String> {
-        val realmAccess = jwt.getClaim<LinkedTreeMap<String, Object>>("realm_access")
+        val realmAccess = jwt.getClaim<LinkedTreeMap<String, ArrayList<String>>>("realm_access")
         if (realmAccess?.get("roles") == null) {
             return Collections.emptyList()
         }

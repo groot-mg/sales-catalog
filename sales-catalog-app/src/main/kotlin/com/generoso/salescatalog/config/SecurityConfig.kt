@@ -20,6 +20,7 @@ class SecurityConfig {
             .requestMatchers("/hello-world3").hasRole("api-client")
             .requestMatchers("/hello-world4").hasRole("api-sales")
             .requestMatchers("/private/**").permitAll()
+            .requestMatchers("/test").hasRole("api-client")
             .and()
             .authorizeHttpRequests()
             .anyRequest()

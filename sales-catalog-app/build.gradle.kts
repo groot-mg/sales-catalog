@@ -29,14 +29,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-//    implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin")
-//    implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.micrometer:micrometer-registry-prometheus")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
+    testImplementation("org.bitbucket.b_c:jose4j:0.9.3")
+//    testImplementation("org.keycloak:keycloak-tomcat8-adapter:2.5.1.Final")
+//    testImplementation("org.keycloak:keycloak-spring-boot-adapter:2.5.1.Final")
 }
 
 dependencyManagement {
