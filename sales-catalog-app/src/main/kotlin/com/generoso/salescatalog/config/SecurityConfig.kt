@@ -8,6 +8,9 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.web.SecurityFilterChain
 
+const val ROLE_CLIENT = "api-client"
+const val ROLE_SALES = "api-sales"
+
 @Configuration
 class SecurityConfig {
 
@@ -16,11 +19,11 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain? {
         http.csrf().disable()
         http.authorizeHttpRequests()
-            .requestMatchers("/hello-world2").hasAnyRole("api-client", "api-sales")
-            .requestMatchers("/hello-world3").hasRole("api-client")
-            .requestMatchers("/hello-world4").hasRole("api-sales")
+            .requestMatchers("/hello-world-public").permitAll()
+            .requestMatchers("/hello-world").hasAnyRole(ROLE_CLIENT, ROLE_SALES)
+            .requestMatchers("/hello-world-client").hasRole(ROLE_CLIENT)
+            .requestMatchers("/hello-world-sales").hasRole(ROLE_SALES)
             .requestMatchers("/private/**").permitAll()
-            .requestMatchers("/test").hasRole("api-client")
             .and()
             .authorizeHttpRequests()
             .anyRequest()
