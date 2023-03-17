@@ -1,0 +1,12 @@
+# used by local ft to make requests to wiremock
+spring:
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/shopping-api
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka

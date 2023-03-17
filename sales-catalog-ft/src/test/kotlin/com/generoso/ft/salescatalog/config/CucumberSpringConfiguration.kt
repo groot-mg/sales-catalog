@@ -5,7 +5,7 @@ import io.cucumber.spring.CucumberContextConfiguration
 import org.springframework.test.context.ContextConfiguration
 
 @ContextConfiguration(
-    classes = [TestConfiguration::class, LocalSalesCatalogServer::class, LocalWiremockServer::class],
+    classes = [TestConfiguration::class, LocalSalesCatalogServer::class],
     initializers = [YamlFileApplicationContextInitializer::class]
 )
 @CucumberContextConfiguration
