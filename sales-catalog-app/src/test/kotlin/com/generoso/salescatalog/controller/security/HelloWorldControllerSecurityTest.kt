@@ -13,7 +13,7 @@ import java.lang.String.format
 
 @Import(HelloWorldController::class)
 @WebMvcTest(HelloWorldController::class)
-class HelloWorldControllerSecurityTest : SecurityControllerTest() {
+class HelloWorldControllerSecurityTest : SecurityControllerSetup() {
 
     // /hello-world-public
     @Test
@@ -33,7 +33,7 @@ class HelloWorldControllerSecurityTest : SecurityControllerTest() {
     fun whenProtectedHelloWorldReceivesUnauthorizedToken_shouldReturns403() {
         mockMvc.perform(
             get("/hello-world")
-                .header("Authorization", format("Bearer %s", generateJWT("Random", listOf("api-random"))))
+                .header("Authorization", format("Bearer %s", generateJWT(listOf("api-random"))))
         ).andExpect(status().isForbidden)
     }
 
