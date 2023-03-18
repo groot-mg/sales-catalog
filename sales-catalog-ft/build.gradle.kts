@@ -31,6 +31,7 @@ dependencies {
     testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    testImplementation("org.bitbucket.b_c:jose4j:0.9.3")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.google.guava:guava:${googleGuavaVersion}")
