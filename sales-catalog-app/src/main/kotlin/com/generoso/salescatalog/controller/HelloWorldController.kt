@@ -21,12 +21,12 @@ class HelloWorldController {
     }
 
     @GetMapping("/hello-world-client")
-    fun helloWorld3(): ResponseEntity<String> {
+    fun helloWorldClient(): ResponseEntity<String> {
         return ResponseEntity.ok("Hello client!")
     }
 
     @GetMapping("/hello-world-sales")
-    fun helloWorld4(): ResponseEntity<String> {
+    fun helloWorldSales(): ResponseEntity<String> {
         return ResponseEntity.ok("Hello sales!")
     }
 }
