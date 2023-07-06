@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.8.21" apply false
-    kotlin("plugin.spring") version "1.8.21" apply false
+    kotlin("plugin.spring") version "1.9.0" apply false
     id("io.freefair.lombok") version "8.0.1" apply false
     id("org.sonarqube") version "4.2.0.3129"
 }
