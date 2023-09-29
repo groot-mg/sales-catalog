@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.1.3"
     id("io.spring.dependency-management") version "1.1.0"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
+    id("jacoco")
     kotlin("jvm")
     kotlin("plugin.spring")
 }
@@ -56,4 +57,14 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+    reports {
+        xml.required.set(true)
+    }
 }
