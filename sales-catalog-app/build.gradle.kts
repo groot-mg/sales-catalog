@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.1.3"
     id("io.spring.dependency-management") version "1.1.0"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
+    id("org.sonarqube") version "4.4.0.3356"
     id("jacoco")
     kotlin("jvm")
     kotlin("plugin.spring")
@@ -66,5 +67,15 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
     reports {
         xml.required.set(true)
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "groot-mg_sales-catalog")
+        property("sonar.organization", "groot-mg")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.java.coveragePlugin", "jacoco")
+        property("sonar.exclusions", "**/*SalesCatalogApplication.kt, **/*Config.kt")
     }
 }
