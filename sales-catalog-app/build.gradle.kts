@@ -13,7 +13,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-extra["springCloudVersion"] = "2022.0.1"
+extra["springCloudVersion"] = "2022.0.4"
 
 configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
     buildInfo()
