@@ -69,6 +69,9 @@ tasks.jacocoTestReport {
         xml.required.set(true)
     }
 }
+tasks.sonarqube {
+    dependsOn(tasks.jacocoTestReport)
+}
 
 sonarqube {
     properties {
@@ -76,6 +79,6 @@ sonarqube {
         property("sonar.organization", "groot-mg")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.java.coveragePlugin", "jacoco")
-        property("sonar.exclusions", "**/*SalesCatalogApplication.kt, **/*Config.kt")
+        property("sonar.exclusions", "**/*SalesCatalogApplication.kt")
     }
 }
