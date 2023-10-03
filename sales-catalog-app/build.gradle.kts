@@ -28,7 +28,7 @@ scmVersion {
 project.version = scmVersion.version
 
 val commonJarConfigClosure: Action<Jar> = Action {
-    archiveFileName.set("${rootProject.name}.jar")
+    archiveFileName.set("${project.name}.jar")
 }
 
 tasks.bootJar {
