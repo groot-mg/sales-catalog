@@ -4,3 +4,7 @@ spring:
       resource-server:
         jwt:
           issuer-uri: http://localhost:${wiremock.server.port}/realms/test-realm-name
+
+eureka:
+  client:
+    enabled: false
