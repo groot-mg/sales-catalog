@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.1.3"
-    id("io.spring.dependency-management") version "1.1.0"
+    id("org.springframework.boot") version "3.1.4"
+    id("io.spring.dependency-management") version "1.1.3"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     id("org.sonarqube") version "4.4.0.3356"
     id("jacoco")
@@ -39,8 +39,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
     testImplementation("org.bitbucket.b_c:jose4j:0.9.3")
-//    testImplementation("org.keycloak:keycloak-tomcat8-adapter:2.5.1.Final")
-//    testImplementation("org.keycloak:keycloak-spring-boot-adapter:2.5.1.Final")
 }
 
 dependencyManagement {
