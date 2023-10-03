@@ -5,6 +5,7 @@ import com.generoso.ft.salescatalog.client.RequestTemplate
 import com.generoso.ft.salescatalog.client.model.Endpoint
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.common.ClasspathFileSource
+import com.github.tomakehurst.wiremock.common.filemaker.FilenameMaker
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.standalone.JsonFileMappingsSource
 import org.springframework.beans.factory.annotation.Qualifier
@@ -61,7 +62,7 @@ class TestConfiguration {
         return WireMockServer(
             WireMockConfiguration.wireMockConfig()
 //            .notifier(ConsoleNotifier(true))
-                .port(port).mappingSource(JsonFileMappingsSource(ClasspathFileSource("mappings")))
+                .port(port).mappingSource(JsonFileMappingsSource(ClasspathFileSource("mappings"), FilenameMaker()))
         )
     }
 }
