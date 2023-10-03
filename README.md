@@ -40,3 +40,9 @@ Alternatively, it is possible to run using `java -jar sales-catalog-app/build/li
 ### Run together with the project
 
 API Gateway should run together with the Service discovery and other services, to run this project, please see [docker-local-setup](https://github.com/groot-mg/docker-local-setup).
+
+## OpenAPI / Swagger
+
+Open API and Swagger UI are available on the endpoints:
+- [http://localhost:8082/sales-catalog/private/api-docs](http://localhost:8082/sales-catalog/private/api-docs)
+- [http://localhost:8082/sales-catalog/private/swagger](http://localhost:8082/sales-catalog/private/swagger)

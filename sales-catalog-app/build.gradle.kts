@@ -16,6 +16,7 @@ java {
 }
 
 extra["springCloudVersion"] = "2022.0.4"
+extra["springDocVersion"] = "2.2.0"
 
 configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
     buildInfo()
@@ -35,6 +36,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.micrometer:micrometer-registry-prometheus")
+
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${property("springDocVersion")}")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
@@ -77,6 +80,6 @@ sonarqube {
         property("sonar.organization", "groot-mg")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.java.coveragePlugin", "jacoco")
-        property("sonar.exclusions", "**/*SalesCatalogApplication.kt")
+        property("sonar.exclusions", "**/*SalesCatalogApplication.kt, **/OpenApiConfiguration.kt")
     }
 }

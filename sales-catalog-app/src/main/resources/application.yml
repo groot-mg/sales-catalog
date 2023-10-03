@@ -38,6 +38,13 @@ management:
     diskspace:
       enabled: false
 
+springdoc:
+  api-docs:
+    path: /private/api-docs
+  show-actuator: true
+  swagger-ui:
+    path: /private/swagger
+
 #logging:
 #  level:
 #    reactor.netty: INFO

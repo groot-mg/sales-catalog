@@ -2,6 +2,7 @@ package com.generoso.salescatalog.controller
 
 
 import com.generoso.salescatalog.SalesCatalogApplication
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,9 +34,16 @@ class ActuatorEndpointTests {
         "/private",
         "/private/info",
         "/private/health",
-        "/private/metrics"
+        "/private/metrics",
+        "/private/api-docs",
+        "/private/swagger-ui/index.html",
     )
     fun shouldExposeSpecifiedEndpoint(path: String) {
         mockMvc.perform(get(path)).andExpect(status().isOk)
+    }
+
+    @Test
+    fun shouldReturnRedirectionToCustomSwaggerEndpoint() {
+        mockMvc.perform(get("/private/swagger")).andExpect(status().is3xxRedirection)
     }
 }
