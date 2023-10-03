@@ -1,6 +1,6 @@
 # sales-catalog
 
-[![Build and test](https://github.com/groot-mg/identity-service/actions/workflows/identity-ci.yml/badge.svg)](https://github.com/groot-mg/identity-service/actions/workflows/identity-ci.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=groot-mg_sales-catalog&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=groot-mg_sales-catalog) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/groot-mg/sales-catalog/blob/main/LICENSE)
+[![Build and test](https://github.com/groot-mg/sales-catalog/actions/workflows/sales-catalog-ci.yml/badge.svg)](https://github.com/groot-mg/sales-catalog/actions/workflows/sales-catalog-ci.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=groot-mg_sales-catalog&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=groot-mg_sales-catalog) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/groot-mg/sales-catalog/blob/main/LICENSE)
 
 Sales-catalog is used to products and stock management.
 
@@ -39,7 +39,7 @@ Alternatively, it is possible to run using `java -jar sales-catalog-app/build/li
 
 ### Run together with the project
 
-API Gateway should run together with the Service discovery and other services, to run this project, please see [docker-local-setup](https://github.com/groot-mg/docker-local-setup).
+API Gateway should run together with the Service discovery and other services, to run all together, please see [docker-local-setup](https://github.com/groot-mg/docker-local-setup).
 
 ## OpenAPI / Swagger
 

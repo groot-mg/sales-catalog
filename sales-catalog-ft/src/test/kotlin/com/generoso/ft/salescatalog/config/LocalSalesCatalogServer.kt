@@ -18,16 +18,16 @@ class LocalSalesCatalogServer @Autowired constructor(
     @Value("\${spring.profiles.active}") private val profile: String
 ) {
 
-    private var sdApplicationContext: ConfigurableApplicationContext? = null
+    private var applicationContext: ConfigurableApplicationContext? = null
 
     @PostConstruct
     fun startUp() {
         System.setProperty("spring.profiles.active", profile)
-        sdApplicationContext = SpringApplication.run(SalesCatalogApplication::class.java)
+        applicationContext = SpringApplication.run(SalesCatalogApplication::class.java)
     }
 
     @PreDestroy
     fun shutDown() {
-        sdApplicationContext!!.close()
+        applicationContext!!.close()
     }
 }

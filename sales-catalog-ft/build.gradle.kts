@@ -55,7 +55,7 @@ task("cucumber") {
     doLast {
         javaexec {
             systemProperties = mapOf("spring.profiles.active" to profile)
-            main = "io.cucumber.core.cli.Main"
+            mainClass.set("io.cucumber.core.cli.Main")
             classpath = cucumberRuntime + sourceSets.main.get().output + sourceSets.test.get().output
             args = listOf(
                 "--tags", "not @ignore",

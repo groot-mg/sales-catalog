@@ -55,7 +55,7 @@ class SecurityStepsDefinitions @Autowired constructor(
         scenarioState.requestTemplate?.withHeader("Authorization", format("Bearer %s", generateJWT(user, listOf(role))))
     }
 
-    fun generateJWT(name: String, roles: List<String>): String {
+    private fun generateJWT(name: String, roles: List<String>): String {
         val claims = JwtClaims()
         claims.jwtId = UUID.randomUUID().toString()
         claims.setExpirationTimeMinutesInTheFuture(10f)

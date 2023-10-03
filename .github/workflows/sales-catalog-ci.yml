@@ -34,7 +34,7 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
       - name: Build app
-        run: ./gradlew --no-daemon :sales-catalog-app:build
+        run: ./gradlew --no-daemon :sales-catalog-app:build -x test
 
   test:
     runs-on: ubuntu-latest
