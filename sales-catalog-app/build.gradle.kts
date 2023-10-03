@@ -11,6 +11,9 @@ plugins {
     kotlin("plugin.spring")
 }
 
+extra["springCloudVersion"] = "2022.0.4"
+extra["springDocVersion"] = "2.2.0"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -24,8 +27,13 @@ scmVersion {
 }
 project.version = scmVersion.version
 
-extra["springCloudVersion"] = "2022.0.4"
-extra["springDocVersion"] = "2.2.0"
+val commonJarConfigClosure: Action<Jar> = Action {
+    archiveFileName.set("${rootProject.name}.jar")
+}
+
+tasks.bootJar {
+    commonJarConfigClosure.execute(this)
+}
 
 configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
     buildInfo()
