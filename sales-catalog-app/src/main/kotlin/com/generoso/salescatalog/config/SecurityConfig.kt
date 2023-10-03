@@ -2,6 +2,7 @@ package com.generoso.salescatalog.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -19,22 +20,23 @@ class SecurityConfig {
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain? {
-        http.csrf().disable()
-        http.authorizeHttpRequests()
-            .requestMatchers("/hello-world-public").permitAll()
-            .requestMatchers("/hello-world").hasAnyRole(ROLE_CLIENT, ROLE_SALES)
-            .requestMatchers("/hello-world-client").hasRole(ROLE_CLIENT)
-            .requestMatchers("/hello-world-sales").hasRole(ROLE_SALES)
-            .requestMatchers("/private/**").permitAll()
-            .and()
-            .authorizeHttpRequests()
-            .anyRequest()
-            .authenticated()
+        http.csrf { csrf -> csrf.disable() }
+
+        http.authorizeHttpRequests { authorizeExchange ->
+            authorizeExchange.requestMatchers("/hello-world-public").permitAll()
+                .requestMatchers("/hello-world").hasAnyRole(ROLE_CLIENT, ROLE_SALES)
+                .requestMatchers("/hello-world-client").hasRole(ROLE_CLIENT)
+                .requestMatchers("/hello-world-sales").hasRole(ROLE_SALES)
+                .requestMatchers("/private/**").permitAll()
+                .anyRequest().authenticated()
+        }
 
         http.sessionManagement { session ->
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         }
-        http.oauth2ResourceServer { config: OAuth2ResourceServerConfigurer<HttpSecurity> -> config.jwt() }
+        http.oauth2ResourceServer { config: OAuth2ResourceServerConfigurer<HttpSecurity> ->
+            config.jwt(Customizer.withDefaults())
+        }
         return http.build()
     }
 
