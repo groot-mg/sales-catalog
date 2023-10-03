@@ -4,16 +4,16 @@ import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Contact
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
-import org.springframework.beans.factory.annotation.Value
-
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.info.BuildProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class OpenApiConfiguration {
 
-    @Value("\${info.app.version:unknown}")
-    private lateinit var version: String
+    @Autowired
+    private lateinit var buildProperties: BuildProperties
 
     @Bean
     fun customOpenAPI(): OpenAPI {
@@ -24,7 +24,7 @@ class OpenApiConfiguration {
         return Info()
             .title("Sales Catalog Service")
             .description("Manage products and stock")
-            .version(version)
+            .version(buildProperties.version)
             .contact(apiContact())
             .license(apiLicence())
     }
