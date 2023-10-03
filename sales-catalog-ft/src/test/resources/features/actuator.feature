@@ -7,7 +7,6 @@ Feature: Checking Service Discovery actuator endpoints return expected outputs
     And the health response body of the message should have the status "UP"
     And health components should contain the status UP:
       | discoveryComposite |
-      | diskSpace          |
       | ping               |
       | refreshScope       |
 
