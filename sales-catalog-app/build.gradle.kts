@@ -5,7 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.3"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     id("pl.allegro.tech.build.axion-release") version "1.15.5"
-    id("org.sonarqube") version "4.4.0.3356"
+    id("org.sonarqube") version "4.4.1.3373"
     id("jacoco")
     kotlin("jvm")
     kotlin("plugin.spring")
