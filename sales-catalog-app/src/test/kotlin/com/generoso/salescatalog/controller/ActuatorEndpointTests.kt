@@ -2,6 +2,7 @@ package com.generoso.salescatalog.controller
 
 
 import com.generoso.salescatalog.SalesCatalogApplication
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 @AutoConfigureWireMock(port = 0)
 @AutoConfigureObservability
+@AutoConfigureEmbeddedDatabase
 class ActuatorEndpointTests {
 
     @Autowired

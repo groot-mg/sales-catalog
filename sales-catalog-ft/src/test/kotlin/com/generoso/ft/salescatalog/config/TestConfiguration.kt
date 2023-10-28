@@ -8,12 +8,12 @@ import com.github.tomakehurst.wiremock.common.ClasspathFileSource
 import com.github.tomakehurst.wiremock.common.filemaker.FilenameMaker
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.standalone.JsonFileMappingsSource
+import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
+import io.zonky.test.db.postgres.embedded.PreparedDbProvider
+import org.postgresql.ds.PGSimpleDataSource
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.ComponentScan
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
+import org.springframework.context.annotation.*
 import java.net.http.HttpClient
 import java.util.function.Consumer
 
@@ -54,7 +54,7 @@ class TestConfiguration {
     }
 
     @Bean(initMethod = "start", destroyMethod = "stop")
-    @Profile("local")
+    @Profile("local-ft")
     fun localWiremockServer(
         @Value("\${wiremock.host}") host: String,
         @Value("\${wiremock.port}") port: Int
@@ -65,4 +65,8 @@ class TestConfiguration {
                 .port(port).mappingSource(JsonFileMappingsSource(ClasspathFileSource("mappings"), FilenameMaker()))
         )
     }
+
+    @Bean // close() is called by default on destroy object event
+    @Profile("local-ft")
+    fun embeddedPostgres(): EmbeddedPostgres = EmbeddedPostgres.builder().setPort(5432).start()
 }

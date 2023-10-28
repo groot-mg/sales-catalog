@@ -6,6 +6,7 @@ Feature: Checking Service Discovery actuator endpoints return expected outputs
     Then the response status code should be 200
     And the health response body of the message should have the status "UP"
     And health components should contain the status UP:
+      | db                 |
       | discoveryComposite |
       | ping               |
       | refreshScope       |
@@ -21,9 +22,9 @@ Feature: Checking Service Discovery actuator endpoints return expected outputs
     When the request is sent
     Then the response status code should be 200
     And it should return build information containing the following keys and values:
-      | artifact | sales-catalog-app  |
-      | name     | sales-catalog-app  |
-      | group    | com.generoso |
+      | artifact | sales-catalog-app |
+      | name     | sales-catalog-app |
+      | group    | com.generoso      |
     And the response body contains:
       | git   |
       | build |

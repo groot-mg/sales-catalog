@@ -36,6 +36,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.google.guava:guava:${googleGuavaVersion}")
     testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:${wiremockStandalone}")
+    testImplementation("io.zonky.test:embedded-postgres:2.0.4")
 }
 
 configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {

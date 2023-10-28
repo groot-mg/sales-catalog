@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.DependsOn
 import org.springframework.context.annotation.Profile
 
-@Profile("local")
+@Profile("local-ft")
 @Configuration
-@DependsOn("localWiremockServer")
+@DependsOn("localWiremockServer", "embeddedPostgres")
 class LocalSalesCatalogServer @Autowired constructor(
     @Value("\${spring.profiles.active}") private val profile: String
 ) {

@@ -4,7 +4,7 @@ spring:
   application:
     name: sales-catalog-ft
   profiles:
-    active: local
+    active: local-ft
 
 service:
   host: http://localhost:8082

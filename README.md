@@ -25,9 +25,15 @@ Run functional-tests:
 > The application contains dependencies and will throw exceptions on the logs if the dependencies are not started
 
 Dependencies:
+* `Keycloak` on port 8180
+  * To start the keycloak, go to [identity-service](https://github.com/groot-mg/identity-service) and run the docker-compose, or go to [docker-local-setup](https://github.com/groot-mg/docker-local-setup) and start it via docker compose also
+  * Without the Keycloak the application fails to start
 * `Service discovery` on port 8081
-    * To start the Service discovery, go to [service-discovery](https://github.com/groot-mg/service-discovery) and start it manually, or go to [docker-local-setup](https://github.com/groot-mg/docker-local-setup) and start it via docker compose
-    * Without the Service discovery the application logs a log of exceptions on console
+  * To start the Service discovery, go to [service-discovery](https://github.com/groot-mg/service-discovery) and start it manually, or go to [docker-local-setup](https://github.com/groot-mg/docker-local-setup) and start it via docker compose
+  * Without the Service discovery the application logs a log of exceptions on console
+* `PostgreSQL database` on port 5432
+  * To start the database, go to [local-database-config](https://github.com/groot-mg/local-database-config) and run the docker-composey, or go to [docker-local-setup](https://github.com/groot-mg/docker-local-setup) and start it via docker compose also
+  * Without the Database the application starts but will return error on the operations requiring database
 
 Local app is available on the port `8082`, health check endpoint is [http://localhost:8082/sales-catalog/private/health](http://localhost:8082/sales-catalog/private/health)
 
