@@ -12,3 +12,4 @@ service:
 wiremock:
   host: localhost
   port: 9000
+  enable-console-notifier: false

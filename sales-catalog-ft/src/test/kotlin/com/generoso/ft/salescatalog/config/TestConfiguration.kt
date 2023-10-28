@@ -5,12 +5,11 @@ import com.generoso.ft.salescatalog.client.RequestTemplate
 import com.generoso.ft.salescatalog.client.model.Endpoint
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.common.ClasspathFileSource
+import com.github.tomakehurst.wiremock.common.ConsoleNotifier
 import com.github.tomakehurst.wiremock.common.filemaker.FilenameMaker
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.standalone.JsonFileMappingsSource
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
-import io.zonky.test.db.postgres.embedded.PreparedDbProvider
-import org.postgresql.ds.PGSimpleDataSource
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.*
@@ -57,11 +56,12 @@ class TestConfiguration {
     @Profile("local-ft")
     fun localWiremockServer(
         @Value("\${wiremock.host}") host: String,
-        @Value("\${wiremock.port}") port: Int
+        @Value("\${wiremock.port}") port: Int,
+        @Value("\${wiremock.enable-console-notifier}") enableConsoleNotifier: Boolean
     ): WireMockServer {
         return WireMockServer(
             WireMockConfiguration.wireMockConfig()
-//            .notifier(ConsoleNotifier(true))
+                .notifier(ConsoleNotifier(enableConsoleNotifier))
                 .port(port).mappingSource(JsonFileMappingsSource(ClasspathFileSource("mappings"), FilenameMaker()))
         )
     }

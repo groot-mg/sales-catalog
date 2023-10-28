@@ -50,7 +50,7 @@ val cucumberRuntime: Configuration by configurations.creating {
 }
 
 task("cucumber") {
-    val profile = findProperty("spring.profiles.active") ?: "local"
+    val profile = findProperty("spring.profiles.active") ?: "local-ft"
     dependsOn("processTestResources", "compileTestJava")
 
     doLast {

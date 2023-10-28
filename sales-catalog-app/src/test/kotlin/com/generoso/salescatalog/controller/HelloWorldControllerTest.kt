@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
+import java.time.Duration
 import java.time.Instant
 
 class HelloWorldControllerTest {
@@ -41,13 +42,11 @@ class HelloWorldControllerTest {
         assertThat(response.body).isEqualTo("Hello sales!")
     }
 
-    private fun generateJwt(): Jwt {
-        return Jwt(
-            "token",
-            Instant.now(),
-            Instant.now(),
-            mapOf("header1" to "value"),
-            mapOf("preferred_username" to "user")
-        )
-    }
+    private fun generateJwt() = Jwt(
+        "token",
+        Instant.now().minus(Duration.ofMinutes(1)),
+        Instant.now(),
+        mapOf("header1" to "value"),
+        mapOf("preferred_username" to "user")
+    )
 }
