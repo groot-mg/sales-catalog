@@ -13,6 +13,9 @@ plugins {
 
 extra["springCloudVersion"] = "2022.0.4"
 extra["springDocVersion"] = "2.2.0"
+extra["jose4jVersion"] = "0.9.3"
+extra["embeddedDatabaseSpringTestVersion"] = "2.3.0"
+extra["embeddedPostgresVersion"] = "2.0.4"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -53,6 +56,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.micrometer:micrometer-registry-prometheus")
+    // Database - Postgres
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.postgresql:postgresql")
 
@@ -60,8 +64,11 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
-    testImplementation("org.bitbucket.b_c:jose4j:0.9.3")
-    testImplementation("io.zonky.test:embedded-database-spring-test:2.3.0")
+    testImplementation("org.bitbucket.b_c:jose4j:${property("jose4jVersion")}")
+
+    // In memory database - PostgreSQL tests
+    testImplementation("io.zonky.test:embedded-database-spring-test:${property("embeddedDatabaseSpringTestVersion")}")
+    testImplementation("io.zonky.test:embedded-postgres:${property("embeddedPostgresVersion")}")
 }
 
 dependencyManagement {

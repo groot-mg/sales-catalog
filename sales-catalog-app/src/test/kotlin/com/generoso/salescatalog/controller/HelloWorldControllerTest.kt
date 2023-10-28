@@ -42,11 +42,14 @@ class HelloWorldControllerTest {
         assertThat(response.body).isEqualTo("Hello sales!")
     }
 
-    private fun generateJwt() = Jwt(
-        "token",
-        Instant.now().minus(Duration.ofMinutes(1)),
-        Instant.now(),
-        mapOf("header1" to "value"),
-        mapOf("preferred_username" to "user")
-    )
+    private fun generateJwt(): Jwt {
+        val now = Instant.now()
+        return Jwt(
+            "token",
+            now,
+            now.plus(Duration.ofMinutes(10)),
+            mapOf("header1" to "value"),
+            mapOf("preferred_username" to "user")
+        )
+    }
 }

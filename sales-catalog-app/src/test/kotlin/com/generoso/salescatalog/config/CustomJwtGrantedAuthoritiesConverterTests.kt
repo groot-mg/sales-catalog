@@ -4,6 +4,7 @@ import com.nimbusds.jose.util.JSONObjectUtils
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.security.oauth2.jwt.Jwt
+import java.time.Duration
 import java.time.Instant
 
 class CustomJwtGrantedAuthoritiesConverterTests {
@@ -78,10 +79,11 @@ class CustomJwtGrantedAuthoritiesConverterTests {
     }
 
     private fun createJwt(claims: Map<String, Any>): Jwt {
+        val now = Instant.now()
         return Jwt(
             "token",
-            Instant.now(),
-            Instant.now(),
+            now,
+            now.plus(Duration.ofMinutes(10)),
             hashMapOf("any" to "any") as Map<String, Any>?,
             claims
         )
