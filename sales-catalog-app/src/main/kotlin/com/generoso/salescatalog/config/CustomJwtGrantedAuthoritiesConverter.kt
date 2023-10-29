@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
-import java.util.*
 
 /**
  * A custom implementation of [JwtGrantedAuthoritiesConverter] to get roles from "realm_access -> roles"
@@ -18,26 +17,11 @@ class CustomJwtGrantedAuthoritiesConverter : Converter<Jwt?, Collection<GrantedA
     }
 
     override fun convert(jwt: Jwt): Collection<GrantedAuthority> {
-        val authorities = ArrayList<GrantedAuthority>()
-        for (authority in getAuthorities(jwt)) {
-            authorities.add(SimpleGrantedAuthority(AUTHORITY_PREFIX + authority))
-        }
-        return authorities
+        return getAuthorities(jwt).map { SimpleGrantedAuthority(AUTHORITY_PREFIX + it) }
     }
 
     private fun getAuthorities(jwt: Jwt): Collection<String> {
-        val realmAccess = jwt.getClaim<LinkedTreeMap<String, ArrayList<String>>>("realm_access")
-        if (realmAccess?.get("roles") == null) {
-            return Collections.emptyList()
-        }
-
-        val roles = realmAccess["roles"] as ArrayList<String>
-        val grantedRoles = ArrayList<String>()
-        for (role in roles) {
-            grantedRoles.add(role)
-        }
-
-        return grantedRoles
+        val realmAccess = jwt.getClaim<LinkedTreeMap<String, List<String>>>("realm_access")
+        return realmAccess?.get("roles") ?: emptyList()
     }
 }
-
