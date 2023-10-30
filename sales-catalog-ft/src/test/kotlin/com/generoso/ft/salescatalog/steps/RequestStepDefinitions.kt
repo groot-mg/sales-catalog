@@ -46,16 +46,13 @@ class RequestStepDefinitions @Autowired constructor(
         val price = row["price"]?.let { BigDecimal.valueOf(it.toLong()) }
         val quantity = row["quantity"]?.toLong()
 
-        scenarioState.requestTemplate?.body(
-            mapper.writeValueAsString(
-                ProductV1Dto(
-                    name = name,
-                    description = description,
-                    price = price,
-                    quantity = quantity
-                )
-            )
-        )
+        val dto = ProductV1Dto()
+        dto.name = name
+        dto.description = description
+        dto.price = price
+        dto.quantity = quantity
+
+        scenarioState.requestTemplate?.body(mapper.writeValueAsString(dto))
     }
 
     private fun getRequestTemplate(endpoint: Endpoint): RequestTemplate? {

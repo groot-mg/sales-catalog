@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import java.math.BigDecimal
 
 @Import(ProductV1Controller::class)
 @WebMvcTest(ProductV1Controller::class)
@@ -37,20 +38,24 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
         val productDto = mock(ProductV1Dto::class.java)
 
         // Act & Assert
-        // formatter:off
+        //@formatter:off
         mockMvc.perform(
             post("/v1/products")
                 .header("Authorization", clientUserToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productDto))
         ).andExpect(status().isForbidden)
-        // formatter:on
+        //@formatter:on
     }
 
     @Test
     fun whenCallToSaveTheNewProduct_shouldCallConverterAndService() {
         // Arrange
-        val productDto: ProductV1Dto = mock(ProductV1Dto::class.java)
+        val productDto: ProductV1Dto = ProductV1Dto()
+        productDto.name = "fake-name"
+        productDto.description = "fake-description"
+        productDto.price = BigDecimal.valueOf(9.99)
+        productDto.quantity = 50
         val product = mock(Product::class.java)
 
         `when`(converter.convertToEntity(anyOrNull())).thenReturn(product)
@@ -58,7 +63,7 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
         `when`(converter.convertToDto(product)).thenReturn(productDto)
 
         // Act & Assert
-        // formatter:off
+        //@formatter:off
         mockMvc.perform(
             post("/v1/products")
                 .header("Authorization", salesUserToken())
@@ -66,7 +71,7 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
                 .content(objectMapper.writeValueAsString(productDto))
         ).andExpect(status().isCreated)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        // formatter:on
+        //@formatter:on
 
         verify(converter).convertToEntity(anyOrNull())
         verify(service).save(product)

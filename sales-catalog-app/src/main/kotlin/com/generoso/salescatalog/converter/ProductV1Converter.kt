@@ -17,24 +17,22 @@ class ProductV1Converter {
     }
 
     fun convertToDto(entity: Product): ProductV1Dto {
-        return ProductV1Dto(
-            id = entity.getId(),
-            name = entity.name,
-            description = entity.description,
-            price = entity.price,
-            quantity = entity.quantity,
-            reserved = entity.isReserved,
-            sold = entity.isSold
-        )
+        val dto = ProductV1Dto(id = entity.getId())
+        dto.name = entity.name
+        dto.description = entity.description
+        dto.price = entity.price
+        dto.quantity = entity.quantity
+        dto.reserved = entity.isReserved
+        dto.sold = entity.isSold
+        return dto
     }
 
     fun convertToClientViewDto(entity: Product): ProductV1Dto {
-        return ProductV1Dto(
-            id = entity.getId(),
-            name = entity.name,
-            description = entity.description,
-            price = entity.price,
-            quantity = entity.quantity
-        )
+        val dto = ProductV1Dto(id = entity.getId())
+        dto.name = entity.name
+        dto.description = entity.description
+        dto.price = entity.price
+        dto.quantity = entity.quantity
+        return dto;
     }
 }

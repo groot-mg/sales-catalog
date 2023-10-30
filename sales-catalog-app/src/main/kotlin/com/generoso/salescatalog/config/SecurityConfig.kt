@@ -24,7 +24,7 @@ class SecurityConfig {
         http.csrf { csrf -> csrf.disable() }
 
         http.authorizeHttpRequests { authorizeExchange ->
-            // formatter:off
+            //@formatter:off
             authorizeExchange.requestMatchers("/hello-world-public").permitAll()
                 .requestMatchers("/hello-world").hasAnyRole(roleClient, roleSales)
                 .requestMatchers("/hello-world-client").hasRole(roleClient)
@@ -33,7 +33,7 @@ class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/v1/products/**").hasAnyRole(roleSales, roleClient)
                 .requestMatchers("/private/**").permitAll()
                 .anyRequest().authenticated()
-            // formatter:on
+            //@formatter:on
         }
 
         http.sessionManagement { session ->
