@@ -19,5 +19,5 @@ Feature: Product controller scenarios
       | name         | description         | price | quantity | isReserved | isSold | salesUserId | created  | lastUpdate | isDeleted |
       | Product name | Product description | 10.00 | 50       | false      | false  | NON_NULL    | NON_NULL | NULL       | false     |
     And product response object has:
-      | name         | description         | price | quantity | isReserved | isSold |
-      | Product name | Product description | 10    | 50       | false      | false  |
+      | version | name         | description         | price | quantity | isReserved | isSold |
+      | v1      | Product name | Product description | 10    | 50       | false      | false  |

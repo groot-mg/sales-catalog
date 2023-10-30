@@ -12,7 +12,7 @@ class ProductService @Autowired constructor(private val repository: ProductRepos
         return repository.findAll()
     }
 
-    fun save(entity: Product) : Product {
+    fun save(entity: Product): Product {
         validate(entity)
         return repository.save(entity)
     }
