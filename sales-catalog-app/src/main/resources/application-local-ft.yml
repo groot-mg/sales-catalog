@@ -5,6 +5,9 @@ spring:
       resource-server:
         jwt:
           issuer-uri: http://localhost:9000/realms/shopping-api
+  jpa:
+    hibernate:
+      ddl-auto: create
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
