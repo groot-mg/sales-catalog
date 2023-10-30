@@ -63,7 +63,7 @@ class UserInfoTest {
     }
 
     @Test
-    fun whenGetRoleIsCalled_shouldReturnItFromClaims() {
+    fun whenGetRoleIsCalledForClient_shouldReturnItFromClaims() {
         val realmAccess = mapOf("roles" to listOf(UserRole.CLIENT.role))
         `when`(jwt.getClaim<Map<String, List<String>>>("realm_access")).thenReturn(realmAccess)
 
@@ -72,5 +72,29 @@ class UserInfoTest {
 
         // Assert
         assertEquals(UserRole.CLIENT, role)
+    }
+
+    @Test
+    fun whenGetRoleIsCalledForSalesUser_shouldReturnItFromClaims() {
+        val realmAccess = mapOf("roles" to listOf(UserRole.SALES.role))
+        `when`(jwt.getClaim<Map<String, List<String>>>("realm_access")).thenReturn(realmAccess)
+
+        // Act
+        val role = userInfo.getRole()
+
+        // Assert
+        assertEquals(UserRole.SALES, role)
+    }
+
+    @Test
+    fun whenGetRoleIsCalledForUserWithoutRoles_shouldReturnItFromClaims() {
+        val realmAccess = mapOf("roles" to emptyList<String>())
+        `when`(jwt.getClaim<Map<String, List<String>>>("realm_access")).thenReturn(realmAccess)
+
+        // Act
+        val role = userInfo.getRole()
+
+        // Assert
+        assertEquals(UserRole.UNKNOWN, role)
     }
 }

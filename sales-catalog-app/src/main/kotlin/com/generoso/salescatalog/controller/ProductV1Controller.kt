@@ -26,8 +26,8 @@ class ProductV1Controller @Autowired constructor(
     private val converter: ProductV1Converter
 ) {
 
-    @GetMapping
-    fun getAll(): List<Product> = service.findAll()
+//    @GetMapping
+//    fun getAll(): List<Product> = service.findAll()
 
     @Operation(description = "Register a new product")
     @PostMapping

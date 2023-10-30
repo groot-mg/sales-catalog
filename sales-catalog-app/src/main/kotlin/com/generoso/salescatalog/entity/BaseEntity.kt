@@ -22,9 +22,7 @@ abstract class BaseEntity<T> {
     abstract fun getId(): T?
     abstract fun setOwner(ownerId: T)
 
-    fun isNew(): Boolean {
-        return getId() != null
-    }
+    fun isNew(): Boolean = getId()?.let { false } ?: true
 
     override fun equals(other: Any?): Boolean {
         other ?: return false
@@ -36,7 +34,7 @@ abstract class BaseEntity<T> {
     }
 
     override fun hashCode(): Int {
-        return 31
+        return javaClass.hashCode()
     }
 
     override fun toString() = "Entity of type ${this.javaClass.name} with id: ${getId()}"
