@@ -27,6 +27,17 @@ class BaseEntityTest {
     }
 
     @Test
+    fun `test equals() method with non equals entities`() {
+        assertFalse(Product().equals(String()))
+    }
+
+    @Test
+    fun `test equals() method with same entity`() {
+        val entity = Product()
+        assertTrue(entity.equals(entity))
+    }
+
+    @Test
     fun `test equals() method with different ids`() {
         // Assert
         val entity1 = Product(productId = UUID.randomUUID())
