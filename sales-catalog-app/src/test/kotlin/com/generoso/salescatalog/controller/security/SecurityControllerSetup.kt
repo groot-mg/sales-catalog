@@ -1,5 +1,6 @@
 package com.generoso.salescatalog.controller.security
 
+import com.generoso.salescatalog.auth.UserRole
 import com.generoso.salescatalog.config.SecurityConfig
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import org.jose4j.jwk.JsonWebKeySet
@@ -51,9 +52,11 @@ open class SecurityControllerSetup {
         mockKeycloakEndpoints()
     }
 
-    fun generateJWT(roles: List<String>): String {
-        return generateJWT("default name", roles)
-    }
+    fun clientUserToken(): String = format("Bearer %s", generateJWT("client", listOf(UserRole.CLIENT.role)))
+
+    fun salesUserToken(): String = format("Bearer %s", generateJWT("sales", listOf(UserRole.SALES.role)))
+
+    fun generateJWT(roles: List<String>): String = generateJWT("default name", roles)
 
     fun generateJWT(name: String, roles: List<String>): String {
         // Create the Claims, which will be the content of the JWT

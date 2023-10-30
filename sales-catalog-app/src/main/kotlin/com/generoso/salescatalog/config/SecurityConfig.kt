@@ -1,7 +1,10 @@
 package com.generoso.salescatalog.config
 
+import com.generoso.salescatalog.auth.UserInfo
+import com.generoso.salescatalog.auth.UserRole
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
@@ -12,10 +15,8 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 class SecurityConfig {
 
-    companion object {
-        const val ROLE_CLIENT = "api-client"
-        const val ROLE_SALES = "api-sales"
-    }
+    private val roleClient: String = UserRole.CLIENT.role
+    private val roleSales: String = UserRole.SALES.role
 
     @Bean
     @Throws(Exception::class)
@@ -23,12 +24,16 @@ class SecurityConfig {
         http.csrf { csrf -> csrf.disable() }
 
         http.authorizeHttpRequests { authorizeExchange ->
+            // formatter:off
             authorizeExchange.requestMatchers("/hello-world-public").permitAll()
-                .requestMatchers("/hello-world").hasAnyRole(ROLE_CLIENT, ROLE_SALES)
-                .requestMatchers("/hello-world-client").hasRole(ROLE_CLIENT)
-                .requestMatchers("/hello-world-sales").hasRole(ROLE_SALES)
+                .requestMatchers("/hello-world").hasAnyRole(roleClient, roleSales)
+                .requestMatchers("/hello-world-client").hasRole(roleClient)
+                .requestMatchers("/hello-world-sales").hasRole(roleSales)
+                .requestMatchers(HttpMethod.POST, "/v1/products").hasAnyRole(roleSales)
+                .requestMatchers(HttpMethod.GET, "/v1/products/**").hasAnyRole(roleSales, roleClient)
                 .requestMatchers("/private/**").permitAll()
                 .anyRequest().authenticated()
+            // formatter:on
         }
 
         http.sessionManagement { session ->
@@ -45,5 +50,14 @@ class SecurityConfig {
         val jwtAuthenticationConverter = JwtAuthenticationConverter()
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(CustomJwtGrantedAuthoritiesConverter())
         return jwtAuthenticationConverter
+    }
+
+    @Bean
+    fun authenticationThreadLocal(): InheritableThreadLocal<UserInfo> {
+        return object : InheritableThreadLocal<UserInfo>() {
+            override fun initialValue(): UserInfo {
+                return UserInfo()
+            }
+        }
     }
 }

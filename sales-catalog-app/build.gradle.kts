@@ -16,6 +16,7 @@ extra["springDocVersion"] = "2.2.0"
 extra["jose4jVersion"] = "0.9.3"
 extra["embeddedDatabaseSpringTestVersion"] = "2.3.0"
 extra["embeddedPostgresVersion"] = "2.0.4"
+extra["mockitoKotlinVersion"] = "5.1.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -65,6 +66,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
     testImplementation("org.bitbucket.b_c:jose4j:${property("jose4jVersion")}")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:${property("mockitoKotlinVersion")}")
 
     // In memory database - PostgreSQL tests
     testImplementation("io.zonky.test:embedded-database-spring-test:${property("embeddedDatabaseSpringTestVersion")}")

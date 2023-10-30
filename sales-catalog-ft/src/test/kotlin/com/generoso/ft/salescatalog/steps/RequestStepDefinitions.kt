@@ -1,17 +1,23 @@
 package com.generoso.ft.salescatalog.steps
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.generoso.ft.salescatalog.client.Client
 import com.generoso.ft.salescatalog.client.RequestTemplate
 import com.generoso.ft.salescatalog.client.model.Endpoint
 import com.generoso.ft.salescatalog.state.ScenarioState
+import com.generoso.salescatalog.dto.ProductV1Dto
+import io.cucumber.datatable.DataTable
+import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.When
 import org.springframework.beans.factory.annotation.Autowired
+import java.math.BigDecimal
 
 class RequestStepDefinitions @Autowired constructor(
     private val requestTemplates: Map<Endpoint, RequestTemplate>,
     private val client: Client,
-    private val scenarioState: ScenarioState
+    private val scenarioState: ScenarioState,
+    private val mapper: ObjectMapper
 ) {
 
     @Given("an endpoint {} is prepared")
@@ -30,6 +36,26 @@ class RequestStepDefinitions @Autowired constructor(
     fun theEndpointReceivesARequest() {
         val response = client.execute(scenarioState.requestTemplate!!)
         scenarioState.actualResponse = response
+    }
+
+    @And("the product request body is set to:")
+    fun theProductRequestBodyIsSetTo(table: DataTable) {
+        val row: Map<String, String> = table.asMaps()[0]
+        val name = row["name"]
+        val description = row["description"]
+        val price = row["price"]?.let { BigDecimal.valueOf(it.toLong()) }
+        val quantity = row["quantity"]?.toLong()
+
+        scenarioState.requestTemplate?.body(
+            mapper.writeValueAsString(
+                ProductV1Dto(
+                    name = name,
+                    description = description,
+                    price = price,
+                    quantity = quantity
+                )
+            )
+        )
     }
 
     private fun getRequestTemplate(endpoint: Endpoint): RequestTemplate? {

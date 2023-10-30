@@ -15,15 +15,19 @@ spring:
           issuer-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/${KEYCLOAK_REALM:shopping-api}
   jpa:
     show-sql: false
+    open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:postgresql://${POSTGRESQL_URL:localhost:5432}/groot_mg
+    url: jdbc:postgresql://${POSTGRESQL_URL:localhost:5432}/postgres?currentSchema=groot_mg
     username: ${POSTGRESQL_USERNAME:sales_catalog_user}
     password: ${POSTGRESQL_PASSWORD:sales_catalog_pass}
+    tomcat:
+      test-while-idle: true
+      validation-query: SELECT 1
 
 eureka:
   instance:
@@ -50,6 +54,8 @@ management:
       enabled: false
 
 springdoc:
+  packagesToScan: org.springframework.boot.actuate.endpoint, com.generoso.salescatalog.controller, com.generoso.salescatalog.converter
+#  packagesToExclude: com.generoso.salescatalog.entity
   api-docs:
     path: /private/api-docs
   show-actuator: true

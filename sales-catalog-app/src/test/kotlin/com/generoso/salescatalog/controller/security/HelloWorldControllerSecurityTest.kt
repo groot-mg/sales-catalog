@@ -1,7 +1,6 @@
 package com.generoso.salescatalog.controller.security
 
-import com.generoso.salescatalog.config.SecurityConfig.Companion.ROLE_CLIENT
-import com.generoso.salescatalog.config.SecurityConfig.Companion.ROLE_SALES
+import com.generoso.salescatalog.auth.UserRole
 import com.generoso.salescatalog.controller.HelloWorldController
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -41,7 +40,7 @@ class HelloWorldControllerSecurityTest : SecurityControllerSetup() {
     fun whenProtectedHelloWorldReceivesClientToken_shouldReturns200() {
         mockMvc.perform(
             get("/hello-world")
-                .header("Authorization", format("Bearer %s", generateJWT("client", listOf(ROLE_CLIENT))))
+                .header("Authorization", format("Bearer %s", generateJWT("client", listOf(UserRole.CLIENT.role))))
         ).andExpect(status().isOk).andExpect(content().string("Hello client!"))
     }
 
@@ -49,7 +48,7 @@ class HelloWorldControllerSecurityTest : SecurityControllerSetup() {
     fun whenProtectedHelloWorldReceivesSalesToken_shouldReturns200() {
         mockMvc.perform(
             get("/hello-world")
-                .header("Authorization", format("Bearer %s", generateJWT("sales", listOf(ROLE_SALES))))
+                .header("Authorization", format("Bearer %s", generateJWT("sales", listOf(UserRole.SALES.role))))
         ).andExpect(status().isOk).andExpect(content().string("Hello sales!"))
     }
 
@@ -71,7 +70,7 @@ class HelloWorldControllerSecurityTest : SecurityControllerSetup() {
     fun whenProtectedHelloWorldClientReceivesClientToken_shouldReturns200() {
         mockMvc.perform(
             get("/hello-world-client")
-                .header("Authorization", format("Bearer %s", generateJWT("client", listOf(ROLE_CLIENT))))
+                .header("Authorization", format("Bearer %s", generateJWT("client", listOf(UserRole.CLIENT.role))))
         ).andExpect(status().isOk).andExpect(content().string("Hello client!"))
     }
 
@@ -93,7 +92,7 @@ class HelloWorldControllerSecurityTest : SecurityControllerSetup() {
     fun whenProtectedHelloWorldSalesReceivesSalesToken_shouldReturns200() {
         mockMvc.perform(
             get("/hello-world-sales")
-                .header("Authorization", format("Bearer %s", generateJWT("sales", listOf(ROLE_SALES))))
+                .header("Authorization", format("Bearer %s", generateJWT("sales", listOf(UserRole.SALES.role))))
         ).andExpect(status().isOk).andExpect(content().string("Hello sales!"))
     }
 }
