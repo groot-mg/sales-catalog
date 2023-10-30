@@ -54,6 +54,8 @@ management:
       enabled: false
 
 springdoc:
+  packagesToScan: org.springframework.boot.actuate.endpoint, com.generoso.salescatalog.controller, com.generoso.salescatalog.converter
+#  packagesToExclude: com.generoso.salescatalog.entity
   api-docs:
     path: /private/api-docs
   show-actuator: true
