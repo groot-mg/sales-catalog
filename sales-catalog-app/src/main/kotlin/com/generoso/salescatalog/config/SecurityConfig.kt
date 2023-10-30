@@ -29,8 +29,8 @@ class SecurityConfig {
                 .requestMatchers("/hello-world").hasAnyRole(roleClient, roleSales)
                 .requestMatchers("/hello-world-client").hasRole(roleClient)
                 .requestMatchers("/hello-world-sales").hasRole(roleSales)
-                .requestMatchers(HttpMethod.POST, "/products").hasAnyRole(roleSales)
-                .requestMatchers(HttpMethod.GET, "/products/**").hasAnyRole(roleSales, roleClient)
+                .requestMatchers(HttpMethod.POST, "/v1/products").hasAnyRole(roleSales)
+                .requestMatchers(HttpMethod.GET, "/v1/products/**").hasAnyRole(roleSales, roleClient)
                 .requestMatchers("/private/**").permitAll()
                 .anyRequest().authenticated()
             // formatter:on

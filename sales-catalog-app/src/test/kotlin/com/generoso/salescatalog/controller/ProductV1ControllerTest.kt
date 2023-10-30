@@ -39,7 +39,7 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
         // Act & Assert
         // formatter:off
         mockMvc.perform(
-            post("/products")
+            post("/v1/products")
                 .header("Authorization", clientUserToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productDto))
@@ -60,7 +60,7 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
         // Act & Assert
         // formatter:off
         mockMvc.perform(
-            post("/products")
+            post("/v1/products")
                 .header("Authorization", salesUserToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productDto))

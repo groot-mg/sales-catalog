@@ -1,7 +1,6 @@
 package com.generoso.ft.salescatalog.steps
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.PropertyNamingStrategies
+import com.generoso.ft.salescatalog.client.model.JsonMapper
 import com.generoso.ft.salescatalog.state.ScenarioState
 import com.generoso.salescatalog.dto.ProductV1Dto
 import io.cucumber.datatable.DataTable
@@ -14,7 +13,7 @@ import java.math.BigDecimal
 
 class ResponseStepDefinitions @Autowired constructor(
     private val scenarioState: ScenarioState,
-    private val mapper: ObjectMapper
+    private val jsonMapper: JsonMapper
 ) {
 
     @Then("the response status code should be {int}")
@@ -29,7 +28,7 @@ class ResponseStepDefinitions @Autowired constructor(
 
     @And("product response object has:")
     fun theProductRequestBodyIsSetTo(table: DataTable) {
-        val responseObj = mapper.readValue(scenarioState.actualResponseBody, ProductV1Dto::class.java)
+        val responseObj = jsonMapper.fromJson(scenarioState.actualResponseBody, ProductV1Dto::class.java)
 
         val row: Map<String, String> = table.asMaps()[0]
         val price = row["price"]?.let { BigDecimal.valueOf(it.toLong()) }
