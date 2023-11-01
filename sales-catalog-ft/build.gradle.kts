@@ -7,6 +7,8 @@ plugins {
     kotlin("plugin.spring")
 }
 
+extra["springCloudVersion"] = "2022.0.4"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -22,6 +24,9 @@ dependencies {
     val wiremockStandalone = "3.0.1"
     val cucumberVersion = "7.14.0"
     val googleGuavaVersion = "32.1.3-jre"
+    val jose4jVersion = "0.9.3"
+    val jacksonJsr310Version = "2.12.3"
+    val embeddedPostgresVersion = "2.0.4"
 
     testImplementation(project(":sales-catalog-app"))
 
@@ -31,17 +36,18 @@ dependencies {
     testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    testImplementation("org.bitbucket.b_c:jose4j:0.9.3")
+    testImplementation("org.bitbucket.b_c:jose4j:${jose4jVersion}")
+    testImplementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonJsr310Version}")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.google.guava:guava:${googleGuavaVersion}")
     testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:${wiremockStandalone}")
-    testImplementation("io.zonky.test:embedded-postgres:2.0.4")
+    testImplementation("io.zonky.test:embedded-postgres:${embeddedPostgresVersion}")
 }
 
 configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
     imports(delegateClosureOf<io.spring.gradle.dependencymanagement.dsl.ImportsHandler> {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.4")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     })
 }
 

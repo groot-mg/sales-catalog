@@ -1,10 +1,7 @@
 package com.generoso.salescatalog.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
-import jakarta.validation.constraints.Digits
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Positive
-import jakarta.validation.constraints.Size
+import jakarta.validation.constraints.*
 import java.math.BigDecimal
 import java.util.*
 
@@ -13,18 +10,19 @@ class ProductV1Dto @JvmOverloads constructor(
     id: UUID? = null,
 ) : BasicV1Dto(id) {
 
-    @Size(max = 100)
+    @Size(min = 5, max = 100)
     @NotBlank
     var name: String? = null
 
     @Size(max = 256)
-    @NotBlank
     var description: String? = null
 
-    @Digits(integer = 10, fraction = 2)
+    @Digits(integer = 8, fraction = 2)
+    @NotNull
     @Positive
     var price: BigDecimal? = null
 
+    @NotNull
     @Positive
     var quantity: Long? = null
 

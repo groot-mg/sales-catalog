@@ -4,8 +4,7 @@ import java.time.LocalDateTime
 
 
 class ValidationErrorDetails : ErrorDetail() {
-    var field: String? = null
-    var fieldMessage: String? = null
+    var validations: Array<ValidationErrorFields>? = null
 
     companion object {
         fun builder(): Builder {
@@ -17,8 +16,7 @@ class ValidationErrorDetails : ErrorDetail() {
         private var status: Int? = null
         private var detail: String? = null
         private var dateTime: LocalDateTime? = null
-        private var field: String? = null
-        private var fieldMessage: String? = null
+        private var validations: Array<ValidationErrorFields>? = null
 
         fun status(status: Int): Builder {
             this.status = status
@@ -35,13 +33,8 @@ class ValidationErrorDetails : ErrorDetail() {
             return this
         }
 
-        fun field(field: String?): Builder {
-            this.field = field
-            return this
-        }
-
-        fun fieldMessage(fieldMessage: String?): Builder {
-            this.fieldMessage = fieldMessage
+        fun validations(validations: Array<ValidationErrorFields>?): Builder {
+            this.validations = validations
             return this
         }
 
@@ -50,10 +43,13 @@ class ValidationErrorDetails : ErrorDetail() {
             validationErrorDetails.detail = detail
             validationErrorDetails.dateTime = dateTime
             validationErrorDetails.status = status
-            validationErrorDetails.field = field
-            validationErrorDetails.fieldMessage = fieldMessage
+            validationErrorDetails.validations = validations
             return validationErrorDetails
         }
+    }
+
+    override fun toString(): String {
+        return "ValidationErrorDetails(validations=${validations?.contentToString()})"
     }
 }
 

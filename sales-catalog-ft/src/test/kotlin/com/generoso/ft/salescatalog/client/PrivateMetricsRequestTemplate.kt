@@ -15,7 +15,5 @@ class PrivateMetricsRequestTemplate(
     override val endpoint: Endpoint
         get() = Endpoint.PRIVATE_METRICS
 
-    override fun defaultHeaders() {
-        headers.clear()
-    }
+    override fun getDefaultHeaders(): MutableMap<String, String> = mutableMapOf()
 }
