@@ -16,8 +16,7 @@ class ValidationErrorDetailsTest {
         assertNull(errorDetail.status)
         assertNull(errorDetail.detail)
         assertNull(errorDetail.dateTime)
-        assertNull(errorDetail.field)
-        assertNull(errorDetail.fieldMessage)
+        assertNull(errorDetail.validations)
     }
 
     @Test
@@ -26,23 +25,21 @@ class ValidationErrorDetailsTest {
         val status = 422
         val detail = "Validation Error"
         val dateTime = LocalDateTime.now()
-        val field = "email"
-        val fieldMessage = "Invalid email format"
+        val errorDetails = arrayOf(ValidationErrorFields("name", arrayOf("must not be null")))
 
         // Act
         val validationErrorDetails = ValidationErrorDetails.builder()
             .status(status)
             .detail(detail)
             .dateTime(dateTime)
-            .field(field)
-            .fieldMessage(fieldMessage)
+            .validations(errorDetails)
             .build()
 
         // Assert
         assertEquals(status, validationErrorDetails.status)
         assertEquals(detail, validationErrorDetails.detail)
         assertEquals(dateTime, validationErrorDetails.dateTime)
-        assertEquals(field, validationErrorDetails.field)
-        assertEquals(fieldMessage, validationErrorDetails.fieldMessage)
+        assertEquals("name", errorDetails[0].field)
+        assertEquals("must not be null", errorDetails[0].messages[0])
     }
 }

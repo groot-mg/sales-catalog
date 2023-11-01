@@ -77,8 +77,8 @@ class GlobalExceptionHandlerTest {
         assertEquals(400, errorDetail.status)
         assertEquals("Fields validation error", errorDetail.detail)
         assertEquals(LocalDateTime.now().dayOfYear, errorDetail.dateTime?.dayOfYear)
-        assertEquals("email", errorDetail.field)
-        assertEquals("Invalid email format", errorDetail.fieldMessage)
+        assertEquals("email", errorDetail.validations?.get(0)?.field)
+        assertEquals("Invalid email format", errorDetail.validations?.get(0)?.messages?.get(0))
     }
 
     @Test
@@ -106,8 +106,10 @@ class GlobalExceptionHandlerTest {
         assertEquals(400, errorDetail.status)
         assertEquals("Fields validation error", errorDetail.detail)
         assertEquals(LocalDateTime.now().dayOfYear, errorDetail.dateTime?.dayOfYear)
-        assertEquals("name, email", errorDetail.field)
-        assertEquals("name is invalid, Invalid email format", errorDetail.fieldMessage)
+        assertEquals("name", errorDetail.validations?.get(0)?.field)
+        assertEquals("name is invalid", errorDetail.validations?.get(0)?.messages?.get(0))
+        assertEquals("email", errorDetail.validations?.get(1)?.field)
+        assertEquals("Invalid email format", errorDetail.validations?.get(1)?.messages?.get(0))
     }
 
     private fun createBindingResult(fields: Array<String>, messages: Array<String>): BindingResult {

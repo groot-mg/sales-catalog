@@ -59,7 +59,6 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
             .build()
         //@formatter:on
 
-        log.info("Request failed with validation exception: {}", errorDetails, exception)
         return ResponseEntity(errorDetails, statusBadRequest)
     }
 }
