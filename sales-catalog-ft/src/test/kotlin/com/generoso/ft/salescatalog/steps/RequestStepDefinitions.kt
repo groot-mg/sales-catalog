@@ -76,6 +76,12 @@ class RequestStepDefinitions @Autowired constructor(
             "QUANTITY_NEGATIVE" -> dto.quantity = -1
             "QUANTITY_ZERO" -> dto.quantity = 0
             "QUANTITY_POSITIVE" -> dto.quantity = 1
+            "ALL_FIELDS_INVALID" -> dto.apply {
+                name = null
+                description = generateRandomString(PRODUCT_DESCRIPTION_MAX_LENGTH + 1)
+                price = BigDecimal.valueOf(-1)
+                quantity = -1
+            }
         }
 
         scenarioState.requestTemplate?.body(mapper.toJson(dto))

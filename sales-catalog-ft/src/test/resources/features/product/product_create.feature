@@ -35,6 +35,18 @@ Feature: Product controller scenarios
       | QUANTITY_NEGATIVE                      | quantity    | must be greater than 0                                       |
       | QUANTITY_ZERO                          | quantity    | must be greater than 0                                       |
 
+  Scenario: When a sales user calls to register a new product multiple invalid fields, should return 400 with error messages on body
+    Given an endpoint PRODUCT_POST is prepared
+    And the product request body has ALL_FIELDS_INVALID
+    And use a JWT token for user sales with role api-sales
+    When the request is sent
+    Then the response status code should be 400
+    And response error body should contain the field name and message must not be blank
+    And response error body should contain the field description and message size must be between 0 and 256
+    And response error body should contain the field price and message must be greater than 0
+    And response error body should contain the field quantity and message must be greater than 0
+    And product table has no records
+
   Scenario: When a sales user calls to register a new product should do it
     Given an endpoint PRODUCT_POST is prepared
     And use a JWT token for user sales with role api-sales
