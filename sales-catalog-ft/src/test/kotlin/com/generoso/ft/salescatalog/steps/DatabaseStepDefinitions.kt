@@ -45,6 +45,10 @@ class DatabaseStepDefinitions @Autowired constructor(
         assertThat(product.isDeleted).isEqualTo(row["isDeleted"].toBoolean())
     }
 
+    @And("product table has no records")
+    fun productTableHasNoRecords() = assertThat(findAllProducts()).isEmpty()
+
+
     private fun findAllProducts(): List<Product> {
         val products = mutableListOf<Product>()
         createConnection().use { connection ->

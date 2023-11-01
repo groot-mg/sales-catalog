@@ -14,14 +14,13 @@ class ProductV1ConverterTest {
     @Test
     fun shouldConvertDtoToEntityAsExpected() {
         // Arrange
-        val dto = ProductV1Dto(
-            name = "Test Product",
-            description = "Test Description",
-            price = BigDecimal.valueOf(9.99),
-            quantity = 50,
-            reserved = true,
-            sold = true
-        )
+        val dto = ProductV1Dto()
+        dto.name = "Test Product"
+        dto.description = "Test Description"
+        dto.price = BigDecimal.valueOf(9.99)
+        dto.quantity = 50
+        dto.reserved = true
+        dto.sold = true
 
         // Act
         val entity = converter.convertToEntity(dto)

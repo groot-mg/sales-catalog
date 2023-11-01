@@ -10,6 +10,7 @@ import java.net.http.HttpRequest.BodyPublisher
 
 @Component
 abstract class RequestTemplate protected constructor(private val host: String, private val contextPath: String) {
+
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     private var pathParameter: String = ""
@@ -18,7 +19,7 @@ abstract class RequestTemplate protected constructor(private val host: String, p
     protected var headers: MutableMap<String, String> = HashMap()
 
     init {
-        defaultHeaders()
+        initDefaults()
     }
 
     abstract val endpoint: Endpoint
@@ -48,10 +49,22 @@ abstract class RequestTemplate protected constructor(private val host: String, p
         return this
     }
 
+    fun getDefaultHeaders(): MutableMap<String, String> {
+        return mutableMapOf(
+            "Accept" to "application/json",
+            "Content-Type" to "application/json"
+        )
+    }
 
-    fun defaultHeaders() {
-        headers["Accept"] = "application/json"
-        headers["Content-Type"] = "application/json"
+    fun getBody(): String? {
+        return null
+    }
+
+    fun reset() = initDefaults()
+
+    private fun initDefaults() {
+        headers = getDefaultHeaders()
+        body = getBody()
     }
 
     private fun buildUri(): URI {

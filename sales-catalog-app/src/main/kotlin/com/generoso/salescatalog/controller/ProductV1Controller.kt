@@ -2,7 +2,6 @@ package com.generoso.salescatalog.controller
 
 import com.generoso.salescatalog.converter.ProductV1Converter
 import com.generoso.salescatalog.dto.ProductV1Dto
-import com.generoso.salescatalog.entity.Product
 import com.generoso.salescatalog.service.ProductService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -11,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -40,7 +40,7 @@ class ProductV1Controller @Autowired constructor(
             )]
         )
     )
-    fun createProduct(@Parameter(description = "Product dto to save") @RequestBody dto: ProductV1Dto): ResponseEntity<ProductV1Dto> {
+    fun createProduct(@Parameter(description = "Product dto to save") @RequestBody @Valid dto: ProductV1Dto): ResponseEntity<ProductV1Dto> {
         val entity = converter.convertToEntity(dto)
         val savedEntity = service.save(entity)
         return ResponseEntity.status(HttpStatus.CREATED)

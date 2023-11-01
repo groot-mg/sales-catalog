@@ -13,12 +13,13 @@ class Product @JvmOverloads constructor(
     @GeneratedValue(strategy = GenerationType.UUID)
     val productId: UUID? = null,
 
-    @Column(nullable = false)
+    @Column(length = 100, nullable = false)
     var name: String? = null,
 
+    @Column(length = 256)
     var description: String? = null,
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     var price: BigDecimal? = null,
 
     @Column(nullable = false)
