@@ -25,7 +25,7 @@ dependencies {
     val cucumberVersion = "7.14.0"
     val googleGuavaVersion = "32.1.3-jre"
     val jose4jVersion = "0.9.3"
-    val jacksonJsr310Version = "2.12.3"
+    val jacksonJsr310Version = "2.15.3"
     val embeddedPostgresVersion = "2.0.4"
 
     testImplementation(project(":sales-catalog-app"))
