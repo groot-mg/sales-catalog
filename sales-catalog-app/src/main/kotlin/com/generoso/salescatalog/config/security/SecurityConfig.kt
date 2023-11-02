@@ -1,7 +1,9 @@
-package com.generoso.salescatalog.config
+package com.generoso.salescatalog.config.security
 
 import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.auth.UserRole
+import com.generoso.salescatalog.config.CustomJwtGrantedAuthoritiesConverter
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -13,7 +15,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
-class SecurityConfig {
+class SecurityConfig @Autowired constructor(private val securityEntryPoint: SecurityEntryPoint) {
 
     private val roleClient: String = UserRole.CLIENT.role
     private val roleSales: String = UserRole.SALES.role
@@ -34,6 +36,10 @@ class SecurityConfig {
                 .requestMatchers("/private/**").permitAll()
                 .anyRequest().authenticated()
             //@formatter:on
+        }
+
+        http.exceptionHandling { exceptionHandling ->
+            exceptionHandling.authenticationEntryPoint(securityEntryPoint)
         }
 
         http.sessionManagement { session ->

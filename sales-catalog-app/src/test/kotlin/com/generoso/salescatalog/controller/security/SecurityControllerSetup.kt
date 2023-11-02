@@ -1,7 +1,7 @@
 package com.generoso.salescatalog.controller.security
 
 import com.generoso.salescatalog.auth.UserRole
-import com.generoso.salescatalog.config.SecurityConfig
+import com.generoso.salescatalog.config.security.SecurityConfig
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import org.jose4j.jwk.JsonWebKeySet
 import org.jose4j.jwk.RsaJsonWebKey
