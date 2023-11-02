@@ -1,4 +1,4 @@
-package com.generoso.salescatalog.config
+package com.generoso.salescatalog.config.security
 
 import com.nimbusds.jose.shaded.gson.internal.LinkedTreeMap
 import org.springframework.core.convert.converter.Converter

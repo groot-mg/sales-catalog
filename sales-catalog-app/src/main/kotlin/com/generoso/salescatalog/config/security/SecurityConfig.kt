@@ -2,7 +2,6 @@ package com.generoso.salescatalog.config.security
 
 import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.auth.UserRole
-import com.generoso.salescatalog.config.CustomJwtGrantedAuthoritiesConverter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

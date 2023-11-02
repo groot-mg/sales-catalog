@@ -1,4 +1,4 @@
-package com.generoso.salescatalog.config
+package com.generoso.salescatalog.config.security
 
 import com.nimbusds.jose.util.JSONObjectUtils
 import org.assertj.core.api.Assertions.assertThat
