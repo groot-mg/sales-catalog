@@ -2,6 +2,7 @@ package com.generoso.salescatalog.controller.security
 
 import com.generoso.salescatalog.auth.UserRole
 import com.generoso.salescatalog.config.security.SecurityConfig
+import com.generoso.salescatalog.config.security.SecurityEntryPoint
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import org.jose4j.jwk.JsonWebKeySet
 import org.jose4j.jwk.RsaJsonWebKey
@@ -25,7 +26,7 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-@ContextConfiguration(classes = [SecurityConfig::class])
+@ContextConfiguration(classes = [SecurityConfig::class, SecurityEntryPoint::class])
 @AutoConfigureWireMock(port = 0)
 @ActiveProfiles("unit-tests")
 open class SecurityControllerSetup {
