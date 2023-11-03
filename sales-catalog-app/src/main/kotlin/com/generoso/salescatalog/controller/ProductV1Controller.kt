@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @Tag(name = "ProductV1Controller", description = "Controller to manage Products")
 @RestController
@@ -41,7 +42,7 @@ class ProductV1Controller @Autowired constructor(
             )]
         )
     )
-    fun getAll(pageable: Pageable): Page<ProductV1Dto> {
+    fun getAll(@Parameter(description = "Pageable options") pageable: Pageable): Page<ProductV1Dto> {
         val products = service.findAll(pageable)
         return products.map {
             if (userInfo.isSalesUser())
@@ -49,6 +50,31 @@ class ProductV1Controller @Autowired constructor(
             else
                 converter.convertToPublicViewDto(it)
         }
+    }
+
+    @Operation(description = "Retrieve a product by id")
+    @GetMapping("/{productId}")
+    @ApiResponses(
+        value =
+        [
+            ApiResponse(
+                responseCode = "200", description = "Successfully found the product by id",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = ProductV1Dto::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "404", description = "Product not found"
+            )
+        ]
+    )
+    fun getProductById(@Parameter(description = "Product id") @PathVariable productId: UUID): ProductV1Dto {
+        val product = service.findById(productId)
+        return if (userInfo.isSalesUser())
+            converter.convertToDto(product)
+        else
+            converter.convertToPublicViewDto(product)
     }
 
     @Operation(description = "Register a new product")

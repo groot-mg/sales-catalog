@@ -11,4 +11,6 @@ import java.util.*
 interface ProductRepository : JpaRepository<Product, UUID> {
 
     fun findBySalesUserId(userId: UUID, pageable: Pageable): Page<Product>
+
+    fun findByIdAndSalesUserId(productId: UUID, userId: UUID): Optional<Product>
 }

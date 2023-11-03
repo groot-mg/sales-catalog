@@ -36,23 +36,23 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
 
     // Retrieve products - GET
     @Test
-    fun whenNoAuthenticatedUserCallsGetProducts_shouldReturnSuccessfully() {
+    fun `given no authenticated user when get products then should return list of products`() {
         // Arrange
         val productId = UUID.randomUUID()
-        val name = "name"
-        val products = listOf(Product(productId = productId, name = name))
+        val productName = "name"
+        val products = listOf(Product(productId = productId, name = productName))
         val expectedPage = PageImpl(products)
 
         `when`(service.findAll(anyOrNull())).thenReturn(expectedPage)
         `when`(userInfo.isSalesUser()).thenReturn(false)
-        `when`(converter.convertToPublicViewDto(products[0])).thenReturn(ProductV1Dto(id = productId).apply { this.name = name })
+        `when`(converter.convertToPublicViewDto(products[0])).thenReturn(ProductV1Dto(id = productId).apply { this.name = productName })
 
         // Act & Assert
         //@formatter:off
         mockMvc.perform(get("/v1/products"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.content[0].id").value(productId.toString()))
-            .andExpect(jsonPath("$.content[0].name").value(name))
+            .andExpect(jsonPath("$.content[0].name").value(productName))
         //@formatter:on
 
         verify(service).findAll(anyOrNull())
@@ -61,23 +61,23 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
     }
 
     @Test
-    fun whenAuthenticatedSalesUserCallsGetProducts_shouldReturnSuccessfully() {
+    fun `when authenticated sales user calls get products should return successfully`() {
         // Arrange
         val productId = UUID.randomUUID()
-        val name = "name"
-        val products = listOf(Product(productId = productId, name = name))
+        val productName = "name"
+        val products = listOf(Product(productId = productId, name = productName))
         val expectedPage = PageImpl(products)
 
         `when`(service.findAll(anyOrNull())).thenReturn(expectedPage)
         `when`(userInfo.isSalesUser()).thenReturn(true)
-        `when`(converter.convertToDto(products[0])).thenReturn(ProductV1Dto(id = productId).apply { this.name = name })
+        `when`(converter.convertToDto(products[0])).thenReturn(ProductV1Dto(id = productId).apply { this.name = productName })
 
         // Act & Assert
         //@formatter:off
         mockMvc.perform(get("/v1/products"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.content[0].id").value(productId.toString()))
-            .andExpect(jsonPath("$.content[0].name").value(name))
+            .andExpect(jsonPath("$.content[0].name").value(productName))
         //@formatter:on
 
         verify(service).findAll(anyOrNull())
@@ -85,9 +85,53 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
         verify(converter).convertToDto(products[0])
     }
 
+    @Test
+    fun `get product by id for a non-sales user should return the product successfully using public view`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        val productName = "Test Product"
+        val product = Product(productId, productName)
+
+        `when`(service.findById(productId)).thenReturn(product)
+        `when`(userInfo.isSalesUser()).thenReturn(false)
+        `when`(converter.convertToPublicViewDto(product)).thenReturn(ProductV1Dto(id = productId).apply { this.name = productName })
+
+        // Act & Assert
+        mockMvc.perform(get("/v1/products/{productId}", productId))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(productId.toString()))
+            .andExpect(jsonPath("$.name").value(productName))
+
+        verify(service).findById(productId)
+        verify(userInfo).isSalesUser()
+        verify(converter).convertToPublicViewDto(product)
+    }
+
+    @Test
+    fun `get product by id for a sales user should return the product successfully using public sales view`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        val productName = "Test Product"
+        val product = Product(productId, productName)
+
+        `when`(service.findById(productId)).thenReturn(product)
+        `when`(userInfo.isSalesUser()).thenReturn(true)
+        `when`(converter.convertToDto(product)).thenReturn(ProductV1Dto(id = productId).apply { this.name = productName })
+
+        // Act & Assert
+        mockMvc.perform(get("/v1/products/{productId}", productId))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(productId.toString()))
+            .andExpect(jsonPath("$.name").value(productName))
+
+        verify(service).findById(productId)
+        verify(userInfo).isSalesUser()
+        verify(converter).convertToDto(product)
+    }
+
     // Register product - POST
     @Test
-    fun whenClientUserCallsToRegisterNewProduct_shouldReturnForbidden() {
+    fun `when client user calls to register new product, should return forbidden`() {
         // Arrange
         val productDto = mock(ProductV1Dto::class.java)
 
@@ -103,7 +147,7 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
     }
 
     @Test
-    fun whenCallToSaveTheNewProduct_shouldCallConverterAndService() {
+    fun `when call to save the new product, should call converter and service`() {
         // Arrange
         val productDto = ProductV1Dto()
         productDto.name = "fake-name"
