@@ -1,6 +1,7 @@
 package com.generoso.ft.salescatalog.steps
 
 import com.generoso.ft.salescatalog.client.model.JsonMapper
+import com.generoso.ft.salescatalog.model.ApiResponse
 import com.generoso.ft.salescatalog.state.ScenarioState
 import com.generoso.salescatalog.dto.ProductV1Dto
 import com.generoso.salescatalog.exception.error.ValidationErrorDetails
@@ -16,6 +17,15 @@ class ResponseStepDefinitions @Autowired constructor(
     private val scenarioState: ScenarioState,
     private val mapper: JsonMapper
 ) {
+
+    private var actualResponse: ApiResponse? = null
+        get() {
+            if (field == null) {
+                field = mapper.fromJson(scenarioState.actualResponseBody, ApiResponse::class.java)
+            }
+
+            return field!!
+        }
 
     @Then("the response status code should be {int}")
     fun theResponseCode(expectedResponseCode: Int) {
@@ -52,5 +62,21 @@ class ResponseStepDefinitions @Autowired constructor(
             val messages = validations?.filter { it.field == field }?.flatMap { it.messages.toList() }?.toTypedArray()
             assertThat(messages).contains(m)
         }
+    }
+
+    @And("the response content is empty")
+    fun theResponseContentIsEmpty() {
+        assertThat(actualResponse?.content).isEmpty()
+    }
+
+    @And("the response content contains the product id {word}")
+    fun theResponseContentContainsTheProductId(productId: String) {
+        assertThat(actualResponse?.content?.map { it.id.toString() }).contains(productId)
+    }
+
+    @And("^the pageable response contains (\\d+) (?:element|elements) and (\\d+) (?:page|pages)$")
+    fun thePageableResponseContainsElementsAndPages(elements: Int, pages: Int) {
+        assertThat(actualResponse?.totalElements).isEqualTo(elements)
+        assertThat(actualResponse?.totalPages).isEqualTo(pages)
     }
 }

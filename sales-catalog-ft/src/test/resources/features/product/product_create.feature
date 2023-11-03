@@ -1,4 +1,4 @@
-Feature: Product controller scenarios
+Feature: Product controller scenarios for creating a new product
 
   Scenario: When a call is received to register a new product without authentication it should return unauthorised
     Given an endpoint PRODUCT_POST is prepared
@@ -52,7 +52,7 @@ Feature: Product controller scenarios
     And use a JWT token for user sales with role api-sales
     When the request is sent
     Then the response status code should be 201
-    And product table has record:
+    And assert product table has record:
       | name         | description         | price | quantity | isReserved | isSold | salesUserId | created  | lastUpdate | isDeleted |
       | Product name | Product description | 10.00 | 50       | false      | false  | NON_NULL    | NON_NULL | NULL       | false     |
     And product response object has:

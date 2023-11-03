@@ -23,7 +23,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
   datasource:
-    url: jdbc:postgresql://${POSTGRESQL_URL:localhost:5432}/postgres?currentSchema=groot_mg
+    url: jdbc:postgresql://${POSTGRESQL_URL:localhost:5432}/postgres?currentSchema=sales_catalog
     username: ${POSTGRESQL_USERNAME:sales_catalog_user}
     password: ${POSTGRESQL_PASSWORD:sales_catalog_pass}
     tomcat:

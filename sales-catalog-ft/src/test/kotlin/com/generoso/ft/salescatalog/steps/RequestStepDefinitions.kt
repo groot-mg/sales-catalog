@@ -29,7 +29,6 @@ class RequestStepDefinitions @Autowired constructor(
     @Given("an endpoint {} is prepared")
     fun thePrivateEndpointIsPrepared(endpoint: Endpoint) {
         scenarioState.requestTemplate = getRequestTemplate(endpoint)
-        scenarioState.requestTemplate?.reset()
     }
 
     @Given("an endpoint {} is prepared with path parameter {word}")

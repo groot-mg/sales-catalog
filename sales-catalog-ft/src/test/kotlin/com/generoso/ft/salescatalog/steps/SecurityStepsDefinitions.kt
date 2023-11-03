@@ -55,7 +55,15 @@ class SecurityStepsDefinitions @Autowired constructor(
         scenarioState.requestTemplate?.withHeader("Authorization", format("Bearer %s", generateJWT(user, listOf(role))))
     }
 
-    private fun generateJWT(name: String, roles: List<String>): String {
+    @And("use a JWT token for user id {word} with role {word}")
+    fun useJwtTokenForUserIdWithRole(userId: String, role: String) {
+        scenarioState.requestTemplate?.withHeader("Authorization", format("Bearer %s", generateJWT(userId, "test-username", listOf(role))))
+    }
+
+    private fun generateJWT(name: String, roles: List<String>): String = generateJWT(UUID.randomUUID().toString(), name, roles)
+
+
+    private fun generateJWT(userId: String, name: String, roles: List<String>): String {
         val claims = JwtClaims()
         claims.jwtId = UUID.randomUUID().toString()
         claims.setExpirationTimeMinutesInTheFuture(10f)
@@ -63,7 +71,7 @@ class SecurityStepsDefinitions @Autowired constructor(
         claims.setIssuedAtToNow()
         claims.setAudience("account")
         claims.issuer = format("http://%s:%s/realms/%s", wiremockHost, wiremockPort, KEYCLOAK_REALM)
-        claims.subject = UUID.randomUUID().toString()
+        claims.subject = UUID.fromString(userId).toString()
         claims.setClaim("typ", "Bearer")
         claims.setClaim("azp", "example-client-id")
         claims.setClaim(
