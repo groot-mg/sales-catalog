@@ -69,6 +69,11 @@ class PostgresStepDefinitions @Autowired constructor(
         assertThat(product.isDeleted).isEqualTo(row["isDeleted"].toBoolean())
     }
 
+    @And("database is down")
+    fun databaseIsDown() {
+        postgresDao.stop()
+    }
+
     @And("product table has no records")
     fun productTableHasNoRecords() = assertThat(postgresDao.findAllProducts()).isEmpty()
 }

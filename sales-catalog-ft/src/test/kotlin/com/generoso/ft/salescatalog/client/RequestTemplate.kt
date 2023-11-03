@@ -72,6 +72,8 @@ abstract class RequestTemplate protected constructor(private val host: String, p
     private fun initDefaults() {
         headers = getDefaultHeaders()
         body = getBody()
+        pathParameter = ""
+        queryParameters.clear()
     }
 
     private fun buildUri(): URI {

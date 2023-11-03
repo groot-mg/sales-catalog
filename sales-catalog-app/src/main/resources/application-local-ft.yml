@@ -5,13 +5,12 @@ spring:
       resource-server:
         jwt:
           issuer-uri: http://localhost:9000/realms/shopping-api
-  jpa:
-    hibernate:
-      ddl-auto: create
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
+    hikari:
+      connection-timeout: 5000 # 5s for database timeout
 
 eureka:
   client:

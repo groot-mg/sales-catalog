@@ -75,3 +75,12 @@ Feature: Product controller scenarios for creating a new product
       | PRICE_MAX_DIGITS_ALLOWED         |
       | PRICE_DECIMAL_MAX_DIGITS_ALLOWED |
       | QUANTITY_POSITIVE                |
+
+  # Internal Server Error
+  Scenario: When a sales user calls to register a new product and database is down should return internal server error
+    Given an endpoint PRODUCT_POST is prepared
+    And use a JWT token for user sales with role api-sales
+    And database is down
+    When the request is sent
+    Then the response status code should be 500
+    And the response error detail should be Database exception

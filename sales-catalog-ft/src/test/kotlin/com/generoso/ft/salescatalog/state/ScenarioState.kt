@@ -6,13 +6,8 @@ import java.net.http.HttpResponse
 
 @Component
 class ScenarioState {
+
     var requestTemplate: RequestTemplate? = null
-        get() {
-            if (field == null) {
-                throw RuntimeException("The request template wasn't provided.")
-            }
-            return field
-        }
 
     var actualResponse: HttpResponse<String>? = null
         get() {

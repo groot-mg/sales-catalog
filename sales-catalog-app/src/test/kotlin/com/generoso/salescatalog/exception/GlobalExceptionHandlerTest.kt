@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito.mock
 import org.mockito.junit.jupiter.MockitoExtension
+import org.postgresql.util.PSQLException
+import org.postgresql.util.PSQLState
 import org.springframework.core.MethodParameter
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -125,6 +127,20 @@ class GlobalExceptionHandlerTest {
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, responseEntity?.statusCode)
         assertEquals(exceptionMessage, (responseEntity?.body as ErrorDetail).detail)
+    }
+
+    @Test
+    fun `handlePSQLException should return 500 and expected message`() {
+        // Arrange
+        val expectedStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
+        val expectedDetail = "Database exception"
+
+        // Act
+        val responseEntity = globalExceptionHandler.handlePSQLException(PSQLException(expectedDetail, PSQLState.UNKNOWN_STATE, null))
+
+        // Assert
+        assertEquals(expectedStatusCode, responseEntity?.statusCode)
+        assertEquals(expectedDetail, (responseEntity?.body as ErrorDetail).detail)
     }
 
     private fun createBindingResult(fields: Array<String>, messages: Array<String>): BindingResult {
