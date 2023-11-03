@@ -14,12 +14,11 @@ class SecurityEntryPointTest {
     fun whenAuthenticationEntryPointIsCalled_shouldLogTheUnauthorisedAccess() {
         // Arrange
         val listAppender = getListAppenderForClass(SecurityEntryPoint::class.java)
+        val response = MockHttpServletResponse()
+        response.status = 401
 
         // Act
-        SecurityEntryPoint().commence(
-            MockHttpServletRequest(), MockHttpServletResponse(),
-            AuthenticationServiceException("Oauth2-exception")
-        )
+        SecurityEntryPoint().commence(MockHttpServletRequest(), response, AuthenticationServiceException("Oauth2-exception"))
 
         // Assert
         assertMessageWasInLogs(listAppender, "Unauthorized access detected: Oauth2-exception", Level.INFO)
