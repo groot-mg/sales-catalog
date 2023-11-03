@@ -25,10 +25,7 @@ class SecurityConfig @Autowired constructor(private val securityEntryPoint: Secu
 
         http.authorizeHttpRequests { authorizeExchange ->
             //@formatter:off
-            authorizeExchange.requestMatchers("/hello-world-public").permitAll()
-                .requestMatchers("/hello-world").hasAnyRole(roleClient, roleSales)
-                .requestMatchers("/hello-world-client").hasRole(roleClient)
-                .requestMatchers("/hello-world-sales").hasRole(roleSales)
+            authorizeExchange
                 .requestMatchers(HttpMethod.POST, "/v1/products").hasAnyRole(roleSales)
                 .requestMatchers(HttpMethod.GET, "/v1/products/**").permitAll()
                 .requestMatchers("/private/**").permitAll()

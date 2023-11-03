@@ -7,10 +7,6 @@ enum class Endpoint(val path: String, val method: String) {
     PRIVATE_OPEN_API("/sales-catalog/private/api-docs", "GET"),
     PRIVATE_SWAGGER_REDIRECTION("/sales-catalog/private/swagger", "GET"),
     PRIVATE_SWAGGER_UI("/sales-catalog/private/swagger-ui/index.html", "GET"),
-    HELLO_WORLD_PUBLIC("/sales-catalog/hello-world-public", "GET"),
-    HELLO_WORLD("/sales-catalog/hello-world", "GET"),
-    HELLO_WORLD_CLIENT("/sales-catalog/hello-world-client", "GET"),
-    HELLO_WORLD_SALES("/sales-catalog/hello-world-sales", "GET"),
     PRODUCT_POST("/sales-catalog/v1/products", "POST"),
     PRODUCT_GET("/sales-catalog/v1/products", "GET")
 }
