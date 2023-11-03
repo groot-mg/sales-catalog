@@ -19,7 +19,11 @@ class SecurityEntryPoint : AuthenticationEntryPoint {
         request: HttpServletRequest, response: HttpServletResponse,
         authException: AuthenticationException
     ) {
-        log.info("Unauthorized access detected: " + authException.message)
+        if (response.status == 401) {
+            // Spring calls this method twice, so only handles it to log on the second call
+            log.info("Unauthorized access detected: " + authException.message)
+        }
+
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
     }
 }
