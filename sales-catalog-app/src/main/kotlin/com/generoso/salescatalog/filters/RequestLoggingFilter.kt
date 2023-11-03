@@ -13,9 +13,10 @@ class RequestLoggingFilter : Filter {
     @Throws(IOException::class, ServletException::class)
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         val httpServletRequest = request as HttpServletRequest
-        val path = httpServletRequest.requestURI
         val method = httpServletRequest.method
-        log.info("Incoming request {} {}", method, path)
+        val path = httpServletRequest.requestURI
+        val queryString = httpServletRequest.queryString
+        log.info("Incoming request {} {}", method, if (queryString.isNullOrEmpty()) path else "$path?$queryString")
         chain.doFilter(request, response)
         log.info("Returning request with status code: {}", (response as HttpServletResponse).status)
     }

@@ -1,6 +1,5 @@
 package com.generoso.salescatalog.config.security
 
-import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.auth.UserRole
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -31,7 +30,7 @@ class SecurityConfig @Autowired constructor(private val securityEntryPoint: Secu
                 .requestMatchers("/hello-world-client").hasRole(roleClient)
                 .requestMatchers("/hello-world-sales").hasRole(roleSales)
                 .requestMatchers(HttpMethod.POST, "/v1/products").hasAnyRole(roleSales)
-                .requestMatchers(HttpMethod.GET, "/v1/products/**").hasAnyRole(roleSales, roleClient)
+                .requestMatchers(HttpMethod.GET, "/v1/products/**").permitAll()
                 .requestMatchers("/private/**").permitAll()
                 .anyRequest().authenticated()
             //@formatter:on
@@ -55,14 +54,5 @@ class SecurityConfig @Autowired constructor(private val securityEntryPoint: Secu
         val jwtAuthenticationConverter = JwtAuthenticationConverter()
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(CustomJwtGrantedAuthoritiesConverter())
         return jwtAuthenticationConverter
-    }
-
-    @Bean
-    fun authenticationThreadLocal(): InheritableThreadLocal<UserInfo> {
-        return object : InheritableThreadLocal<UserInfo>() {
-            override fun initialValue(): UserInfo {
-                return UserInfo()
-            }
-        }
     }
 }

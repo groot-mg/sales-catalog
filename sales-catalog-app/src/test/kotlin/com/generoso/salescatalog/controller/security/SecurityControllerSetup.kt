@@ -1,5 +1,6 @@
 package com.generoso.salescatalog.controller.security
 
+import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.auth.UserRole
 import com.generoso.salescatalog.config.security.SecurityConfig
 import com.generoso.salescatalog.config.security.SecurityEntryPoint
@@ -14,6 +15,7 @@ import org.jose4j.jwt.NumericDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import org.springframework.core.env.Environment
 import org.springframework.test.context.ActiveProfiles
@@ -26,7 +28,7 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-@ContextConfiguration(classes = [SecurityConfig::class, SecurityEntryPoint::class])
+@ContextConfiguration(classes = [SecurityConfig::class, SecurityEntryPoint::class, UserInfo::class])
 @AutoConfigureWireMock(port = 0)
 @ActiveProfiles("unit-tests")
 open class SecurityControllerSetup {
@@ -44,6 +46,9 @@ open class SecurityControllerSetup {
 
     @Autowired
     protected lateinit var mockMvc: MockMvc
+
+    @MockBean
+    protected lateinit var userInfo: UserInfo
 
     @Autowired
     private lateinit var environment: Environment

@@ -5,7 +5,6 @@ import com.generoso.salescatalog.auth.UserRole
 import com.generoso.salescatalog.exception.ForbiddenDatabaseException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
@@ -18,19 +17,12 @@ import java.util.*
 @ExtendWith(MockitoExtension::class)
 class ProductEntityListenerTest {
 
-    private val userInfo = mock(UserInfo::class.java)
 
     @Mock
-    private lateinit var authenticationThreadLocal: InheritableThreadLocal<UserInfo>
+    private lateinit var userInfo: UserInfo
 
     @InjectMocks
     private lateinit var productEntityListener: ProductEntityListener<Product>
-
-    @BeforeEach
-    fun setUp() {
-        `when`(authenticationThreadLocal.get()).thenReturn(userInfo)
-
-    }
 
     @Test
     fun whenTheBeforeSaveIsCalled_shouldSetAllExpectedFields() {

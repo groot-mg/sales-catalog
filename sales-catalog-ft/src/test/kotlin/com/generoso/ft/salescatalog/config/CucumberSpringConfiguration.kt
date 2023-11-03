@@ -1,6 +1,9 @@
 package com.generoso.ft.salescatalog.config
 
 import com.generoso.ft.salescatalog.YamlFileApplicationContextInitializer
+import com.generoso.ft.salescatalog.state.ScenarioState
+import com.generoso.ft.salescatalog.utils.PostgresDao
+import io.cucumber.java.After
 import io.cucumber.spring.CucumberContextConfiguration
 import org.springframework.test.context.ContextConfiguration
 
@@ -9,4 +12,14 @@ import org.springframework.test.context.ContextConfiguration
     initializers = [YamlFileApplicationContextInitializer::class]
 )
 @CucumberContextConfiguration
-class CucumberSpringConfiguration
+class CucumberSpringConfiguration(
+    private val postgresDao: PostgresDao,
+    private val scenarioState: ScenarioState
+) {
+
+    @After
+    fun cleanup() {
+        postgresDao.cleanUpTables()
+        scenarioState.requestTemplate?.reset()
+    }
+}

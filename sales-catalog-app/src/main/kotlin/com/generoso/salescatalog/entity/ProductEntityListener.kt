@@ -9,13 +9,11 @@ import java.time.ZoneOffset
 import java.util.*
 
 class ProductEntityListener<T : BaseEntity<UUID>>(
-    // Spring injects the bean
-    private val authenticationThreadLocal: InheritableThreadLocal<UserInfo>
+    private val userInfo: UserInfo
 ) {
 
     @PrePersist
     fun beforeSave(entity: T) {
-        val userInfo = authenticationThreadLocal.get()
         val userId = userInfo.getUserId()
         if (UserRole.SALES != userInfo.getRole()) {
             throw ForbiddenDatabaseException("User [${userId} | ${userInfo.getUsername()}] is not allowed to create products")

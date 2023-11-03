@@ -29,7 +29,6 @@ class RequestStepDefinitions @Autowired constructor(
     @Given("an endpoint {} is prepared")
     fun thePrivateEndpointIsPrepared(endpoint: Endpoint) {
         scenarioState.requestTemplate = getRequestTemplate(endpoint)
-        scenarioState.requestTemplate?.reset()
     }
 
     @Given("an endpoint {} is prepared with path parameter {word}")
@@ -37,6 +36,11 @@ class RequestStepDefinitions @Autowired constructor(
         val requestTemplate: RequestTemplate? = getRequestTemplate(endpoint)
         requestTemplate?.pathParameter(pathParameter)
         scenarioState.requestTemplate = requestTemplate
+    }
+
+    @And("query parameter {word} has value {word}")
+    fun queryParameterHasValue(name: String, value: String) {
+        scenarioState.requestTemplate?.addQueryParameter(name, value)
     }
 
     @When("the request is sent")

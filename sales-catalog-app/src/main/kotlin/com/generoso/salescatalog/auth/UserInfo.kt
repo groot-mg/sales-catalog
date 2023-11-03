@@ -3,8 +3,10 @@ package com.generoso.salescatalog.auth
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
+import org.springframework.stereotype.Component
 import java.util.*
 
+@Component
 class UserInfo {
 
     fun getUserId(): UUID {
@@ -14,13 +16,22 @@ class UserInfo {
 
     fun getUsername(): String {
         val contextHolder = contextHolder()
-        return (contextHolder.principal as Jwt).claims["username"] as String;
+        return (contextHolder.principal as Jwt).claims["username"] as String
     }
 
-    fun getRole(): UserRole {
-        val contextHolder = contextHolder()
-        val roles = getRoles(contextHolder.principal as Jwt);
+    fun isSalesUser(): Boolean = getRole() == UserRole.SALES
 
+    fun isClient(): Boolean = getRole() == UserRole.CLIENT
+
+    fun getRole(): UserRole {
+        val contextHolder: JwtAuthenticationToken
+        try {
+            contextHolder = contextHolder()
+        } catch (ex: ClassCastException) {
+            return UserRole.UNKNOWN
+        }
+
+        val roles = getRoles(contextHolder.principal as Jwt)
         return when {
             roles.contains(UserRole.CLIENT.role) -> UserRole.CLIENT
             roles.contains(UserRole.SALES.role) -> UserRole.SALES

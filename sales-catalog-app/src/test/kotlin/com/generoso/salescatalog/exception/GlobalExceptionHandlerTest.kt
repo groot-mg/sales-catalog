@@ -1,6 +1,7 @@
-package com.generoso.salescatalog.exception.error
+package com.generoso.salescatalog.exception
 
-import com.generoso.salescatalog.exception.GlobalExceptionHandler
+import com.generoso.salescatalog.exception.error.ErrorDetail
+import com.generoso.salescatalog.exception.error.ValidationErrorDetails
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -24,7 +25,7 @@ class GlobalExceptionHandlerTest {
     private val globalExceptionHandler = GlobalExceptionHandler()
 
     @Test
-    fun handleExceptionInternal_shouldContainsTheExpectedFields() {
+    fun `handleExceptionInternal should contain expected fields`() {
         // Arrange
         val exception = Exception("Exception message")
         val headers = HttpHeaders()
@@ -53,7 +54,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    fun handleMethodArgumentNotValid_shouldContainsTheExpectedFieldsForASingleField() {
+    fun `handleMethodArgumentNotValid should contain expected fields for a single field`() {
         // Arrange
         val exception = MethodArgumentNotValidException(
             mock(MethodParameter::class.java),
@@ -82,7 +83,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    fun handleMethodArgumentNotValid_shouldContainsTheExpectedFieldsForMultiFields() {
+    fun `handleMethodArgumentNotValid should contain expected fields for multiple fields`() {
         // Arrange
         val exception = MethodArgumentNotValidException(
             mock(MethodParameter::class.java),
@@ -110,6 +111,20 @@ class GlobalExceptionHandlerTest {
         assertEquals("name is invalid", errorDetail.validations?.get(0)?.messages?.get(0))
         assertEquals("email", errorDetail.validations?.get(1)?.field)
         assertEquals("Invalid email format", errorDetail.validations?.get(1)?.messages?.get(0))
+    }
+
+    @Test
+    fun `handleNoResourceFoundException should return a ResponseEntity with correct status and message`() {
+        // Arrange
+        val exceptionMessage = "Resource not found"
+        val exception = NoResourceFoundException(exceptionMessage)
+
+        // Act
+        val responseEntity: ResponseEntity<Any>? = globalExceptionHandler.handleNoResourceFoundException(exception)
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity?.statusCode)
+        assertEquals(exceptionMessage, (responseEntity?.body as ErrorDetail).detail)
     }
 
     private fun createBindingResult(fields: Array<String>, messages: Array<String>): BindingResult {

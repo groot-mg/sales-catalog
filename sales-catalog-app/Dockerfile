@@ -1,6 +1,6 @@
 FROM amazoncorretto:17-alpine
 
-MAINTAINER Mauricio Generoso
+LABEL MAINTAINER="Mauricio Generoso"
 
 RUN mkdir /apps
 

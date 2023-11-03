@@ -1,55 +1,18 @@
-package com.generoso.ft.salescatalog.steps
+package com.generoso.ft.salescatalog.utils
 
 import com.generoso.salescatalog.entity.Product
-import io.cucumber.datatable.DataTable
-import io.cucumber.java.en.And
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
-import org.assertj.core.api.Assertions.assertThat
-import org.springframework.beans.factory.annotation.Autowired
-import java.math.BigDecimal
+import org.springframework.stereotype.Component
 import java.sql.DriverManager
+import java.sql.Timestamp
 import java.util.*
 
-class DatabaseStepDefinitions @Autowired constructor(
+@Component
+class PostgresDao(
     private val embeddedPostgres: EmbeddedPostgres
 ) {
 
-    @And("product table has record:")
-    fun productTableHasRecord(table: DataTable) {
-        val row: Map<String, String> = table.asMaps()[0]
-        val products = findAllProducts()
-
-        assertThat(products.size).isEqualTo(1)
-
-        val product = products[0]
-
-        assertThat(product.productId).isNotNull()
-        assertThat(product.name).isEqualTo(row["name"])
-        assertThat(product.description).isEqualTo(row["description"])
-        assertThat(product.price).isEqualTo(BigDecimal(row["price"]))
-        assertThat(product.quantity).isEqualTo(row["quantity"]?.toLong())
-        assertThat(product.isReserved).isEqualTo(row["isReserved"].toBoolean())
-        assertThat(product.isSold).isEqualTo(row["isSold"].toBoolean())
-
-        val salesUserId = row["salesUserId"]
-        if (salesUserId.equals("NON_NULL")) {
-            assertThat(product.salesUserId).isNotNull()
-        }
-
-        val lastUpdate = row["salesUserId"]
-        if (lastUpdate.equals("NON_NULL")) {
-            assertThat(product.salesUserId).isNotNull()
-        } else if (lastUpdate.equals("NULL")) {
-            assertThat(product.salesUserId).isNull()
-        }
-        assertThat(product.isDeleted).isEqualTo(row["isDeleted"].toBoolean())
-    }
-
-    @And("product table has no records")
-    fun productTableHasNoRecords() = assertThat(findAllProducts()).isEmpty()
-
-
-    private fun findAllProducts(): List<Product> {
+    fun findAllProducts(): List<Product> {
         val products = mutableListOf<Product>()
         createConnection().use { connection ->
             val selectQuery = "SELECT * FROM products"
@@ -90,5 +53,49 @@ class DatabaseStepDefinitions @Autowired constructor(
         return products
     }
 
+    fun insert(product: Product) {
+        createConnection().use { connection ->
+            val insert = """
+                INSERT INTO products (
+                    product_id, 
+                    name, 
+                    description, 
+                    price, 
+                    quantity, 
+                    is_reserved, 
+                    is_sold, 
+                    is_deleted,
+                    created_at,
+                    sales_user_id
+                ) 
+                VALUES (?,?,?,?,?,?,?,?,?,?);
+            """
+            connection.prepareStatement(insert).use { preparedStatement ->
+                preparedStatement.setObject(1, product.productId)
+                preparedStatement.setString(2, product.name)
+                preparedStatement.setString(3, product.description)
+                preparedStatement.setBigDecimal(4, product.price)
+                preparedStatement.setLong(5, product.quantity)
+                preparedStatement.setBoolean(6, product.isReserved)
+                preparedStatement.setBoolean(7, product.isSold)
+                preparedStatement.setBoolean(8, product.isDeleted!!)
+                preparedStatement.setTimestamp(9, Timestamp.valueOf(product.created))
+                preparedStatement.setObject(10, product.salesUserId)
+
+                preparedStatement.executeUpdate();
+            }
+        }
+    }
+
+    fun cleanUpTables() {
+        createConnection().use { connection ->
+            val deleteProducts = "DELETE FROM products;"
+            connection.prepareStatement(deleteProducts).use { preparedStatement ->
+                preparedStatement.executeUpdate()
+            }
+        }
+    }
+
     private fun createConnection() = DriverManager.getConnection(embeddedPostgres.getJdbcUrl("postgres", "postgres"))
+
 }

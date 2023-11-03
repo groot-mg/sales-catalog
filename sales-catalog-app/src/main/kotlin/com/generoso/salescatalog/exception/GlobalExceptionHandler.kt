@@ -3,21 +3,19 @@ package com.generoso.salescatalog.exception
 import com.generoso.salescatalog.exception.error.ErrorDetail
 import com.generoso.salescatalog.exception.error.ValidationErrorDetails
 import com.generoso.salescatalog.exception.error.ValidationErrorFields
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.time.LocalDateTime
 
 @ControllerAdvice
 class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
-
-    private val log = LoggerFactory.getLogger(this.javaClass)
 
     public override fun handleExceptionInternal(
         exception: Exception,
@@ -60,5 +58,18 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
         //@formatter:on
 
         return ResponseEntity(errorDetails, statusBadRequest)
+    }
+
+    @ExceptionHandler(NoResourceFoundException::class)
+    fun handleNoResourceFoundException(exception: NoResourceFoundException): ResponseEntity<Any>? {
+        val statusCode = HttpStatus.NOT_FOUND
+        //@formatter:off
+        val errorDetail: ErrorDetail = ErrorDetail.builder()
+            .status(statusCode.value())
+            .detail(exception.message)
+            .dateTime(LocalDateTime.now())
+            .build()
+        //@formatter:on
+        return ResponseEntity<Any>(errorDetail, statusCode)
     }
 }
