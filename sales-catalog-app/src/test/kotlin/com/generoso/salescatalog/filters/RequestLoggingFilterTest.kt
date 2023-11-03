@@ -12,7 +12,7 @@ import org.springframework.mock.web.MockHttpServletResponse
 class RequestLoggingFilterTest {
 
     @Test
-    fun shouldIncludeALogLine() {
+    fun `filter should include log lines for an usual request without queryString`() {
         // Arrange
         val listAppender = getListAppenderForClass(RequestLoggingFilter::class.java)
         val filter = RequestLoggingFilter()
@@ -27,6 +27,26 @@ class RequestLoggingFilterTest {
 
         // Assert
         assertMessageWasInLogs(listAppender, "Incoming request GET /unit-test", Level.INFO)
+        assertMessageWasInLogs(listAppender, "Returning request with status code: " + response.status, Level.INFO)
+    }
+
+    @Test
+    fun `filter should include log lines for an usual request with queryString`() {
+        // Arrange
+        val listAppender = getListAppenderForClass(RequestLoggingFilter::class.java)
+        val filter = RequestLoggingFilter()
+        val request = MockHttpServletRequest()
+        request.method = "GET"
+        request.requestURI = "/unit-test"
+        request.queryString = "size=1"
+        val response = MockHttpServletResponse()
+        response.status = 200
+
+        // Act
+        filter.doFilter(request, response, MockFilterChain())
+
+        // Assert
+        assertMessageWasInLogs(listAppender, "Incoming request GET /unit-test?size=1", Level.INFO)
         assertMessageWasInLogs(listAppender, "Returning request with status code: " + response.status, Level.INFO)
     }
 }

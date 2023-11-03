@@ -38,6 +38,11 @@ class RequestStepDefinitions @Autowired constructor(
         scenarioState.requestTemplate = requestTemplate
     }
 
+    @And("query parameter {word} has value {word}")
+    fun queryParameterHasValue(name: String, value: String) {
+        scenarioState.requestTemplate?.addQueryParameter(name, value)
+    }
+
     @When("the request is sent")
     fun theEndpointReceivesARequest() {
         val response = client.execute(scenarioState.requestTemplate!!)

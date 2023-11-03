@@ -7,12 +7,14 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublisher
+import java.util.*
 
 @Component
 abstract class RequestTemplate protected constructor(private val host: String, private val contextPath: String) {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
+    private val queryParameters: MutableList<Map.Entry<String, String>> = mutableListOf()
     private var pathParameter: String = ""
     private var body: String? = null
 
@@ -56,6 +58,11 @@ abstract class RequestTemplate protected constructor(private val host: String, p
         )
     }
 
+    fun addQueryParameter(name: String, value: String) {
+        queryParameters.removeIf { it.key == name }
+        queryParameters.add(AbstractMap.SimpleEntry(name, value))
+    }
+
     fun getBody(): String? {
         return null
     }
@@ -69,7 +76,8 @@ abstract class RequestTemplate protected constructor(private val host: String, p
 
     private fun buildUri(): URI {
         return try {
-            val finalUri = host + contextPath + endpoint.path + pathParameter
+            val queryParameters = generateQueryString()
+            val finalUri = host + contextPath + endpoint.path + pathParameter + queryParameters
             log.info("Building Uri: {}", finalUri)
             URI(finalUri)
         } catch (e: URISyntaxException) {
@@ -78,6 +86,13 @@ abstract class RequestTemplate protected constructor(private val host: String, p
                         "Error message: ${e.message}"
             )
         }
+    }
+
+    fun generateQueryString(): String {
+        return if (queryParameters.isNotEmpty())
+            "?" + queryParameters.joinToString("&") { "${it.key}=${it.value}" }
+        else
+            ""
     }
 
     private fun bodyPublisher(): BodyPublisher {
