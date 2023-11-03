@@ -76,7 +76,7 @@ class ProductV1ConverterTest {
         )
 
         // Act
-        val dto = converter.convertToClientViewDto(entity)
+        val dto = converter.convertToPublicViewDto(entity)
 
         // Assert
         assertEquals(entity.getId(), dto.id)

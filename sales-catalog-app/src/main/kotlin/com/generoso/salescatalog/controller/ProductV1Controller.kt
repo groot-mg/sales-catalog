@@ -1,5 +1,6 @@
 package com.generoso.salescatalog.controller
 
+import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.converter.ProductV1Converter
 import com.generoso.salescatalog.dto.ProductV1Dto
 import com.generoso.salescatalog.service.ProductService
@@ -12,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -23,11 +26,30 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/v1/products")
 class ProductV1Controller @Autowired constructor(
     private val service: ProductService,
-    private val converter: ProductV1Converter
+    private val converter: ProductV1Converter,
+    private val userInfo: UserInfo
 ) {
 
-//    @GetMapping
-//    fun getAll(): List<Product> = service.findAll()
+    @Operation(description = "Retrieve a list of products")
+    @GetMapping
+    @ApiResponses(
+        ApiResponse(
+            responseCode = "200", description = "Successfully retrieved the list of products",
+            content = [Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = Page::class)
+            )]
+        )
+    )
+    fun getAll(pageable: Pageable): Page<ProductV1Dto> {
+        val products = service.findAll(pageable)
+        return products.map {
+            if (userInfo.isSalesUser())
+                converter.convertToDto(it)
+            else
+                converter.convertToPublicViewDto(it)
+        }
+    }
 
     @Operation(description = "Register a new product")
     @PostMapping

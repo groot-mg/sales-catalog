@@ -1,12 +1,15 @@
 package com.generoso.salescatalog.entity
 
 import jakarta.persistence.*
+import org.hibernate.annotations.Where
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 
 @Entity
 @Table(name = "products")
+@Where(clause = "is_deleted = false")
+@EntityListeners(ProductEntityListener::class)
 class Product @JvmOverloads constructor(
     @Id
     @Column(name = "product_id", nullable = false, updatable = false)

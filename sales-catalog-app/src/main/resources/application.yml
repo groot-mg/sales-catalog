@@ -21,6 +21,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
   datasource:
     url: jdbc:postgresql://${POSTGRESQL_URL:localhost:5432}/postgres?currentSchema=groot_mg
     username: ${POSTGRESQL_USERNAME:sales_catalog_user}

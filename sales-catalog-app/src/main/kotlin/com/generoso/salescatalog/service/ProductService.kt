@@ -1,15 +1,25 @@
 package com.generoso.salescatalog.service
 
+import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.entity.Product
 import com.generoso.salescatalog.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-class ProductService @Autowired constructor(private val repository: ProductRepository) {
+class ProductService @Autowired constructor(
+    private val repository: ProductRepository,
+    private val userInfo: UserInfo
+) {
 
-    fun findAll(): List<Product> {
-        return repository.findAll()
+    fun findAll(pageable: Pageable): Page<Product> {
+        if (userInfo.isSalesUser()) {
+            return repository.findBySalesUserId(userInfo.getUserId(), pageable)
+        }
+
+        return repository.findAll(pageable)
     }
 
     fun save(entity: Product): Product {

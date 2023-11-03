@@ -1,13 +1,11 @@
 package com.generoso.salescatalog.entity
 
 import jakarta.persistence.Column
-import jakarta.persistence.EntityListeners
 import jakarta.persistence.MappedSuperclass
 import org.springframework.data.util.ProxyUtils
 import java.time.LocalDateTime
 
 @MappedSuperclass
-@EntityListeners(ProductEntityListener::class)
 abstract class BaseEntity<T> {
 
     @Column(name = "created_at", nullable = false, updatable = false)

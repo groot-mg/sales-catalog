@@ -1,12 +1,16 @@
 package com.generoso.salescatalog.auth
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.security.authentication.AnonymousAuthenticationToken
+import org.springframework.security.authentication.TestingAuthenticationToken
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
@@ -21,7 +25,7 @@ class UserInfoTest {
     @Mock
     private lateinit var jwt: Jwt
 
-    @Mock
+    @Mock(strictness = Mock.Strictness.LENIENT)
     private lateinit var jwtAuthenticationToken: JwtAuthenticationToken
 
     @Mock
@@ -60,6 +64,57 @@ class UserInfoTest {
 
         // Assert
         assertEquals(usernameTest, username)
+    }
+
+    @Test
+    fun whenIsSalesUserIsCalledForAClientUser_shouldReturnFalse() {
+        // Arrange
+        val realmAccess = mapOf("roles" to listOf(UserRole.CLIENT.role))
+        `when`(jwt.getClaim<Map<String, List<String>>>("realm_access")).thenReturn(realmAccess)
+
+        // Act & Assert
+        assertFalse(userInfo.isSalesUser())
+    }
+
+    @Test
+    fun whenIsSalesUserIsCalledForASalesUser_shouldReturnTrue() {
+        // Arrange
+        val realmAccess = mapOf("roles" to listOf(UserRole.SALES.role))
+        `when`(jwt.getClaim<Map<String, List<String>>>("realm_access")).thenReturn(realmAccess)
+
+        // Act & Assert
+        assertTrue(userInfo.isSalesUser())
+    }
+
+    @Test
+    fun whenIsClientIsCalledForAClientUser_shouldReturnTrue() {
+        // Arrange
+        val realmAccess = mapOf("roles" to listOf(UserRole.CLIENT.role))
+        `when`(jwt.getClaim<Map<String, List<String>>>("realm_access")).thenReturn(realmAccess)
+
+        // Act & Assert
+        assertTrue(userInfo.isClient())
+    }
+
+    @Test
+    fun whenIsClientIsCalledForASalesUser_shouldReturnFalse() {
+        // Arrange
+        val realmAccess = mapOf("roles" to listOf(UserRole.SALES.role))
+        `when`(jwt.getClaim<Map<String, List<String>>>("realm_access")).thenReturn(realmAccess)
+
+        // Act & Assert
+        assertFalse(userInfo.isClient())
+    }
+
+    @Test
+    fun whenUserIsUnauthenticatedGettingRole_shouldReturnUnknown() {
+        // Arrange
+        `when`(securityContext.authentication).thenReturn(
+            AnonymousAuthenticationToken("auth", TestingAuthenticationToken(null, null), listOf(SimpleGrantedAuthority("none")))
+        )
+
+        // Act & Assert
+        assertThat(userInfo.getRole()).isEqualTo(UserRole.UNKNOWN)
     }
 
     @Test

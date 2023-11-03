@@ -27,12 +27,12 @@ class ProductV1Converter {
         return dto
     }
 
-    fun convertToClientViewDto(entity: Product): ProductV1Dto {
+    fun convertToPublicViewDto(entity: Product): ProductV1Dto {
         val dto = ProductV1Dto(id = entity.getId())
         dto.name = entity.name
         dto.description = entity.description
         dto.price = entity.price
         dto.quantity = entity.quantity
-        return dto;
+        return dto
     }
 }
