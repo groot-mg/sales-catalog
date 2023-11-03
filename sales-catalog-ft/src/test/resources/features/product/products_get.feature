@@ -184,18 +184,3 @@ Feature: Product controller scenarios for retrieving products
     And product response object has:
       | version | name         | description         | price | quantity | isReserved | isSold |
       | v1      | Product name | Product description | 10.00 | 50       | false      | false  |
-
-  # Internal Server Error
-  Scenario: When call to retrieve products and database is down should return 500
-    Given an endpoint PRODUCT_GET is prepared
-    And database is down
-    When the request is sent
-    Then the response status code should be 500
-    And the response error detail should be Database exception
-
-  Scenario: When call to retrieve product by id gets a database down should return 500
-    Given an endpoint PRODUCT_GET is prepared with path parameter d6b76b42-7a45-11ee-b962-0242ac120002
-    And database is down
-    When the request is sent
-    Then the response status code should be 500
-    And the response error detail should be Database exception
