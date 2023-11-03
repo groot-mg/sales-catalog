@@ -29,6 +29,9 @@ spring:
     tomcat:
       test-while-idle: true
       validation-query: SELECT 1
+    hikari:
+      maximum-pool-size: 1
+      connection-timeout: 1000 # 1s for database timeout
 
 eureka:
   instance:
@@ -56,7 +59,7 @@ management:
 
 springdoc:
   packagesToScan: org.springframework.boot.actuate.endpoint, com.generoso.salescatalog.controller, com.generoso.salescatalog.converter
-#  packagesToExclude: com.generoso.salescatalog.entity
+  #  packagesToExclude: com.generoso.salescatalog.entity
   api-docs:
     path: /private/api-docs
   show-actuator: true
