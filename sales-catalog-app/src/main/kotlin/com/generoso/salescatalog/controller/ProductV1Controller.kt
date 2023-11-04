@@ -3,6 +3,7 @@ package com.generoso.salescatalog.controller
 import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.converter.ProductV1Converter
 import com.generoso.salescatalog.dto.ProductV1Dto
+import com.generoso.salescatalog.exception.NoResourceFoundException
 import com.generoso.salescatalog.service.ProductService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -94,5 +95,18 @@ class ProductV1Controller @Autowired constructor(
         return ResponseEntity.status(HttpStatus.CREATED)
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
             .body(converter.convertToDto(savedEntity))
+    }
+
+    @Operation(description = "Delete new product")
+    @ApiResponses(ApiResponse(responseCode = "204", description = "Successfully deleted product"))
+    @DeleteMapping("/{productId}")
+    fun deleteProduct(@Parameter(description = "Product id") @PathVariable productId: UUID): ResponseEntity<Unit> {
+        try {
+            val product = service.findById(productId)
+            service.delete(product)
+        } catch (_: NoResourceFoundException) {
+            // it doesn't matter if the product does not exist
+        }
+        return ResponseEntity.noContent().build()
     }
 }
