@@ -66,7 +66,7 @@ class ProductEntityListenerTest {
         val userId = UUID.randomUUID()
         `when`(userInfo.getUserId()).thenReturn(userId)
         `when`(userInfo.getRole()).thenReturn(UserRole.SALES)
-        val entity = Product(productId = UUID.randomUUID())
+        val entity = Product(productId = UUID.randomUUID()).apply { isDeleted = true }
 
         // Act
         productEntityListener.beforeSave(entity)

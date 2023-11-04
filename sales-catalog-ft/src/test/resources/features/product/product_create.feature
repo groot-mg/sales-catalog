@@ -59,6 +59,34 @@ Feature: Product controller scenarios for creating a new product
       | version | name         | description         | price | quantity | isReserved | isSold |
       | v1      | Product name | Product description | 10    | 50       | false      | false  |
 
+  Scenario: When a sales user tries to register duplicated product should return 409
+    Given an endpoint PRODUCT_POST is prepared
+    And use a JWT token for user sales with role api-sales
+    When the request is sent
+    Then the response status code should be 201
+    And assert product table has record:
+      | name         | description         | price | quantity | isReserved | isSold | salesUserId | created  | lastUpdate | isDeleted |
+      | Product name | Product description | 10.00 | 50       | false      | false  | NON_NULL    | NON_NULL | NULL       | false     |
+    When the request is sent
+    Then the response status code should be 409
+    And the response error detail should be Duplicated product with the same name
+
+  Scenario: When different sales users try to register product with the same name it should be allowed
+    Given an endpoint PRODUCT_POST is prepared
+    And use a JWT token for user id f6a33fb8-cfc1-45f4-b577-f83494eab990 with role api-sales
+    When the request is sent
+    Then the response status code should be 201
+    And assert product table has record:
+      | name         | description         | price | quantity | isReserved | isSold | salesUserId                          | created  | lastUpdate | isDeleted |
+      | Product name | Product description | 10.00 | 50       | false      | false  | f6a33fb8-cfc1-45f4-b577-f83494eab990 | NON_NULL | NULL       | false     |
+    And use a JWT token for user id 65d9f70d-4b93-466a-a8a7-334d880097f4 with role api-sales
+    When the request is sent
+    Then the response status code should be 201
+    And assert product table has records:
+      | name         | description         | price | quantity | isReserved | isSold | salesUserId                          | created  | lastUpdate | isDeleted |
+      | Product name | Product description | 10.00 | 50       | false      | false  | f6a33fb8-cfc1-45f4-b577-f83494eab990 | NON_NULL | NULL       | false     |
+      | Product name | Product description | 10.00 | 50       | false      | false  | 65d9f70d-4b93-466a-a8a7-334d880097f4 | NON_NULL | NULL       | false     |
+
   Scenario Outline: When sales user calls to register a new product within validation rules, should register it successfully
     Given an endpoint PRODUCT_POST is prepared
     And the product request body has <SCENARIO>

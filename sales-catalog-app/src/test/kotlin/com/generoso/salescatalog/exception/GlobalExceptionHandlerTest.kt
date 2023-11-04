@@ -130,6 +130,20 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    fun `handleDuplicateException should return a ResponseEntity with correct status and message`() {
+        // Arrange
+        val exceptionMessage = "Duplicated item"
+        val exception = DuplicateException(exceptionMessage)
+
+        // Act
+        val responseEntity: ResponseEntity<Any>? = globalExceptionHandler.handleDuplicateException(exception)
+
+        // Assert
+        assertEquals(HttpStatus.CONFLICT, responseEntity?.statusCode)
+        assertEquals(exceptionMessage, (responseEntity?.body as ErrorDetail).detail)
+    }
+
+    @Test
     fun `handlePSQLException should return 500 and expected message`() {
         // Arrange
         val expectedStatusCode = HttpStatus.INTERNAL_SERVER_ERROR

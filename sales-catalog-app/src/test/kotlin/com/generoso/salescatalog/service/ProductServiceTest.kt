@@ -2,20 +2,21 @@ package com.generoso.salescatalog.service
 
 import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.entity.Product
+import com.generoso.salescatalog.exception.DuplicateException
 import com.generoso.salescatalog.exception.NoResourceFoundException
 import com.generoso.salescatalog.repository.ProductRepository
+import com.generoso.salescatalog.service.validator.Validator
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
+import org.mockito.MockitoAnnotations
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import java.util.*
 
-@ExtendWith(MockitoExtension::class)
 class ProductServiceTest {
 
     @Mock
@@ -24,8 +25,19 @@ class ProductServiceTest {
     @Mock
     private lateinit var userInfo: UserInfo
 
-    @InjectMocks
+    @Mock
+    private lateinit var productValidator1: Validator<Product>
+
+    @Mock
+    private lateinit var productValidator2: Validator<Product>
+
     private lateinit var productService: ProductService
+
+    @BeforeEach
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
+        productService = ProductService(repository, listOf(productValidator1, productValidator2), userInfo)
+    }
 
     @Test
     fun `findAll for sales user should call repository with user ID and return all products`() {
@@ -129,17 +141,33 @@ class ProductServiceTest {
     @Test
     fun `save should pass all validations and save product`() {
         // Arrange
-        val productToSave = Product()
-        productToSave.name = "New Product"
+        val product = Product()
+        product.name = "New Product"
 
-        `when`(repository.save(productToSave)).thenReturn(productToSave)
+        `when`(productValidator1.validate(product)).then { }
+        `when`(productValidator2.validate(product)).then { }
+        `when`(repository.save(product)).thenReturn(product)
 
         // Act
-        val savedProduct = productService.save(productToSave)
+        val savedProduct = productService.save(product)
 
         // Assert
         assertEquals("New Product", savedProduct.name)
-        verify(repository).save(productToSave)
+        verify(productValidator1).validate(product)
+        verify(productValidator2).validate(product)
+        verify(repository).save(product)
+    }
+
+    @Test
+    fun `save throws ValidationException if a validator fails`() {
+        // Arrange
+        val product = Product()
+        `when`(productValidator1.validate(product)).thenThrow(DuplicateException("Validation failed"))
+
+        // Act & Assert
+        assertThrows(DuplicateException::class.java) {
+            productService.save(product)
+        }
     }
 
     @Test

@@ -74,6 +74,19 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity<Any>(errorDetail, statusCode)
     }
 
+    @ExceptionHandler(DuplicateException::class)
+    fun handleDuplicateException(exception: DuplicateException): ResponseEntity<Any>? {
+        val statusCode = HttpStatus.CONFLICT
+        //@formatter:off
+        val errorDetail: ErrorDetail = ErrorDetail.builder()
+            .status(statusCode.value())
+            .detail(exception.message)
+            .dateTime(LocalDateTime.now())
+            .build()
+        //@formatter:on
+        return ResponseEntity<Any>(errorDetail, statusCode)
+    }
+
     @ExceptionHandler(PSQLException::class)
     fun handlePSQLException(exception: PSQLException): ResponseEntity<Any>? {
         val statusCode = HttpStatus.INTERNAL_SERVER_ERROR

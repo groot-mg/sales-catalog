@@ -38,40 +38,37 @@ class PostgresStepDefinitions @Autowired constructor(
         }
     }
 
-    @And("assert product table has record:")
+    @And("^assert product table has (?:record|records):$")
     fun assertProductTableHasRecord(table: DataTable) {
-        val row: Map<String, String> = table.asMaps()[0]
-        val products = postgresDao.findAllProducts()
+        for ((index, row) in table.asMaps().withIndex()) {
+            val products = postgresDao.findAllProducts()
+            assertThat(products[index].productId).isNotNull()
+            assertThat(products[index].name).isEqualTo(row["name"])
+            assertThat(products[index].description).isEqualTo(row["description"])
+            assertThat(products[index].price).isEqualTo(BigDecimal(row["price"]))
+            assertThat(products[index].quantity).isEqualTo(row["quantity"]?.toLong())
+            assertThat(products[index].isReserved).isEqualTo(row["isReserved"].toBoolean())
+            assertThat(products[index].isSold).isEqualTo(row["isSold"].toBoolean())
 
-        assertThat(products.size).isEqualTo(1)
+            val salesUserId = row["salesUserId"]
+            if (salesUserId.equals("NON_NULL")) {
+                assertThat(products[index].salesUserId).isNotNull()
+            } else {
+                assertThat(products[index].salesUserId).isEqualTo(UUID.fromString(row["salesUserId"]))
+            }
 
-        val product = products[0]
+            val lastUpdate = row["lastUpdate"]
+            if (lastUpdate.equals("NON_NULL")) {
+                assertThat(products[index].lastUpdate).isNotNull()
+            } else if (lastUpdate.equals("NULL")) {
+                assertThat(products[index].lastUpdate).isNull()
+            }
 
-        assertThat(product.productId).isNotNull()
-        assertThat(product.name).isEqualTo(row["name"])
-        assertThat(product.description).isEqualTo(row["description"])
-        assertThat(product.price).isEqualTo(BigDecimal(row["price"]))
-        assertThat(product.quantity).isEqualTo(row["quantity"]?.toLong())
-        assertThat(product.isReserved).isEqualTo(row["isReserved"].toBoolean())
-        assertThat(product.isSold).isEqualTo(row["isSold"].toBoolean())
+            assertThat(products[index].isDeleted).isEqualTo(row["isDeleted"].toBoolean())
+            if (row.containsKey("deletedAt") && row["deletedAt"].equals("NON_NULL")) {
+                assertThat(row["deletedAt"]).isNotNull()
+            }
 
-        val salesUserId = row["salesUserId"]
-        if (salesUserId.equals("NON_NULL")) {
-            assertThat(product.salesUserId).isNotNull()
-        } else {
-            assertThat(product.salesUserId).isEqualTo(UUID.fromString(row["salesUserId"]))
-        }
-
-        val lastUpdate = row["lastUpdate"]
-        if (lastUpdate.equals("NON_NULL")) {
-            assertThat(product.lastUpdate).isNotNull()
-        } else if (lastUpdate.equals("NULL")) {
-            assertThat(product.lastUpdate).isNull()
-        }
-
-        assertThat(product.isDeleted).isEqualTo(row["isDeleted"].toBoolean())
-        if (row.containsKey("deletedAt") && row["deletedAt"].equals("NON_NULL")) {
-            assertThat(row["deletedAt"]).isNotNull()
         }
     }
 
