@@ -4,7 +4,7 @@ spring:
     oauth2:
       resource-server:
         jwt:
-          issuer-uri: http://localhost:9000/realms/shopping-api
+          issuer-uri: http://localhost:9000/realms/groot-mg
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres

@@ -12,7 +12,7 @@ spring:
     oauth2:
       resource-server:
         jwt:
-          issuer-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/${KEYCLOAK_REALM:shopping-api}
+          issuer-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/${KEYCLOAK_REALM:groot-mg}
   jpa:
     show-sql: false
     open-in-view: false

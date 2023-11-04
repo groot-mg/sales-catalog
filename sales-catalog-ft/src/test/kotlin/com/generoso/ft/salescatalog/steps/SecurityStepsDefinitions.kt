@@ -25,7 +25,7 @@ class SecurityStepsDefinitions @Autowired constructor(
 ) {
 
     companion object {
-        const val KEYCLOAK_REALM = "shopping-api"
+        const val KEYCLOAK_REALM = "groot-mg"
         private var rsaJsonWebKey: RsaJsonWebKey = RsaJwkGenerator.generateJwk(2048)
 
         init {
