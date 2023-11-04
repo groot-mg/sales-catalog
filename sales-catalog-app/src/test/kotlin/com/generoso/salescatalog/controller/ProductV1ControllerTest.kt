@@ -5,6 +5,7 @@ import com.generoso.salescatalog.controller.security.SecurityControllerSetup
 import com.generoso.salescatalog.converter.ProductV1Converter
 import com.generoso.salescatalog.dto.ProductV1Dto
 import com.generoso.salescatalog.entity.Product
+import com.generoso.salescatalog.exception.GlobalExceptionHandler
 import com.generoso.salescatalog.exception.NoResourceFoundException
 import com.generoso.salescatalog.service.ProductService
 import org.junit.jupiter.api.Test
@@ -21,7 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.math.BigDecimal
 import java.util.*
 
-@Import(ProductV1Controller::class)
+@Import(value = [ProductV1Controller::class, GlobalExceptionHandler::class])
 @WebMvcTest(ProductV1Controller::class)
 class ProductV1ControllerTest : SecurityControllerSetup() {
 
@@ -169,8 +170,7 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
         productDto.quantity = 50
         val product = mock(Product::class.java)
 
-        `when`(converter.convertToEntity(anyOrNull())).thenReturn(product)
-        `when`(service.save(product)).thenReturn(product)
+        `when`(service.save(anyOrNull())).thenReturn(product)
         `when`(converter.convertToDto(product)).thenReturn(productDto)
 
         // Act & Assert
@@ -184,9 +184,93 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         //@formatter:on
 
-        verify(converter).convertToEntity(anyOrNull())
-        verify(service).save(product)
+        verify(converter).convertToEntity(anyOrNull(), anyOrNull())
+        verify(service).save(anyOrNull())
         verify(converter).convertToDto(product)
+    }
+
+    // Update product
+    @Test
+    fun `when call to update a product without logged in user, returns 401`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        val product = Product(productId = productId)
+
+        `when`(service.findById(product.productId!!)).thenReturn(product)
+
+        // Act & Assert
+        mockMvc.perform(put("/v1/products/{productId}", productId))
+            .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    fun `when call to update a product with client user, returns 403`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        val product = Product(productId = productId)
+
+        `when`(service.findById(product.productId!!)).thenReturn(product)
+
+        // Act & Assert
+        mockMvc.perform(
+            put("/v1/products/{productId}", productId)
+                .header("Authorization", clientUserToken())
+        ).andExpect(status().isForbidden)
+    }
+
+    @Test
+    fun `when call to update a product and product does not exist should return 404`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        val productDto = ProductV1Dto().apply {
+            name = "name-test"
+            description = "test-description"
+            price = BigDecimal.valueOf(10)
+            quantity = 2
+        }
+        `when`(service.findById(productId)).thenThrow(NoResourceFoundException("not found"))
+
+        // Act & Assert
+        mockMvc.perform(
+            put("/v1/products/{productId}", productId)
+                .header("Authorization", salesUserToken())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto))
+        ).andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `when call to update product should update it`() {
+        // Arrange
+        val productDto = ProductV1Dto().apply {
+            name = "New Name"
+            description = "Description"
+            price = BigDecimal.valueOf(25)
+            quantity = 50
+        }
+
+        val productId = UUID.randomUUID()
+        val existingProduct = Product(
+            productId = productId,
+            name = "Old Name",
+            description = "Description",
+            price = BigDecimal.valueOf(25),
+            quantity = 50
+        )
+
+        `when`(service.findById(productId)).thenReturn(existingProduct)
+
+        // Act & Assert
+        mockMvc.perform(
+            put("/v1/products/{productId}", productId)
+                .header("Authorization", salesUserToken())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto))
+        ).andExpect(status().isOk)
+
+        verify(service).findById(productId)
+        verify(converter).convertToEntity(anyOrNull(), anyOrNull())
+        verify(service).save(existingProduct)
     }
 
     // Delete product

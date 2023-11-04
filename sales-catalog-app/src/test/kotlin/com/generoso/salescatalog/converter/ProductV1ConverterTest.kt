@@ -22,8 +22,10 @@ class ProductV1ConverterTest {
         dto.reserved = true
         dto.sold = true
 
+        val entity = Product()
+
         // Act
-        val entity = converter.convertToEntity(dto)
+        converter.convertToEntity(dto, entity)
 
         // Assert
         assertEquals(dto.name, entity.name)

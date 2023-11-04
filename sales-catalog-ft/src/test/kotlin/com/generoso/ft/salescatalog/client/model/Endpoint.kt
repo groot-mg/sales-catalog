@@ -9,5 +9,6 @@ enum class Endpoint(val path: String, val method: String) {
     PRIVATE_SWAGGER_UI("/sales-catalog/private/swagger-ui/index.html", "GET"),
     PRODUCT_POST("/sales-catalog/v1/products", "POST"),
     PRODUCT_GET("/sales-catalog/v1/products", "GET"),
+    PRODUCT_UPDATE("/sales-catalog/v1/products", "PUT"),
     PRODUCT_DELETE("/sales-catalog/v1/products", "DELETE")
 }

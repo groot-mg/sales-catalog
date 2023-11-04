@@ -7,13 +7,11 @@ import org.springframework.stereotype.Component
 @Component
 class ProductV1Converter {
 
-    fun convertToEntity(dto: ProductV1Dto): Product {
-        val product = Product()
-        product.name = dto.name
-        product.description = dto.description
-        product.price = dto.price
-        product.quantity = dto.quantity!!
-        return product
+    fun convertToEntity(dto: ProductV1Dto, entity: Product) {
+        entity.name = dto.name
+        entity.description = dto.description
+        entity.price = dto.price
+        entity.quantity = dto.quantity!!
     }
 
     fun convertToDto(entity: Product): ProductV1Dto {

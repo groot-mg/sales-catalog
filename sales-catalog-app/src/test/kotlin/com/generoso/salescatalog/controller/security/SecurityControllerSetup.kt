@@ -28,7 +28,13 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-@ContextConfiguration(classes = [SecurityConfig::class, SecurityEntryPoint::class, UserInfo::class])
+@ContextConfiguration(
+    classes = [
+        SecurityConfig::class,
+        SecurityEntryPoint::class,
+        UserInfo::class
+    ]
+)
 @AutoConfigureWireMock(port = 0)
 @ActiveProfiles("unit-tests")
 open class SecurityControllerSetup {
@@ -62,9 +68,7 @@ open class SecurityControllerSetup {
 
     fun salesUserToken(): String = format("Bearer %s", generateJWT("sales", listOf(UserRole.SALES.role)))
 
-    fun generateJWT(roles: List<String>): String = generateJWT("default name", roles)
-
-    fun generateJWT(name: String, roles: List<String>): String {
+    private fun generateJWT(name: String, roles: List<String>): String {
         // Create the Claims, which will be the content of the JWT
         val claims = JwtClaims()
         claims.jwtId = UUID.randomUUID().toString() // a unique identifier for the token

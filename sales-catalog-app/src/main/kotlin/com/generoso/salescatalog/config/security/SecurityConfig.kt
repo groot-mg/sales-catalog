@@ -15,8 +15,12 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 class SecurityConfig @Autowired constructor(private val securityEntryPoint: SecurityEntryPoint) {
 
-    private val roleClient: String = UserRole.CLIENT.role
     private val roleSales: String = UserRole.SALES.role
+
+    companion object {
+        const val PRODUCTS_PATTERN = "/v1/products"
+        const val PRODUCTS_PATTERN_WITH_IDS = "/v1/products/**"
+    }
 
     @Bean
     @Throws(Exception::class)
@@ -26,11 +30,11 @@ class SecurityConfig @Autowired constructor(private val securityEntryPoint: Secu
         http.authorizeHttpRequests { authorizeExchange ->
             //@formatter:off
             authorizeExchange
-                .requestMatchers(HttpMethod.GET, "/v1/products").permitAll()
-                .requestMatchers(HttpMethod.GET, "/v1/products/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/v1/products").hasAnyRole(roleSales)
-                .requestMatchers(HttpMethod.PUT, "/v1/products/**").hasAnyRole(roleSales)
-                .requestMatchers(HttpMethod.DELETE, "/v1/products/**").hasAnyRole(roleSales)
+                .requestMatchers(HttpMethod.GET, PRODUCTS_PATTERN).permitAll()
+                .requestMatchers(HttpMethod.GET, PRODUCTS_PATTERN_WITH_IDS).permitAll()
+                .requestMatchers(HttpMethod.POST, PRODUCTS_PATTERN).hasAnyRole(roleSales)
+                .requestMatchers(HttpMethod.PUT, PRODUCTS_PATTERN_WITH_IDS).hasAnyRole(roleSales)
+                .requestMatchers(HttpMethod.DELETE, PRODUCTS_PATTERN_WITH_IDS).hasAnyRole(roleSales)
                 .requestMatchers("/private/**").permitAll()
                 .anyRequest().authenticated()
             //@formatter:on

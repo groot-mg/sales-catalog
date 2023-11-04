@@ -6,6 +6,7 @@ import com.generoso.ft.salescatalog.client.model.Endpoint
 import com.generoso.ft.salescatalog.client.model.JsonMapper
 import com.generoso.ft.salescatalog.state.ScenarioState
 import com.generoso.salescatalog.dto.ProductV1Dto
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.When
@@ -86,6 +87,30 @@ class RequestStepDefinitions @Autowired constructor(
                 price = BigDecimal.valueOf(-1)
                 quantity = -1
             }
+        }
+
+        scenarioState.requestTemplate?.body(mapper.toJson(dto))
+    }
+
+    @And("a product is prepared with data:")
+    fun aProductIsPreparedWithData(table: DataTable) {
+        val row: Map<String, String> = table.asMaps()[0]
+        val dto = ProductV1Dto()
+
+        if (row.containsKey("name")) {
+            dto.name = row["name"]
+        }
+
+        if (row.containsKey("description")) {
+            dto.description = row["description"]
+        }
+
+        if (row.containsKey("price")) {
+            dto.price = row["price"]?.toBigDecimal()
+        }
+
+        if (row.containsKey("quantity")) {
+            dto.quantity = row["quantity"]?.toLong()
         }
 
         scenarioState.requestTemplate?.body(mapper.toJson(dto))
