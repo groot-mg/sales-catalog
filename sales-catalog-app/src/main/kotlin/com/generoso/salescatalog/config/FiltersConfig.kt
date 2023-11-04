@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration
 class FiltersConfig {
     @Bean
     fun incomingRequestLogFilter(): FilterRegistrationBean<RequestLoggingFilter> =
-        FilterRegistrationBean<RequestLoggingFilter>(RequestLoggingFilter()).apply { order = 0 }
+        FilterRegistrationBean(RequestLoggingFilter()).apply { order = 0 }
 }
 
