@@ -34,9 +34,9 @@ Feature: Product controller scenarios for delete product
     And use a JWT token for user id d32b6f49-d42b-4c08-b7c7-c73617bdc88d with role api-sales
     And product table has records:
       | id                                   | name         | description         | price | quantity | salesUserId                          | isDeleted |
-      | d6b76b42-7a45-11ee-b962-0242ac120002 | Product name | Product description | 10.00 | 50       | d32b6f49-d42b-4c08-b7c7-c73617bdc88d | false      |
+      | d6b76b42-7a45-11ee-b962-0242ac120002 | Product name | Product description | 10.00 | 50       | d32b6f49-d42b-4c08-b7c7-c73617bdc88d | false     |
     When the request is sent
     Then the response status code should be 204
     And assert product table has record:
-      | name         | description         | price | quantity | isReserved | isSold | salesUserId                          | created  | lastUpdate | isDeleted |
-      | Product name | Product description | 10.00 | 50       | false      | false  | d32b6f49-d42b-4c08-b7c7-c73617bdc88d | NON_NULL | NULL       | true      |
+      | name         | description         | price | quantity | isReserved | isSold | salesUserId                          | created  | lastUpdate | isDeleted | deletedAt |
+      | Product name | Product description | 10.00 | 50       | false      | false  | d32b6f49-d42b-4c08-b7c7-c73617bdc88d | NON_NULL | NULL       | true      | NULL      |

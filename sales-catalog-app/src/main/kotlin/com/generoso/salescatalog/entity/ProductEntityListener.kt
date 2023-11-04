@@ -19,8 +19,14 @@ class ProductEntityListener<T : BaseEntity<UUID>>(
             throw ForbiddenDatabaseException("User [${userId} | ${userInfo.getUsername()}] is not allowed to create products")
         }
 
-        entity.setOwner(userId)
-        entity.created = Instant.now().atOffset(ZoneOffset.UTC).toLocalDateTime()
-        entity.isDeleted = false
+        if (entity.isNew()) {
+            entity.setOwner(userId)
+            entity.created = currentDateTime()
+            entity.isDeleted = false
+        } else if (entity.isDeleted) {
+            entity.deletedAt = currentDateTime()
+        }
     }
+
+    private fun currentDateTime() = Instant.now().atOffset(ZoneOffset.UTC).toLocalDateTime()
 }

@@ -15,7 +15,10 @@ abstract class BaseEntity<T> {
     var lastUpdate: LocalDateTime? = null
 
     @Column(name = "is_deleted", nullable = false)
-    var isDeleted: Boolean? = null
+    var isDeleted: Boolean = false
+
+    @Column(name = "deleted_at")
+    var deletedAt: LocalDateTime? = null
 
     abstract fun getId(): T?
     abstract fun setOwner(ownerId: T)

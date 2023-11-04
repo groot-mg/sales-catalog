@@ -25,7 +25,24 @@ class ProductEntityListenerTest {
     private lateinit var productEntityListener: ProductEntityListener<Product>
 
     @Test
-    fun whenTheBeforeSaveIsCalled_shouldSetAllExpectedFields() {
+    fun `do not allow a non-sales user to insert or update a product`() {
+        // Arrange
+        `when`(userInfo.getRole()).thenReturn(UserRole.CLIENT)
+        `when`(userInfo.getUserId()).thenReturn(UUID.fromString("786a939e-48ce-4481-b713-998a1756f135"))
+        `when`(userInfo.getUsername()).thenReturn("username")
+        val entity = Product()
+
+        // Act & Assert
+        val exception = assertThrows<ForbiddenDatabaseException> {
+            productEntityListener.beforeSave(entity)
+        }
+
+        verify(userInfo).getRole()
+        assertEquals("User [786a939e-48ce-4481-b713-998a1756f135 | username] is not allowed to create products", exception.message)
+    }
+
+    @Test
+    fun `before save a new entity should set the sales user id`() {
         // Arrange
         val userId = UUID.randomUUID()
         `when`(userInfo.getUserId()).thenReturn(userId)
@@ -44,19 +61,19 @@ class ProductEntityListenerTest {
     }
 
     @Test
-    fun whenBeforeSaveIsCalledForANonSalesUser_shouldThrowsForbiddenDatabaseException() {
+    fun `set delete date when updating an existing product as deleted`() {
         // Arrange
-        `when`(userInfo.getRole()).thenReturn(UserRole.CLIENT)
-        `when`(userInfo.getUserId()).thenReturn(UUID.fromString("786a939e-48ce-4481-b713-998a1756f135"))
-        `when`(userInfo.getUsername()).thenReturn("username")
-        val entity = Product()
+        val userId = UUID.randomUUID()
+        `when`(userInfo.getUserId()).thenReturn(userId)
+        `when`(userInfo.getRole()).thenReturn(UserRole.SALES)
+        val entity = Product(productId = UUID.randomUUID())
 
-        // Act & Assert
-        val exception = assertThrows<ForbiddenDatabaseException> {
-            productEntityListener.beforeSave(entity)
-        }
+        // Act
+        productEntityListener.beforeSave(entity)
 
+        // Assert
+        verify(userInfo).getUserId()
         verify(userInfo).getRole()
-        assertEquals("User [786a939e-48ce-4481-b713-998a1756f135 | username] is not allowed to create products", exception.message)
+        assertNotNull(entity.deletedAt)
     }
 }

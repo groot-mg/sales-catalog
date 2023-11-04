@@ -39,7 +39,7 @@ class Product @JvmOverloads constructor(
 
     created: LocalDateTime? = null, // Added for constructor
     lastUpdate: LocalDateTime? = null, // Added for constructor
-    isDeleted: Boolean? = null // Added for constructor
+    isDeleted: Boolean = false // Added for constructor
 ) : BaseEntity<UUID>() {
 
     init {

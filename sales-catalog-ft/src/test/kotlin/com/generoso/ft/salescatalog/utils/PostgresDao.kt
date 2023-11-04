@@ -131,6 +131,7 @@ class PostgresDao(
             sales_user_id UUID NOT NULL,
             name VARCHAR(100) NOT NULL,
             description VARCHAR(256),
+            deleted_at TIMESTAMP(6),
             PRIMARY KEY (product_id)
         )
     """.trimIndent()

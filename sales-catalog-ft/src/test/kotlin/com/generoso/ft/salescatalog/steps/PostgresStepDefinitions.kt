@@ -68,7 +68,11 @@ class PostgresStepDefinitions @Autowired constructor(
         } else if (lastUpdate.equals("NULL")) {
             assertThat(product.lastUpdate).isNull()
         }
+
         assertThat(product.isDeleted).isEqualTo(row["isDeleted"].toBoolean())
+        if (row.containsKey("deletedAt") && row["deletedAt"].equals("NON_NULL")) {
+            assertThat(row["deletedAt"]).isNotNull()
+        }
     }
 
     @And("database is down")
