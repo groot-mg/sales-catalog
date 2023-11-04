@@ -5,6 +5,7 @@ import com.generoso.salescatalog.controller.security.SecurityControllerSetup
 import com.generoso.salescatalog.converter.ProductV1Converter
 import com.generoso.salescatalog.dto.ProductV1Dto
 import com.generoso.salescatalog.entity.Product
+import com.generoso.salescatalog.exception.NoResourceFoundException
 import com.generoso.salescatalog.service.ProductService
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
@@ -15,8 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.data.domain.PageImpl
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.math.BigDecimal
 import java.util.*
@@ -131,6 +131,19 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
 
     // Register product - POST
     @Test
+    fun `when anonymous user calls to register new product, should return unauthorised`() {
+        // Arrange
+        val productDto = mock(ProductV1Dto::class.java)
+
+        // Act & Assert
+        mockMvc.perform(
+            post("/v1/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto))
+        ).andExpect(status().isUnauthorized)
+    }
+
+    @Test
     fun `when client user calls to register new product, should return forbidden`() {
         // Arrange
         val productDto = mock(ProductV1Dto::class.java)
@@ -175,4 +188,67 @@ class ProductV1ControllerTest : SecurityControllerSetup() {
         verify(service).save(product)
         verify(converter).convertToDto(product)
     }
+
+    // Delete product
+    @Test
+    fun `when call to delete a product without logged in user, returns 401`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        val product = Product(productId = productId)
+
+        `when`(service.findById(product.productId!!)).thenReturn(product)
+
+        // Act & Assert
+        mockMvc.perform(delete("/v1/products/{productId}", productId))
+            .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    fun `when call to delete a product with client user, returns 403`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        val product = Product(productId = productId)
+
+        `when`(service.findById(product.productId!!)).thenReturn(product)
+
+        // Act & Assert
+        mockMvc.perform(
+            delete("/v1/products/{productId}", productId)
+                .header("Authorization", clientUserToken())
+        ).andExpect(status().isForbidden)
+    }
+
+    @Test
+    fun `when call to delete a product and product does not exist should return success`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        `when`(service.findById(productId)).thenThrow(NoResourceFoundException("not found"))
+
+        // Act & Assert
+        mockMvc.perform(
+            delete("/v1/products/{productId}", productId)
+                .header("Authorization", salesUserToken())
+        ).andExpect(status().isNoContent)
+    }
+
+    @Test
+    fun `when call to delete a product, should call service to delete it`() {
+        // Arrange
+        val productId = UUID.randomUUID()
+        val product = Product(productId = productId)
+
+        `when`(service.findById(product.productId!!)).thenReturn(product)
+
+        // Act & Assert
+        //@formatter:off
+        mockMvc.perform(
+            delete("/v1/products/{productId}", productId)
+                .header("Authorization", salesUserToken())
+        ).andExpect(status().isNoContent)
+        //@formatter:on
+
+        verify(service).findById(productId)
+        verify(service).delete(product)
+    }
+
 }

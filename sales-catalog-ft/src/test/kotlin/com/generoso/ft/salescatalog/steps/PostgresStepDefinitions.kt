@@ -58,13 +58,15 @@ class PostgresStepDefinitions @Autowired constructor(
         val salesUserId = row["salesUserId"]
         if (salesUserId.equals("NON_NULL")) {
             assertThat(product.salesUserId).isNotNull()
+        } else {
+            assertThat(product.salesUserId).isEqualTo(UUID.fromString(row["salesUserId"]))
         }
 
-        val lastUpdate = row["salesUserId"]
+        val lastUpdate = row["lastUpdate"]
         if (lastUpdate.equals("NON_NULL")) {
-            assertThat(product.salesUserId).isNotNull()
+            assertThat(product.lastUpdate).isNotNull()
         } else if (lastUpdate.equals("NULL")) {
-            assertThat(product.salesUserId).isNull()
+            assertThat(product.lastUpdate).isNull()
         }
         assertThat(product.isDeleted).isEqualTo(row["isDeleted"].toBoolean())
     }

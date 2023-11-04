@@ -4,8 +4,7 @@ import com.generoso.salescatalog.auth.UserInfo
 import com.generoso.salescatalog.entity.Product
 import com.generoso.salescatalog.exception.NoResourceFoundException
 import com.generoso.salescatalog.repository.ProductRepository
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
@@ -141,5 +140,18 @@ class ProductServiceTest {
         // Assert
         assertEquals("New Product", savedProduct.name)
         verify(repository).save(productToSave)
+    }
+
+    @Test
+    fun `delete sets isDeleted to true`() {
+        // Arrange
+        val product = Product(productId = UUID.randomUUID(), name = "Test Product", isDeleted = false)
+
+        // Act
+        productService.delete(product)
+
+        // Assert
+        assertTrue(product.isDeleted!!)
+        verify(repository).save(product)
     }
 }

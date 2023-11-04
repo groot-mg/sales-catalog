@@ -38,6 +38,11 @@ class ProductService @Autowired constructor(
         return repository.save(entity)
     }
 
+    fun delete(entity: Product) {
+        entity.isDeleted = true
+        repository.save(entity)
+    }
+
     private fun validate(product: Product) {
         // TODO: issue ##135
     }
